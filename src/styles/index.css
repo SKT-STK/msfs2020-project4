@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@1000&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+html,
+body {
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
