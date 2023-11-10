@@ -8,15 +8,18 @@ interface ServerToggleSwitchProps {
 }
 
 const ServerToggleSwitch = ({ children, udpPath, className }: ServerToggleSwitchProps) => {
-  const [val, setVal] = useState<BOOL>(0)
+  const [val, setVal] = useState<CBOOL>(0)
 
   useEffect(() => {
     window.ipcRenderer.on(udpPath, (_, data) => {
       setVal(data)
     })
+    return () => {
+      window.ipcRenderer.removeAllListeners(udpPath)
+    }
   }, [udpPath])
   
-  const callback = (_: BOOL, setNew: BOOL) => {
+  const callback = (_: CBOOL, setNew: CBOOL) => {
     window.ipcRenderer.send('udp', {path: udpPath, msg: {set: setNew}})
     return val
   }

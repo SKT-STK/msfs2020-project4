@@ -1,12 +1,21 @@
-import svg from '@/assets/react.svg'
-import SVG from '@/components/SVG'
-import { Link } from 'react-router-dom'
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import Controls from "@/pages/Controls"
+// import MsfsClosed from "./MsfsClosed"
 
 const Index = () => {
-    return (<>
-        <Link to='/controls'>
-            <SVG src={svg} color='#FF5' />
-        </Link>
-    </>)
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		window.ipcRenderer.on('ERR', () => {
+			navigate('/backend-cpp-err')
+		})
+		return () => {
+			window.ipcRenderer.removeAllListeners('ERR')
+		}
+	}, [navigate])
+
+	return <Controls />
+	// return <MsfsClosed />
 }
 export default Index

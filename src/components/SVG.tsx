@@ -3,9 +3,10 @@ import { useEffect, useState } from "react"
 interface SVGProps {
     src: string
     color?: string
+    className?: string
 }
 
-const SVG = ({ src, color }: SVGProps) => {
+const SVG = ({ src, color, className }: SVGProps) => {
     const [modifiedSvg, setModifiedSvg] = useState<string>('');
 
     useEffect(() => {
@@ -27,9 +28,7 @@ const SVG = ({ src, color }: SVGProps) => {
 
     const dataUrl = `data:image/svg+xml;base64,${btoa(modifiedSvg)}`
 
-    return (
-        <img src={dataUrl} />
-    )
+    return <img src={dataUrl} className={className} />
 }
 // eslint-disable-next-line react-refresh/only-export-components
 export default SVG

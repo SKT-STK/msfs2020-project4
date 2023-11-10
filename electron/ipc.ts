@@ -1,7 +1,8 @@
-import { ipcMain, BrowserWindow } from 'electron'
+import { ipcMain, BrowserWindow, app } from 'electron'
 import { udpReceive, udpSend } from './udp'
 
 ipcMain.on('udp', (_, data: UdpMsg, times: number = 1) => udpSend(data, times))
+ipcMain.on('EXIT', () => app.quit())
 
 udpReceive('/yoke', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/yoke', res))
 udpReceive('/thrust', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/thrust', res))

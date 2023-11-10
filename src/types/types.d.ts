@@ -3,4 +3,4 @@ declare type UdpMsg = {
   msg: object
 }
 
-declare type BOOL = 0 | 1
+declare type CBOOL = 0 | 1

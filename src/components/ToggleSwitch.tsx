@@ -7,13 +7,13 @@ import { useInterval } from "@/hooks/useInterval"
 
 interface ToggleSwitchProps {
   children: [ReactNode, ReactNode, ReactNode]
-  callback?: (val: BOOL, setNew: BOOL) => BOOL
+  callback?: (val: CBOOL, setNew: CBOOL) => CBOOL
   className?: string
 }
 
 const ToggleSwitch = ({ children, callback, className }: ToggleSwitchProps) => {
-  const [checked, setChecked] = useState<BOOL>(0)
-  const [setNew, setSetNew] = useState<BOOL>(0)
+  const [checked, setChecked] = useState<CBOOL>(0)
+  const [setNew, setSetNew] = useState<CBOOL>(0)
 
   const id = generateRandomString(10)
 
@@ -23,7 +23,7 @@ const ToggleSwitch = ({ children, callback, className }: ToggleSwitchProps) => {
   }, 200)
 
   const handleOnChange = () => {
-    setChecked(checked === 1 ? 0 : 1)
+    setChecked(c => c === 0 ? 1 : 0)
     setSetNew(1)
   }
 
