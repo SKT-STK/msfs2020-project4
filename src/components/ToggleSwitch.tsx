@@ -44,7 +44,7 @@ const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: T
     >
       <div>{ children[0] }</div>
       <div className='absolute left-0 top-0 w-full h-full rounded-full
-        z-[-1] backdrop-blur-[7px] brightness-200'
+        z-[-1] backdrop-blur-md brightness-200'
       />
       <motion.div className='absolute text-center grid place-content-center text-black
         bg-white top-1 left-1 h-[72px] rounded-full'

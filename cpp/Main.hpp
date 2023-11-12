@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "CppServer.hpp"
 #include "Macros.hpp"
+#include "Iec.hpp"
 
 #include <iostream>
 #include <thread>
