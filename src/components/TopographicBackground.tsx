@@ -25,7 +25,8 @@ const TopographicBackground = ({ steps, startHue, endHue }: TopographicBackgroun
     for (let i: number = 0; i < steps; i++) {
       curHue += stepUp
       curPos += posStepUp
-      sections.push(<div className={`absolute inline-block top-0 h-full z-[-99]`}
+      sections.push(<div key={i}
+        className={`absolute inline-block top-0 h-full z-[-99]`}
         style={{backdropFilter: `brightness(0.5) sepia(1) saturate(100)
           hue-rotate(${Math.abs(curHue)}deg)`, left: `${Math.abs(curPos)}%`, width: `${Math.abs(posStepUp)}%`}}
       />)

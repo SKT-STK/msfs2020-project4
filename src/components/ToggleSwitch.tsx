@@ -6,32 +6,41 @@ import { useInterval } from "@/hooks/useInterval"
 
 
 interface ToggleSwitchProps {
-  children: [ReactNode, ReactNode, ReactNode]
-  callback?: (val: CBOOL, setNew: CBOOL) => CBOOL
+  children: [ReactNode, ReactNode, ReactNode, string]
+  serverCallback?: (setNew: CBOOL) => CBOOL
+  clientCallback?: (val: CBOOL) => void
   className?: string
 }
 
-const ToggleSwitch = ({ children, callback, className }: ToggleSwitchProps) => {
+const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: ToggleSwitchProps) => {
   const [checked, setChecked] = useState<CBOOL>(0)
   const [setNew, setSetNew] = useState<CBOOL>(0)
+  const [color, setColor] = useState<string>('#767')
 
   const id = generateRandomString(10)
-
+  
   useInterval(() => {
-    if (callback) setChecked(callback(checked, setNew))
+    if (serverCallback) setChecked(serverCallback(setNew))
     setSetNew(0)
-  }, 200)
+  }, serverCallback !== undefined ? 50 : null)
 
   const handleOnChange = () => {
-    setChecked(c => c === 0 ? 1 : 0)
-    setSetNew(1)
+    if (!serverCallback && clientCallback) {
+      setChecked(c => c === 0 ? 1 : 0)
+      clientCallback(checked)
+    }
+    else setSetNew(1)
+    setColor(checked === 0 ? children[3] : '#767')
   }
 
   return (<div className={className} style={{width: '384px'}}>
     <input type="checkbox" id={id} className='hidden' onChange={handleOnChange} value={checked} />
     <label htmlFor={id}
-      className='border-[10px] border-solid border-[#767] p-5 rounded-full text-center
+      className='border-[10px] border-solid p-5 rounded-full text-center
         text-4xl font-black relative block w-full cursor-pointer select-none'
+      style={{
+        borderColor: color,
+      }}
     >
       <div>{ children[0] }</div>
       <div className='absolute left-0 top-0 w-full h-full rounded-full

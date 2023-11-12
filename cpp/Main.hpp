@@ -1,8 +1,14 @@
 #pragma once
 
-#include "Iec.hpp"
 #include "Globals.hpp"
+#include "CppServer.hpp"
+#include "Macros.hpp"
 
-#include <Macros/.hpp>
-#include <Classes/SocketsTCP.hpp>
+#include <iostream>
 #include <thread>
+#include <nlohmann/json.hpp>
+
+#define debug(x) std::cout << x << std::endl;
+
+typedef std::string str;
+using json = nlohmann::json;

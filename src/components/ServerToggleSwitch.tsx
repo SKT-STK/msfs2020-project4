@@ -2,7 +2,7 @@ import ToggleSwitch from "@/components/ToggleSwitch"
 import { ReactNode, useEffect, useState } from "react"
 
 interface ServerToggleSwitchProps {
-  children: [ReactNode, ReactNode, ReactNode]
+  children: [ReactNode, ReactNode, ReactNode, string]
   udpPath: string
   className?: string
 }
@@ -19,11 +19,11 @@ const ServerToggleSwitch = ({ children, udpPath, className }: ServerToggleSwitch
     }
   }, [udpPath])
   
-  const callback = (_: CBOOL, setNew: CBOOL) => {
+  const callback = (setNew: CBOOL) => {
     window.ipcRenderer.send('udp', {path: udpPath, msg: {set: setNew}})
     return val
   }
 
-  return <ToggleSwitch callback={callback} className={className}>{ children }</ToggleSwitch>
+  return <ToggleSwitch serverCallback={callback} className={className}>{ children }</ToggleSwitch>
 }
 export default ServerToggleSwitch

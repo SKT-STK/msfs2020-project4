@@ -61,4 +61,5 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow).then(() => import('./ipc'))
+app.whenReady().then(createWindow)
+  .then(() => import('./ipc'))
