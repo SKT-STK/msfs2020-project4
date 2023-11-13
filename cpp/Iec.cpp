@@ -12,18 +12,32 @@ str handleTcp(const str& data) {
 	return "";
 }
 
-str handleUdp(const str& data) {
-	auto msg = json::parse(data);
-	if (msg["path"].get<str>() != "/reverses") return "";
-	msg = msg["msg"];
+namespace handleUdp {
+	json reverses(json data) {
+		bool setNew = data["set"].get<unsigned short>() != 0;
+		if (setNew) global::reverses = !global::reverses;
 
-	bool setNew = msg["set"].get<unsigned short>() != 0;
-	if (setNew) global::reverses = !global::reverses;
+		json jres;
+		jres["msg"]["path"] = "/reverses";
+		jres["msg"]["msg"] = (int)global::reverses;
+		return jres;
+	}
 
-	json jres;
-	jres["msg"]["path"] = "/reverses";
-	jres["msg"]["msg"] = (int)global::reverses;
-	return jres.dump();
+	json planeModel() {
+		json j;
+		j["msg"]["path"] = "/plane-model";
+		j["msg"]["msg"]["x"] = std::to_string(global::phoneRot.pitch);
+		j["msg"]["msg"]["z"] = std::to_string(global::phoneRot.roll);
+		return j;
+	}
+
+	str main(const str& data) {
+		auto msg = json::parse(data);
+		str path = msg["path"].get<str>();
+		if (path == "/reverses") return reverses(msg["msg"]).dump();
+		if (path == "/plane-model") return planeModel().dump();
+		else return "";
+	}
 }
 
 namespace iec {
@@ -32,7 +46,7 @@ namespace iec {
 		tSock->setCallback(handleTcp);
 		
 		auto uSock = new Server(false, ports[1]);
-		uSock->setCallback(handleUdp);
+		uSock->setCallback(handleUdp::main);
 
 		tSock->start();
 		uSock->start();

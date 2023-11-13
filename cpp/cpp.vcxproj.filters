@@ -21,6 +21,9 @@
     <ClCompile Include="Iec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Inc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.hpp">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Macros.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

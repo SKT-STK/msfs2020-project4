@@ -1,8 +1,8 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-// import Controls from "@/pages/Controls"
+import Controls from "@/pages/Controls"
 // import MsfsClosed from "@/pages/MsfsClosed"
-import _Temp from '@/pages/_temp'
+// import _Temp from '@/pages/_temp'
 
 const Index = () => {
 	const navigate = useNavigate()
@@ -16,8 +16,8 @@ const Index = () => {
 		}
 	}, [navigate])
 
-	// return <Controls />
+	return <Controls />
 	// return <MsfsClosed />
-	return <_Temp />
+	// return <_Temp />
 }
 export default Index
