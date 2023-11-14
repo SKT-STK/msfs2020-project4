@@ -1,7 +1,13 @@
 #include "Inc.hpp"
 
 str handleUdp(const str& data) {
-	auto msg = json::parse(data);
+	json msg;
+	try {
+		msg = json::parse(data);
+	}
+	catch (json::exception) {
+		return "";
+	}
 	if (msg["path"].get<str>() != "/accel-data") return "";
 	msg = msg["msg"];
 

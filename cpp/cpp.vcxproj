@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(Platform)_$(Configuration)\Intermediates\</IntDir>
-    <ExternalIncludePath>D:\c++-libs\json-develop\include;D:\c++-projects\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>C:\Users\kwasn\Downloads\json-develop\json-develop\single_include;C:\Users\kwasn\Downloads\easy-socket-master\easy-socket-master\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)_$(Configuration)\</OutDir>

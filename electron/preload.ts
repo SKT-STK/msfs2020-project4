@@ -1,10 +1,12 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
-import ReactDOMServer from 'react-dom/server'
-import LoadingPage from '../public/LoadingPage.tsx'
-
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer))
+contextBridge.exposeInMainWorld('electron', {
+  getEnv: () => {
+    return process.env
+  }
+})
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 function withPrototype(obj: Record<string, any>) {
@@ -54,8 +56,6 @@ const safeDOM = {
 }
 
 function useLoading() {
-  const loadingComponent = ReactDOMServer.renderToString(LoadingPage())
-
   return {
     appendLoading() {
       const loadingContainer = document.createElement('div')
@@ -125,7 +125,14 @@ function useLoading() {
         }
       `
       document.head.appendChild(style)
-      loadingContainer.innerHTML = loadingComponent
+      loadingContainer.innerHTML = `
+        <div class="bgbg" />
+        <div class="loaders-css__square-spin">
+          <div>
+            <div class="loader">Loading...</div>
+          </div>
+        </div>
+      `
       safeDOM.append(document.body, loadingContainer)
     },
     removeLoading() {

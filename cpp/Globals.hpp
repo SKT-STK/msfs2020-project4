@@ -10,6 +10,7 @@ typedef struct RollPitch {
 namespace global {
 	inline std::mutex mtx;
 
+	inline bool simOpen = false;
 	inline bool yoke = false;
 	inline bool thrust = false;
 	inline bool reverses = false;

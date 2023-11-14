@@ -7,17 +7,19 @@ import { useEffect, useState } from "react"
 const PlaneModel = () => {
   const [rot, setRot] = useState<[number, number]>([0, 0])
 
+  const path = '/plane-model'
+
   useEffect(() => {
-    window.ipcRenderer.on('/plane-model', (_, data) => {
+    window.ipcRenderer.on(path, (_, data) => {
       setRot([data.x, data.z])
     })
     return () => {
-      window.ipcRenderer.removeAllListeners('/plane-model')
+      window.ipcRenderer.removeAllListeners(path)
     }
   }, [])
 
   useInterval(() => {
-    window.ipcRenderer.send('udp', {path: '/plane-model', msg: {}})
+    window.ipcRenderer.send('udp', {path: path, msg: {}})
   }, 50)
 
   return (
