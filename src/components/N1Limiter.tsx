@@ -11,6 +11,7 @@ const N1Limiter = () => {
           border-8 text-[50px] rounded-[50px] focus:border-b-[#FF5]'
         onChange={e => window.ipcRenderer.send('tcp',
           {path: '/max-n1', val: Number(e.target.value)})}
+        defaultValue={101}
       />
     </div>
   )
