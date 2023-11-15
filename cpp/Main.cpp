@@ -9,6 +9,7 @@ int main(int argc, char* argv[]) {
 
 	while (!GetAsyncKeyState(VK_NUMPAD0)) {
 		sleepfor(10);
+		debug(global::maxN1);
 	}
 
 	for (const auto& i : sockets) delete i;

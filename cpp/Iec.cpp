@@ -1,14 +1,21 @@
 #include "Iec.hpp"
 
 str handleTcp(const str& data) {
-	json msg = json::parse(data);
+	debug(data);
+	json msg;
+	try {
+		msg = json::parse(data);
+	}
+	catch (json::exception) {
+		return "";
+	}
 	str path = msg["path"].get<str>();
 	float val = msg["val"].get<float>();
 
 	std::lock_guard<std::mutex> lock(global::mtx);
 	if (path == "/yoke") global::yoke = static_cast<int>(val) != 0;
 	else if (path == "/thrust") global::thrust = static_cast<int>(val) != 0;
-	else if (path != "/max-n1") global::maxN1 = val - 1.f;
+	else if (path == "/max-n1") global::maxN1 = val - 1.f;
 
 	return "";
 }
@@ -30,7 +37,7 @@ namespace handleUdp {
 	json planeModel() {
 		json j;
 		j["msg"]["path"] = "/plane-model";
-		j["msg"]["msg"]["x"] = std::to_string(global::phoneRot.pitch / -2.0);
+		j["msg"]["msg"]["x"] = std::to_string(global::phoneRot.pitch / -2.5);
 		j["msg"]["msg"]["z"] = std::to_string(global::phoneRot.roll);
 		return j;
 	}
