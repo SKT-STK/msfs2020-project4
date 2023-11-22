@@ -28,10 +28,10 @@ namespace handleUdp {
 			global::reverses = !global::reverses;
 		}
 
-		json jres;
-		jres["msg"]["path"] = "/reverses";
-		jres["msg"]["msg"] = (int)global::reverses;
-		return jres;
+		json j;
+		j["msg"]["path"] = "/reverses";
+		j["msg"]["msg"] = (int)global::reverses;
+		return j;
 	}
 
 	json planeModel() {

@@ -1,6 +1,6 @@
-import SVG from "@/components/SVG"
+import SVG from "@/components/global/SVG"
 import warningSvg from '@/assets/warningSign.svg'
-import TopographicBackground from "@/components/TopographicBackground"
+import TopographicBackground from "@/components/global/TopographicBackground"
 import { motion } from "framer-motion"
 
 const BackendCppErr = () => {

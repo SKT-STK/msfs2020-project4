@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import '@/styles/index.css'
 import '@/styles/tailwind.css'
+import { HashRouter as Router } from "react-router-dom"
+import Routes from '@/routes/Routes'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Router>
+			<Routes />
+			<App />
+		</Router>
+  </React.StrictMode>
 )
 
 // Remove Preload scripts loading

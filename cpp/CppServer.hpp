@@ -22,17 +22,18 @@ class Server {
 public:
 	using Callback = std::function<std::string(const std::string&)>;
 
-	inline Server(bool useTCP, int port) : useTCP(useTCP), port(port), serverSocket(INVALID_SOCKET) {}
-#ifdef _WIN32
+	inline Server(bool useTCP, int port) : useTCP(useTCP), port(port), serverSocket(INVALID_SOCKET), clientRunning(true) {}
 	inline ~Server() {
+		clientRunning = false;
+#ifdef _WIN32
 		WSACleanup();
-	}
 #endif
+	}
 
 	inline void start() {
 #ifdef _WIN32
-		WSADATA wsaData;
-		if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+		WSADATA _wsaData;
+		if (WSAStartup(MAKEWORD(2, 2), &_wsaData) != 0) {
 			printf("Failed to initialize Winsock\n");
 			return;
 		}
@@ -53,6 +54,7 @@ private:
 	bool useTCP;
 	int port;
 	Callback callback;
+	bool clientRunning;
 
 #ifdef _WIN32
 	SOCKET serverSocket;
@@ -111,7 +113,7 @@ private:
 					int bytesRead;
 
 					// Receive data from the client
-					while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
+					while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0 && clientRunning) {
 						std::string message(buffer, bytesRead);
 						std::string response = callback(message);
 

@@ -1,5 +1,5 @@
-import ClientToggleSwitch from '@/components/ClientToggleSwitch'
-import ServerToggleSwitch from '@/components/ServerToggleSwitch'
+import ClientToggleSwitch from '@/components/global/ClientToggleSwitch'
+import ServerToggleSwitch from '@/components/global/ServerToggleSwitch'
 
 const ToggleSwitches = () => {
   return (

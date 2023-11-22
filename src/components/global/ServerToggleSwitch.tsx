@@ -1,4 +1,4 @@
-import ToggleSwitch from "@/components/ToggleSwitch"
+import ToggleSwitch from "@/components/global/_ToggleSwitch"
 import { ReactNode, useEffect, useState } from "react"
 
 interface ServerToggleSwitchProps {
