@@ -1,10 +1,10 @@
 import { motion } from "framer-motion"
 
-interface TransitionProps {
+interface TransitionLayoutProps {
   children: JSX.Element
 }
 
-const Transition = ({ children }: TransitionProps) => {
+const TransitionLayout = ({ children }: TransitionLayoutProps) => {
   return (<>
     { children }
     <motion.div
@@ -52,9 +52,10 @@ const Transition = ({ children }: TransitionProps) => {
       }}
       transition={{
         duration: 1,
-        ease: [.22, 1, .36, 1]
+        ease: [.22, 1, .36, 1],
+        // delay: .2
       }}
     />
   </>)
 }
-export default Transition
+export default TransitionLayout

@@ -4,7 +4,7 @@ import MsfsClosed from "@/pages/MsfsClosed"
 import Settings from "@/pages/Settings"
 import { Route, Routes, useLocation } from "react-router-dom"
 import { AnimatePresence } from "framer-motion"
-import Transition from "@/layouts/Transition"
+import TransitionLayout from "@/layouts/TransitionLayout"
 
 export default function App() {
 	const location = useLocation()
@@ -13,25 +13,17 @@ export default function App() {
 		<AnimatePresence mode='wait'>
 			<Routes location={location} key={location.pathname}>
 				<Route path="/" element={
-					<Transition>
+					<TransitionLayout>
 						<Index />
-					</Transition>
+					</TransitionLayout>
 				} />
 				<Route path='/settings' element={
-					<Transition>
+					<TransitionLayout>
 						<Settings />
-					</Transition>
+					</TransitionLayout>
 				} />
-				<Route path='/msfs-closed' element={
-					<Transition>
-						<MsfsClosed />
-					</Transition>
-				} />
-				<Route path='/backend-cpp-err' element={
-					<Transition>
-						<BackendCppErr />
-					</Transition>
-				} />
+				<Route path='/msfs-closed' element={<MsfsClosed />} />
+				<Route path='/backend-cpp-err' element={<BackendCppErr />} />
 			</Routes>
 		</AnimatePresence>
 	)
