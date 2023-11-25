@@ -4,7 +4,7 @@ import MsfsClosed from "@/pages/MsfsClosed"
 import Settings from "@/pages/Settings"
 import { Route, Routes, useLocation } from "react-router-dom"
 import { AnimatePresence } from "framer-motion"
-import TransitionLayout from "@/layouts/TransitionLayout"
+import TransitionLayout from "@/layouts/PageTransitionLayout"
 
 export default function App() {
 	const location = useLocation()
@@ -22,8 +22,12 @@ export default function App() {
 						<Settings />
 					</TransitionLayout>
 				} />
-				<Route path='/msfs-closed' element={<MsfsClosed />} />
-				<Route path='/backend-cpp-err' element={<BackendCppErr />} />
+				<Route path='/msfs-closed' element={
+					<MsfsClosed />
+				} />
+				<Route path='/backend-cpp-err' element={
+					<BackendCppErr />
+				} />
 			</Routes>
 		</AnimatePresence>
 	)

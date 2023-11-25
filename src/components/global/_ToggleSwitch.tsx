@@ -15,7 +15,7 @@ interface ToggleSwitchProps {
 const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: ToggleSwitchProps) => {
   const [checked, setChecked] = useState<CBOOL>(0)
   const [setNew, setSetNew] = useState<CBOOL>(0)
-  const [color, setColor] = useState<string>('#767')
+  const [color, setColor] = useState<string>('#FFF')
 
   const id = generateRandomString(10)
   
@@ -30,7 +30,7 @@ const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: T
       clientCallback(checked)
     }
     else setSetNew(1)
-    setColor(checked === 0 ? children[3] : '#767')
+    setColor(checked === 0 ? children[3] : '#FFF')
   }
 
   return (<div className={className} style={{width: '384px'}}>

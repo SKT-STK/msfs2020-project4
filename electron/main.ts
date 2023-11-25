@@ -19,8 +19,20 @@ let win: BrowserWindow | null
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
 function createWindow() {
+  const splash = new BrowserWindow({
+    icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    width: 500,
+    height: 300,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true
+  })
+  splash.loadFile(path.join(process.env.VITE_PUBLIC, 'splash.html'))
+  splash.center()
+
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       webSecurity: false,
@@ -34,6 +46,8 @@ function createWindow() {
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
+    win?.show()
+    splash.close()
   })
 
   if (VITE_DEV_SERVER_URL) {
@@ -62,5 +76,6 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+app.whenReady()
+  .then(createWindow)
   .then(() => import('./ipc'))

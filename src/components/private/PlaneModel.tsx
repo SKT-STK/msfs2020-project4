@@ -23,7 +23,7 @@ const PlaneModel = () => {
   }, 50)
 
   return (
-    <div className='flex justify-center items-center flex-1 border-b-4 border-[#767C]'>
+    <div className='flex justify-center items-center flex-1 border-b-4 border-[#FFF]'>
       <Canvas className='fixed inset-0'>
         <ambientLight intensity={0.5} />
         <directionalLight position={[-2, 5, 2]} />

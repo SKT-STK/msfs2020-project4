@@ -24,5 +24,6 @@ body {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+    background: #0F0F0F;
   }
 }
