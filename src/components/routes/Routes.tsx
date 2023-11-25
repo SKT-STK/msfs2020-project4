@@ -8,8 +8,8 @@ export default function Routes() {
 		window.ipcRenderer.on('ERR', () => {
 			navigate('/backend-cpp-err')
 		})
-		window.ipcRenderer.on('/msfs-status', (_, data: { status: boolean }) => {
-			if (!data.status) navigate('/msfs-closed')
+		window.ipcRenderer.on('/msfs-status', (_, data) => {
+			if (!data) navigate('/msfs-closed')
 			else navigate('/')
 		})
 

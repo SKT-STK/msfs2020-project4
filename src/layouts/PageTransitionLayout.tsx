@@ -12,7 +12,7 @@ const PageTransitionLayout = ({ children }: PageTransitionLayoutProps) => {
   const animRef = useRef<LottieRefCurrentProps | null>(null)
 
   useEffect(() => {
-    animRef.current?.setSpeed(1.2)
+    animRef.current?.setSpeed(1.35)
     animRef.current?.play()
   })
 

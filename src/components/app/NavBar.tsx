@@ -1,4 +1,4 @@
-import ReturnToIndex from "@/components/private/ReturnToIndex"
+import ReturnToIndex from "@/components/app/ReturnToIndex"
 
 const NavBar = () => {
   return (

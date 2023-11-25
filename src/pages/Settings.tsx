@@ -1,5 +1,5 @@
 import TopographicBackground from "@/components/global/TopographicBackground"
-import NavBar from "@/components/private/NavBar"
+import NavBar from "@/components/app/NavBar"
 
 const Settings = () => {
   return (<>

@@ -1,7 +1,7 @@
-import N1Limiter from '@/components/private/N1Limiter'
-import PlaneModel from '@/components/private/PlaneModel'
-import SettingsIcon from '@/components/private/SettingsIcon'
-import ToggleSwitches from '@/components/private/ToggleSwitches'
+import N1Limiter from '@/components/app/N1Limiter'
+import PlaneModel from '@/components/app/PlaneModel'
+import SettingsIcon from '@/components/app/SettingsIcon'
+import ToggleSwitches from '@/components/app/ToggleSwitches'
 import TopographicBackground from '@/components/global/TopographicBackground'
 
 const Index = () => {	
