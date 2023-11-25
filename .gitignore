@@ -23,6 +23,7 @@ release
 *.njsproj
 *.sw?
 .vs
+.vscode
 cpp/.vs
 cpp/.vscode
 cpp/x64_Release/Intermediates
