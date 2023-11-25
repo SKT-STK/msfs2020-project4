@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import ToggleSwitch from "@/components/global/_ToggleSwitch"
+import ToggleSwitch from "@/components/global/private/ToggleSwitch"
 
 interface ClientToggleSwitchProps {
   children: [ReactNode, ReactNode, ReactNode, string]
