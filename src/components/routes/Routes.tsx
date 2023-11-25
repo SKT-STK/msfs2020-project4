@@ -1,8 +1,7 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-// eslint-disable-next-line react-refresh/only-export-components
-export default function () {
+export default function Routes() {
   const navigate = useNavigate()
 
 	useEffect(() => {

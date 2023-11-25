@@ -4,7 +4,7 @@ import App from './App.tsx'
 import '@/styles/index.css'
 import '@/styles/tailwind.css'
 import { HashRouter as Router } from "react-router-dom"
-import Routes from '@/routes/Routes'
+import Routes from '@/components/routes/Routes.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
