@@ -30,7 +30,7 @@ namespace handleUdp {
 
 		json j;
 		j["msg"]["path"] = "/reverses";
-		j["msg"]["msg"] = (int)global::reverses;
+		j["msg"]["msg"] = static_cast<int>(global::reverses);
 		return j;
 	}
 
@@ -39,6 +39,13 @@ namespace handleUdp {
 		j["msg"]["path"] = "/plane-model";
 		j["msg"]["msg"]["x"] = std::to_string(global::phoneRot.pitch / -2.5);
 		j["msg"]["msg"]["z"] = std::to_string(global::phoneRot.roll);
+		return j;
+	}
+
+	json msfsStatus() {
+		json j;
+		j["msg"]["path"] = "/msfs-status";
+		j["msg"]["msg"] = static_cast<int>(global::simOpen);
 		return j;
 	}
 
@@ -53,22 +60,27 @@ namespace handleUdp {
 		str path = msg["path"].get<str>();
 		if (path == "/reverses") return reverses(msg["msg"]).dump();
 		if (path == "/plane-model") return planeModel().dump();
+		if (path == "/msfs-status") return msfsStatus().dump();
 		else return "";
 	}
 }
 
+void init(int ports[2], Server* (*ret)[2]) {
+	auto tSock = new Server(true, ports[0]);
+	tSock->SetCallback(handleTcp);
+
+	auto uSock = new Server(false, ports[1]);
+	uSock->SetCallback(handleUdp::main);
+
+	tSock->Start();
+	uSock->Start();
+
+	(*ret)[0] = tSock;
+	(*ret)[1] = uSock;
+}
+
 namespace iec {
-	void main(int ports[2], Server* (*ret)[2]) {
-		auto tSock = new Server(true, ports[0]);
-		tSock->setCallback(handleTcp);
-		
-		auto uSock = new Server(false, ports[1]);
-		uSock->setCallback(handleUdp::main);
-
-		tSock->start();
-		uSock->start();
-
-		(*ret)[0] = tSock;
-		(*ret)[1] = uSock;
+	void iec(int ports[2], Server* (*ret)[2]) {
+		init(ports, ret);
 	}
 }

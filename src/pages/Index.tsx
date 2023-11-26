@@ -3,8 +3,13 @@ import PlaneModel from '@/components/app/PlaneModel'
 import SettingsIcon from '@/components/app/SettingsIcon'
 import ToggleSwitches from '@/components/app/ToggleSwitches'
 import TopographicBackground from '@/components/global/TopographicBackground'
+import { useInterval } from '@/hooks/useInterval'
 
-const Index = () => {	
+const Index = () => {
+	useInterval(() => {
+		window.ipcRenderer.send('udp', {path: '/msfs-status', msg: {}})
+	}, 500, true)
+
   return (<>
     <TopographicBackground steps={100} startHue={320} endHue={230} />
 		<SettingsIcon />

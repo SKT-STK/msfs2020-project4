@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react'
 
-export const useInterval = (callback: () => void, delay: number | null) => {
+export const useInterval = (callback: () => void, delay: number | null, executeImmediately: boolean = false) => {
   const savedCallback = useRef<() => void | null>()
 
   useEffect(() => {
+    if (executeImmediately) callback()
     savedCallback.current = callback
-  }, [callback])
+  }, [callback, executeImmediately])
 
   useEffect(() => {
     const tick = () => {

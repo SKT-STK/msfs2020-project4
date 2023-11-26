@@ -11,5 +11,5 @@ typedef std::string str;
 using json = nlohmann::json;
 
 namespace iec {
-	void main(int [2], Server*(*)[2]);
+	void iec(int [2], Server*(*)[2]);
 }

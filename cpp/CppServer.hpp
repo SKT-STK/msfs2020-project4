@@ -30,7 +30,7 @@ public:
 #endif
 	}
 
-	inline void start() {
+	inline void Start() {
 #ifdef _WIN32
 		WSADATA _wsaData;
 		if (WSAStartup(MAKEWORD(2, 2), &_wsaData) != 0) {
@@ -46,7 +46,7 @@ public:
 		}
 	}
 
-	inline void setCallback(Callback callback) {
+	inline void SetCallback(Callback callback) {
 		this->callback = std::move(callback);
 	}
 

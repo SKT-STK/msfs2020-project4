@@ -24,12 +24,16 @@ str handleUdp(const str& data) {
 	return "";
 }
 
-namespace inc {
-	Server* main(int port) {
-		auto sock = new Server(false, port);
-		sock->setCallback(handleUdp);
-		sock->start();
+Server* init(int port) {
+	auto sock = new Server(false, port);
+	sock->SetCallback(handleUdp);
+	sock->Start();
 
-		return sock;
+	return sock;
+}
+
+namespace inc {
+	Server* inc(int port) {
+		return init(port);
 	}
 }

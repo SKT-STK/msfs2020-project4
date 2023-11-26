@@ -73,12 +73,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(Platform)_$(Configuration)\Intermediates\</IntDir>
-    <ExternalIncludePath>C:\Users\kwasn\Downloads\json-develop\json-develop\single_include;C:\Users\kwasn\Downloads\easy-socket-master\easy-socket-master\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>C:\Users\kwasn\Desktop\json-develop\json-develop\single_include;C:\Users\kwasn\Downloads\easy-socket-master\easy-socket-master\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(Platform)_$(Configuration)\Intermediates\</IntDir>
-    <ExternalIncludePath>C:\Users\kwasn\Downloads\json-develop\json-develop\single_include;C:\Users\kwasn\Downloads\easy-socket-master\easy-socket-master\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExternalIncludePath>C:\Users\kwasn\Desktop\json-develop\json-develop\single_include;C:\Users\kwasn\Downloads\easy-socket-master\easy-socket-master\include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FlightSim.cpp" />
     <ClCompile Include="Inc.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Iec.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FlightSim.hpp" />
     <ClInclude Include="Globals.hpp" />
     <ClInclude Include="Iec.hpp" />
     <ClInclude Include="Inc.hpp" />
