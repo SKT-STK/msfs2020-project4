@@ -12,9 +12,9 @@ const PageTransitionLayout = ({ children }: PageTransitionLayoutProps) => {
   const animRef = useRef<LottieRefCurrentProps | null>(null)
 
   useEffect(() => {
-    animRef.current?.setSpeed(1.35)
-    animRef.current?.play()
-  })
+    animRef.current?.setSpeed(1.4)
+    animRef.current?.goToAndPlay(10, true)
+  }, [])
 
   return (<>
     { children }
@@ -24,17 +24,17 @@ const PageTransitionLayout = ({ children }: PageTransitionLayoutProps) => {
       animate={{ scaleY: 0 }}
       exit={{ scaleY: 1 }}
       transition={{
-        duration: 1,
+        duration: .8,
         ease: [.22, 1, .36, 1]
       }}
     />
     <motion.div
       className='fixed top-0 left-0 w-full h-screen bg-[#0F0F0F] origin-top'
       initial={{ scaleY: 1 }}
-      animate={{ scaleY: isAnimFinished ? 0 : 1 }}
+      animate={isAnimFinished ? { scaleY: 0 } : {}}
       exit={{ scaleY: 0 }}
       transition={{
-        duration: 1,
+        duration: .8,
         ease: [.22, 1, .36, 1],
       }}
     >
