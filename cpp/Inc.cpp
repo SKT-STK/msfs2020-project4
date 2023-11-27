@@ -16,7 +16,7 @@ str handleUdp(const str& data) {
 	auto z = msg["accelData"][2].get<double>();
 
 	double roll = std::atan2(y, z) * 57.3;
-	double pitch = std::atan2(x, std::sqrt(y * y + z * z)) * 57.3;
+	double pitch = std::atan2(x, std::sqrt(y*y + z*z)) * 57.3;
 
 	std::lock_guard<std::mutex> lock(global::mtx);
 	global::phoneRot = { roll, pitch };

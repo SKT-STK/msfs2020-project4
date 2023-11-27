@@ -6,9 +6,9 @@ const ToggleSwitches = () => {
     <section className='flex justify-center items-center min-h-screen w-full
 			flex-col flex-[5] border-r-4'
     >    
-      <ClientToggleSwitch tcpPath='/yoke' className='my-5'>{[ 'YOKE', '✈️', '🛩️', '#F55' ]}</ClientToggleSwitch>
-      <ClientToggleSwitch tcpPath='/thrust' className='my-5'>{[ 'THROTTLE', '🚀', '🚀', '#F55' ]}</ClientToggleSwitch>
-      <ServerToggleSwitch udpPath='/reverses' className='my-5'>{[ 'REVERSES', '🛫', '🛬', '#F55' ]}</ServerToggleSwitch>
+      <ClientToggleSwitch tcpPath='/yoke' className='my-5'>{[ 'YOKE', '✈️', '🛩️', '#77FF77' ]}</ClientToggleSwitch>
+      <ClientToggleSwitch tcpPath='/thrust' className='my-5'>{[ 'THROTTLE', '🚀', '🚀', '#45CFDD' ]}</ClientToggleSwitch>
+      <ServerToggleSwitch udpPath='/reverses' className='my-5'>{[ 'REVERSES', '🛫', '🛬', '#FF5555' ]}</ServerToggleSwitch>
     </section>
   )
 }

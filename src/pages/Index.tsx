@@ -17,7 +17,7 @@ const Index = () => {
 			<ToggleSwitches />
 			<div className='flex justify-center items-center h-screen w-full flex-col flex-[3] backdrop-blur-md backdrop-brightness-200'>
 				<PlaneModel />
-				<N1Limiter />
+				<N1Limiter color='#FFFF55' />
 			</div>
 		</main>
   </>)

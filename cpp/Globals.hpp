@@ -2,7 +2,7 @@
 
 #include <mutex>
 
-typedef struct RollPitch {
+typedef struct {
 	double roll;
 	double pitch;
 } RollPitch;

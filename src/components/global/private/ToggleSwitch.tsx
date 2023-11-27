@@ -1,9 +1,8 @@
 import { ReactNode, useState } from "react"
-
 import generateRandomString from "@/functions/GenerateRandomString"
 import { motion } from "framer-motion"
 import { useInterval } from "@/hooks/useInterval"
-
+import * as convert from 'color-convert'
 
 interface ToggleSwitchProps {
   children: [ReactNode, ReactNode, ReactNode, string]
@@ -35,11 +34,20 @@ const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: T
 
   return (<div className={className} style={{width: '384px'}}>
     <input type="checkbox" id={id} className='hidden' onChange={handleOnChange} value={checked} />
-    <label htmlFor={id}
+    <motion.label htmlFor={id}
       className='border-[10px] border-solid p-5 rounded-full text-center
         text-4xl font-black relative block w-full cursor-pointer select-none'
       style={{
         borderColor: color,
+      }}
+      whileHover={!checked ? {
+        borderColor: 'hsl(' + (convert.hex.hsl(children[3])[0])
+          + ', ' + (convert.hex.hsl(children[3])[1] / 1.2)
+          + ', ' + (convert.hex.hsl(children[3])[2] * 1.2) + ')'
+      } : {}}
+      transition={{
+        ease: 'easeInOut',
+        duration: .2
       }}
     >
       <div>{ children[0] }</div>
@@ -61,7 +69,7 @@ const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: T
           times: [0, .4, .6, 1],
         }}
       >{ checked ? children[2] : children[1] }</motion.div>
-    </label>
+    </motion.label>
   </div>)
 }
 export default ToggleSwitch

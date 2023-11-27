@@ -32,6 +32,8 @@ function createWindow() {
 
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    width: 780,
+    height: 585,
     show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -47,7 +49,7 @@ function createWindow() {
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', (new Date).toLocaleString())
     win?.show()
-    splash.close()
+    splash.destroy()
   })
 
   if (VITE_DEV_SERVER_URL) {
