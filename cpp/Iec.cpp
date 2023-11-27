@@ -1,7 +1,6 @@
 #include "Iec.hpp"
 
 str handleTcp(const str& data) {
-	debug(data);
 	json msg;
 	try {
 		msg = json::parse(data);

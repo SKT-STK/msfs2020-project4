@@ -6,39 +6,39 @@ import * as convert from 'color-convert'
 
 interface ToggleSwitchProps {
   children: [ReactNode, ReactNode, ReactNode, string]
-  serverCallback?: (setNew: CBOOL) => CBOOL
-  clientCallback?: (val: CBOOL) => void
+  serverCallback?: (setNew: boolean) => boolean
+  clientCallback?: (val: boolean) => void
   className?: string
 }
 
 const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: ToggleSwitchProps) => {
-  const [checked, setChecked] = useState<CBOOL>(0)
-  const [setNew, setSetNew] = useState<CBOOL>(0)
+  const [checked, setChecked] = useState<boolean>(false)
+  const [setNew, setSetNew] = useState<boolean>(false)
   const [color, setColor] = useState<string>('#FFF')
 
   const id = generateRandomString(10)
   
   useInterval(() => {
     if (serverCallback) setChecked(serverCallback(setNew))
-    setSetNew(0)
+    setSetNew(false)
   }, serverCallback !== undefined ? 50 : null)
 
   const handleOnChange = () => {
     if (!serverCallback && clientCallback) {
-      setChecked(c => c === 0 ? 1 : 0)
+      setChecked(c => !c)
       clientCallback(checked)
     }
-    else setSetNew(1)
-    setColor(checked === 0 ? children[3] : '#FFF')
+    else setSetNew(true)
+    setColor(!checked ? children[3] : '#FFF')
   }
 
-  return (<div className={className} style={{width: '384px'}}>
-    <input type="checkbox" id={id} className='hidden' onChange={handleOnChange} value={checked} />
+  return (<div className={className} style={{ width: '384px' }}>
+    <input type="checkbox" id={id} className='hidden' onChange={handleOnChange} value={+checked} />
     <motion.label htmlFor={id}
       className='border-[10px] border-solid p-5 rounded-full text-center
         text-4xl font-black relative block w-full cursor-pointer select-none'
       style={{
-        borderColor: color,
+        borderColor: color
       }}
       whileHover={!checked ? {
         borderColor: 'hsl(' + (convert.hex.hsl(children[3])[0])
@@ -56,7 +56,7 @@ const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: T
       />
       <motion.div className='absolute text-center grid place-content-center text-black
         bg-white top-1 left-1 h-[72px] rounded-full'
-        animate={checked === 1 ? {
+        animate={checked ? {
           x: ['0px', '0px', '0px', '284px'],
           width: ['72px', '356px', '356px', '72px'],
         } : {
