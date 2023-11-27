@@ -11,7 +11,7 @@ export default function Routes() {
 		})
 		window.ipcRenderer.on('/msfs-status', (_, data) => {
 			if (!data && location.pathname !== '/msfs-closed') navigate('/msfs-closed')
-			else if (!!data && location.pathname !== '/') navigate('/')
+			else if (!!data && location.pathname === '/msfs-closed') navigate('/')
 		})
 
 		return () => {
