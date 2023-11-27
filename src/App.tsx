@@ -23,10 +23,14 @@ export default function App() {
 					</TransitionLayout>
 				} />
 				<Route path='/msfs-closed' element={
-					<MsfsClosed />
+					<TransitionLayout>
+						<MsfsClosed />
+					</TransitionLayout>
 				} />
 				<Route path='/backend-cpp-err' element={
-					<BackendCppErr />
+					<TransitionLayout>
+						<BackendCppErr />
+					</TransitionLayout>
 				} />
 			</Routes>
 		</AnimatePresence>
