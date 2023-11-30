@@ -44,9 +44,8 @@ type GLTFResult = GLTF & {
 };
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
   const { nodes, materials } = useGLTF(window.electron.getEnv().VITE_PUBLIC + '/aircraft.gltf') as GLTFResult;
+
   return (
     <group {...props} dispose={null}>
       <group name="Sketchfab_Scene">
@@ -169,7 +168,4 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     </group>
   );
 }
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
 useGLTF.preload(window.electron.getEnv().VITE_PUBLIC + '/aircraft.gltf')

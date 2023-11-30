@@ -21,6 +21,7 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 function createWindow() {
   const splash = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    title: 'My DIY Controls',
     width: 500,
     height: 300,
     transparent: true,
@@ -32,6 +33,7 @@ function createWindow() {
 
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
+    title: 'My DIY Controls',
     width: 780,
     height: 585,
     show: false,

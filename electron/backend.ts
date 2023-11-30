@@ -1,8 +1,7 @@
 import path from 'path'
 import { BrowserWindow } from 'electron'
+import { execFile as child } from 'child_process'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const child = require('child_process').execFile
 const execName = 'cpp.exe'
 const execPath = process.env.NODE_ENV?.trim() === 'dev' ?
   path.join("C:\\Users\\kwasn\\Desktop\\github\\msfs2020-project4\\cpp\\x64_Debug", execName)

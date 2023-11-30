@@ -17,7 +17,7 @@ const SettingsLayout = ({ children }: SettingsLayoutProps) => {
       gap-0 border-t-2 border-t-slate-700'>
       <NavBar />
       <section className='col-start-3 col-end-8 row-start-1
-        row-end-1 bg-[#171E1E] p-3'>
+        row-end-1 bg-[#1A1A1A] pt-3 px-6 flex flex-row justify-between'>
         { children }
       </section>
     </main>

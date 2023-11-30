@@ -7,7 +7,7 @@ interface TitleBarProps {
 
 const TitleBar = ({ onPageChange }: TitleBarProps) => {
   return (
-    <div className='relative w-full h-[11vh] bg-[#0E1414]'>
+    <div className='relative w-full h-[11vh] bg-[#1A1A1E]'>
       <div onClick={onPageChange} className='fixed left-0 top-0 cursor-pointer ml-8
         mt-[27.5px] scale-[.07] -translate-x-1/2 -translate-y-1/2'
       >
