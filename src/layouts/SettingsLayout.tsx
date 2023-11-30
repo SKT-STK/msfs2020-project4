@@ -1,7 +1,7 @@
 import NavBar from "@/components/app/NavBar"
 import TitleBar from "@/components/app/TitleBar"
 import { ReactNode, useState } from "react"
-import SettingsAnimationDivs from "@/components/global/private/SettingsAnimationDivs"
+import SettingsAnimationDivs from "@/components/app/SettingsAnimationDivs"
 
 interface SettingsLayoutProps {
   children: ReactNode
@@ -16,7 +16,8 @@ const SettingsLayout = ({ children }: SettingsLayoutProps) => {
     <main className='min-h-screen w-full grid grid-cols-7 grid-rows-1
       gap-0 border-t-2 border-t-slate-700'>
       <NavBar />
-      <section className='col-start-3 col-end-8 row-start-1 row-end-1 bg-[#171E1E]'>
+      <section className='col-start-3 col-end-8 row-start-1
+        row-end-1 bg-[#171E1E] p-3'>
         { children }
       </section>
     </main>

@@ -7,6 +7,8 @@ import TransitionLayout from "@/layouts/PageTransitionLayout"
 import SettingsPhone from "@/pages/SettingsPhone"
 import SettingsLayout from "@/layouts/SettingsLayout"
 import SettingsYoke from "@/pages/SettingsYoke"
+import SettingsThrottles from "@/pages/SettingsThrottles"
+import SettingsReverses from "@/pages/SettingsReverses"
 
 export default function App() {
 	const location = useLocation()
@@ -27,6 +29,16 @@ export default function App() {
 				<Route path='/settings/yoke' element={
 					<SettingsLayout>
 						<SettingsYoke />
+					</SettingsLayout>
+				} />
+				<Route path='/settings/throttles' element={
+					<SettingsLayout>
+						<SettingsThrottles />
+					</SettingsLayout>
+				} />
+				<Route path='/settings/reverses' element={
+					<SettingsLayout>
+						<SettingsReverses />
 					</SettingsLayout>
 				} />
 				<Route path='/msfs-closed' element={

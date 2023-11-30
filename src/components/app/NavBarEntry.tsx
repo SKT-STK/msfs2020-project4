@@ -22,7 +22,7 @@ const SettingsEntry = ({ url, children }: SettingsEntryProps) => {
         backgroundColor: ActionColor,
         color: 'black'
       } : {}}
-      onClick={() => navigate('/settings' + url + '?animate=0')}
+      onClick={() => navigate('/settings' + url)}
       whileHover={{
         borderColor: ActionColor
       }}

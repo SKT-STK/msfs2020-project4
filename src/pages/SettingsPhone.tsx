@@ -7,3 +7,5 @@ const SettingsPhone = () => {
   )
 }
 export default SettingsPhone
+
+// port to be used
