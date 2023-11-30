@@ -4,7 +4,7 @@ import Lottie, { LottieRefCurrentProps } from "lottie-react"
 import animationData from '@/assets/transition.json'
 
 interface PageTransitionLayoutProps {
-  children: JSX.Element | ReactNode
+  children: ReactNode
 }
 
 const PageTransitionLayout = ({ children }: PageTransitionLayoutProps) => {

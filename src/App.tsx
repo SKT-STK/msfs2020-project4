@@ -1,10 +1,12 @@
 import Index from "@/pages/Index"
 import BackendCppErr from "@/pages/BackendCppErr"
 import MsfsClosed from "@/pages/MsfsClosed"
-import Settings from "@/pages/Settings"
 import { Route, Routes, useLocation } from "react-router-dom"
 import { AnimatePresence } from "framer-motion"
 import TransitionLayout from "@/layouts/PageTransitionLayout"
+import SettingsPhone from "@/pages/SettingsPhone"
+import SettingsLayout from "@/layouts/SettingsLayout"
+import SettingsYoke from "@/pages/SettingsYoke"
 
 export default function App() {
 	const location = useLocation()
@@ -17,10 +19,15 @@ export default function App() {
 						<Index />
 					</TransitionLayout>
 				} />
-				<Route path='/settings' element={
-					<TransitionLayout>
-						<Settings />
-					</TransitionLayout>
+				<Route path='/settings/phone' element={
+					<SettingsLayout>
+						<SettingsPhone />
+					</SettingsLayout>
+				} />
+				<Route path='/settings/yoke' element={
+					<SettingsLayout>
+						<SettingsYoke />
+					</SettingsLayout>
 				} />
 				<Route path='/msfs-closed' element={
 					<TransitionLayout>
