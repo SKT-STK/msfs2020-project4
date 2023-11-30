@@ -4,11 +4,11 @@ import MsfsClosed from "@/pages/MsfsClosed"
 import { Route, Routes, useLocation } from "react-router-dom"
 import { AnimatePresence } from "framer-motion"
 import TransitionLayout from "@/layouts/PageTransitionLayout"
-import SettingsPhone from "@/pages/SettingsPhone"
+import SettingsPhone from "@/pages/settings/SettingsPhone"
 import SettingsLayout from "@/layouts/SettingsLayout"
-import SettingsYoke from "@/pages/SettingsYoke"
-import SettingsThrottles from "@/pages/SettingsThrottles"
-import SettingsReverses from "@/pages/SettingsReverses"
+import SettingsYoke from "@/pages/settings/SettingsYoke"
+import SettingsThrottles from "@/pages/settings/SettingsThrottles"
+import SettingsReverses from "@/pages/settings/SettingsReverses"
 
 export default function App() {
 	const location = useLocation()

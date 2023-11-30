@@ -2,10 +2,14 @@ import SVG from '@/components/global/SVG'
 import svgImg from '@/assets/settings.svg'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import useParams from '@/hooks/useParams'
 
 const SettingsIcon = () => {
+	const [lastSettingsPage] = useParams(null)
+  const settingsPageUrl = lastSettingsPage || '/settings/phone'
+
   return (
-    <Link to='/settings/phone?animate=1' className='fixed left-0 top-0 border-[20px]
+    <Link to={`${settingsPageUrl}?animate=1`} className='fixed left-0 top-0 border-[20px]
       border-white outline-none rounded-[100px] backdrop-blur-3xl
       backdrop-brightness-200 cursor-pointer hover:border-[#FF5]
       ml-9 mt-9 scale-[.15] -translate-x-1/2 -translate-y-1/2'

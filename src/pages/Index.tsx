@@ -1,7 +1,7 @@
-import N1Limiter from '@/components/app/N1Limiter'
-import PlaneModel from '@/components/app/PlaneModel'
+import N1Limiter from '@/components/app/index/N1Limiter'
+import PlaneModel from '@/components/app/index/PlaneModel'
 import SettingsIcon from '@/components/global/SettingsIcon'
-import ToggleSwitches from '@/components/app/ToggleSwitches'
+import ToggleSwitches from '@/components/app/index/ToggleSwitches'
 import TopographicBackground from '@/components/global/TopographicBackground'
 import { useInterval } from '@/hooks/useInterval'
 

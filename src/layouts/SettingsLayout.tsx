@@ -1,7 +1,7 @@
-import NavBar from "@/components/app/NavBar"
-import TitleBar from "@/components/app/TitleBar"
+import NavBar from "@/components/app/settings/NavBar"
+import TitleBar from "@/components/app/settings/TitleBar"
 import { ReactNode, useState } from "react"
-import SettingsAnimationDivs from "@/components/app/SettingsAnimationDivs"
+import SettingsAnimationDivs from "@/components/app/settings/SettingsAnimationDivs"
 
 interface SettingsLayoutProps {
   children: ReactNode

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import { Variants, motion, useAnimationControls } from 'framer-motion'
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import Lottie, { LottieRefCurrentProps } from "lottie-react"
 import animationData from '@/assets/transition.json'
 import useParams from "@/hooks/useParams"
@@ -32,10 +32,11 @@ const animationInVariants: Variants = {
 
 const SettingsAnimationDivs = ({ controlsOutStart }: SettingsAnimationDivsProps) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const controlsOut = useAnimationControls()
   const controlsIn = useAnimationControls()
   const animRef = useRef<LottieRefCurrentProps | null>(null)
-  const [doAnimate] = useParams(null, 'animate')
+  const [doAnimate] = useParams(location as unknown as Location)
 
   useEffect(() => {
     if (doAnimate && !+doAnimate || !doAnimate) {
@@ -62,7 +63,7 @@ const SettingsAnimationDivs = ({ controlsOutStart }: SettingsAnimationDivsProps)
         ease: [.22, 1, .36, 1]
       }}
       className='fixed top-0 left-0 w-full h-screen bg-[#0F0F0F] origin-bottom z-[100]'
-      onAnimationComplete={() => navigate('/')}
+      onAnimationComplete={() => navigate(`/?last-settings-page=${location.pathname}`)}
     />
     <motion.div
       animate={controlsIn}
