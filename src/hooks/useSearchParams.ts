@@ -5,7 +5,7 @@ function UseLocationWrapper() {
   return location
 }
 
-export default function useParams(_location: Location | null) {
+export const useSearchParams = (_location: Location | null) => {
   const location = _location || UseLocationWrapper()
   const params = new URLSearchParams(location.search)
   const retArr: string[] = []

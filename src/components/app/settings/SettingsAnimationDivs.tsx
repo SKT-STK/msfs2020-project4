@@ -3,7 +3,7 @@ import { Variants, motion, useAnimationControls } from 'framer-motion'
 import { useLocation, useNavigate } from "react-router-dom"
 import Lottie, { LottieRefCurrentProps } from "lottie-react"
 import animationData from '@/assets/transition.json'
-import useParams from "@/hooks/useParams"
+import { useSearchParams } from "@/hooks/useSearchParams"
 
 interface SettingsAnimationDivsProps {
   controlsOutStart: boolean
@@ -36,7 +36,7 @@ const SettingsAnimationDivs = ({ controlsOutStart }: SettingsAnimationDivsProps)
   const controlsOut = useAnimationControls()
   const controlsIn = useAnimationControls()
   const animRef = useRef<LottieRefCurrentProps | null>(null)
-  const [doAnimate] = useParams(location as unknown as Location)
+  const [doAnimate] = useSearchParams(location as unknown as Location)
 
   useEffect(() => {
     if (doAnimate && !+doAnimate || !doAnimate) {

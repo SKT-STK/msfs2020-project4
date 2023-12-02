@@ -79,6 +79,7 @@
     <OutDir>$(SolutionDir)$(Platform)_$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)$(Platform)_$(Configuration)\Intermediates\</IntDir>
     <ExternalIncludePath>C:\Users\kwasn\Desktop\json-develop\json-develop\single_include;C:\Users\kwasn\Downloads\easy-socket-master\easy-socket-master\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <TargetName>_backend.exe</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

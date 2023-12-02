@@ -2,19 +2,12 @@ import { useEffect, useState } from "react"
 
 interface SVGProps {
   src: string
-  color?: string | ((hover: boolean ) => string)
+  color?: string
 	className?: string
 }
 
-const SVG = ({ src, color, className }: SVGProps) => {
+const Svg = ({ src, color, className }: SVGProps) => {
   const [modifiedSvg, setModifiedSvg] = useState<string>('');
-	const [colorToSet, setColorToSet] = useState<string>('')
-
-	useEffect(() => {
-		if (color && typeof color === 'function') {
-			setColorToSet(color(false))
-		}
-	}, [color])
 
   useEffect(() => {
     (async () => {
@@ -22,12 +15,7 @@ const SVG = ({ src, color, className }: SVGProps) => {
         const response = await fetch(src)
         const svgText = await response.text()
 
-				let modifiedSvgText = svgText.replace(
-					/fill="(.*?)"/g,
-					`fill="${color !== undefined
-						? (typeof color === 'string' ? color : colorToSet)
-						: undefined}"`
-				)
+				let modifiedSvgText = svgText.replace(/fill="(.*?)"/g, `fill="${color}"`)
 
         if (color === undefined) {
 					modifiedSvgText = svgText
@@ -39,24 +27,10 @@ const SVG = ({ src, color, className }: SVGProps) => {
 				console.error('Error fetching SVG:', error)
 			}
     })()
-  }, [src, color, colorToSet])
+  }, [src, color])
 
   const dataUrl = `data:image/svg+xml;base64,${btoa(modifiedSvg)}`
 
-  return <img
-		className={className}
-		src={dataUrl}
-		onMouseOver={() => {
-			if (color && typeof color === 'function') {
-				setColorToSet(color(true))
-			}
-		}}
-		onMouseLeave={() => {
-			if (color && typeof color === 'function') {
-				setColorToSet(color(false))
-			}
-		}}
-	/>
+  return <img className={className} src={dataUrl} />
 }
-// eslint-disable-next-line react-refresh/only-export-components
-export default SVG
+export default Svg
