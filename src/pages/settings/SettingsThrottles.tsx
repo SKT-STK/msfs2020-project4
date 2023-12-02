@@ -1,4 +1,5 @@
 
+// TODO: complete it!
 const SettingsThrottles = () => {
   return (
     <div>
@@ -7,3 +8,5 @@ const SettingsThrottles = () => {
   )
 }
 export default SettingsThrottles
+
+// *

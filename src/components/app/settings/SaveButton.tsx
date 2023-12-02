@@ -1,4 +1,7 @@
-import {Variants, motion, useAnimationControls} from 'framer-motion'
+import { useSettingsLayoutStore } from '@/data/useSettingsLayoutStore'
+import { useSettingsStore } from '@/data/useSettingsStore'
+import { Variants, motion, useAnimationControls } from 'framer-motion'
+import { useRef } from 'react'
 
 const ActionColor = '#FF5F15'
 const DefaultColor = '#1A1A1A'
@@ -19,25 +22,42 @@ const animationVariants: Variants = {
 }
 
 const SaveButton = () => {
+  const { settings } = useSettingsStore()
+  const { setShowPopup } = useSettingsLayoutStore()
   const controls = useAnimationControls()
-  
-  let doAnimate: boolean
+  const doAnimate = useRef<boolean>(false)
+
   const handleOnAnimEnd = () => {
-    doAnimate && controls.start('up')
-    doAnimate = false
+    if (!doAnimate.current) return
+    doAnimate.current = false
+    controls.start('up')
+  }
+
+  const handleOnClick = () => {
+    doAnimate.current = true
+    controls.start('down')
+
+    let doSave = true
+    const spreadSettings = [...Object.values<unknown>(settings)]
+    spreadSettings.forEach(v => {
+      if (v === null) {
+        setShowPopup(true)
+        doSave = false
+      }
+    })
+
+    doSave && window.ipcRenderer.send('save-settings', settings)
   }
 
   return (
     <motion.button
       type="button"
-      className='text-[22px] py-1 px-3 border-2 border-slate-700 rounded-xl text-white'
+      className='text-[22px] py-1 px-3 border-2 border-slate-700
+        rounded-xl hover:border-[#FF5F15] transition-colors duration-300'
       animate={controls}
       variants={animationVariants}
       initial='up'
-      whileHover={{
-        borderColor: ActionColor
-      }}
-      onClick={() => { controls.start('down'); doAnimate = true }}
+      onClick={handleOnClick}
       onAnimationComplete={handleOnAnimEnd}
     >SAVE</motion.button>
   )

@@ -1,4 +1,4 @@
-import SVG from '@/components/global/SVG'
+import SVG from '@/components/global/Svg'
 import svgImg from '@/assets/settings.svg'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'

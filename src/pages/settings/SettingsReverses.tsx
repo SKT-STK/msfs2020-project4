@@ -1,4 +1,5 @@
 
+// TODO: complete it!
 const SettingsReverses = () => {
   return (
     <div>
@@ -7,3 +8,5 @@ const SettingsReverses = () => {
   )
 }
 export default SettingsReverses
+
+// * speed of deactivation

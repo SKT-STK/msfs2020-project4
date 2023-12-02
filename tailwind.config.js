@@ -5,7 +5,11 @@ module.exports = {
     "./src/**/*.{ts,tsx,js,jsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inconsolata: ['Inconsolata', 'monospace']
+      },
+    },
   },
   plugins: [],
 }

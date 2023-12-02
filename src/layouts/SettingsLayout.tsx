@@ -1,18 +1,18 @@
 import NavBar from "@/components/app/settings/NavBar"
 import TitleBar from "@/components/app/settings/TitleBar"
-import { ReactNode, useState } from "react"
+import { ReactNode } from "react"
 import SettingsAnimationDivs from "@/components/app/settings/SettingsAnimationDivs"
+import WrongSettingsPopup from "@/components/app/settings/WrongSettingsPopup"
 
 interface SettingsLayoutProps {
   children: ReactNode
 }
 
 const SettingsLayout = ({ children }: SettingsLayoutProps) => {
-  const [startOutAnim, setStartOutAnim] = useState<boolean>(false)
-
   return (<>
-    <SettingsAnimationDivs controlsOutStart={startOutAnim} />
-    <TitleBar onPageChange={() => setStartOutAnim(true)} />
+    <SettingsAnimationDivs />
+    <WrongSettingsPopup />
+    <TitleBar />
     <main className='min-h-screen w-full grid grid-cols-7 grid-rows-1
       gap-0 border-t-2 border-t-slate-700'>
       <NavBar />

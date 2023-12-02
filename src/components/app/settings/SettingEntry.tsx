@@ -25,7 +25,9 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
 
   const handleMouseOver = () => {
     hoverRef.current && (hoverRef.current.style.transform = `translate(${mousePos.x}px, ${mousePos.y}px)`)
-    controls.start('shown')
+    setTimeout(() => {
+      controls.start('shown')
+    }, 200)
   }
 
   return (<>
@@ -36,14 +38,14 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
       variants={animationVariants}
       initial='hidden'
     >
-      <p>{ hoverText || text }</p>
+      <p className='font-inconsolata px-2'>{ hoverText || text }</p>
     </motion.div>
     <div className='w-full h-[10%] flex items-center justify-between border-b-slate-700 [&:not(:last-child)]:border-b-[1px]'>
       <p
         ref={textRef}
         className='text-xl cursor-help'
-        onMouseOver={handleMouseOver}
-        onMouseLeave={() => controls.start('hidden')}
+        onMouseEnter={handleMouseOver}
+        onMouseLeave={() => setTimeout(() => controls.start('hidden'), 200)}
       >{ text }</p>
       { children }
     </div>

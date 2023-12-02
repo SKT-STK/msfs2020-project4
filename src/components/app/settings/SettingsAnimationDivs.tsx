@@ -4,10 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import Lottie, { LottieRefCurrentProps } from "lottie-react"
 import animationData from '@/assets/transition.json'
 import { useSearchParams } from "@/hooks/useSearchParams"
-
-interface SettingsAnimationDivsProps {
-  controlsOutStart: boolean
-}
+import { useSettingsLayoutStore } from "@/data/useSettingsLayoutStore"
 
 const animationOutVariants: Variants = {
   initial: {
@@ -30,13 +27,14 @@ const animationInVariants: Variants = {
   }
 }
 
-const SettingsAnimationDivs = ({ controlsOutStart }: SettingsAnimationDivsProps) => {
+const SettingsAnimationDivs = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const controlsOut = useAnimationControls()
   const controlsIn = useAnimationControls()
   const animRef = useRef<LottieRefCurrentProps | null>(null)
   const [doAnimate] = useSearchParams(location as unknown as Location)
+  const { startOutAnim, setStartOutAnim } = useSettingsLayoutStore()
 
   useEffect(() => {
     if (doAnimate && !+doAnimate || !doAnimate) {
@@ -45,8 +43,10 @@ const SettingsAnimationDivs = ({ controlsOutStart }: SettingsAnimationDivsProps)
   }, [controlsIn, doAnimate])
 
   useEffect(() => {
-    if (controlsOutStart) controlsOut.start('animate')
-  }, [controlsOut, controlsOutStart])
+    if (!startOutAnim) return
+    controlsOut.start('animate')
+    setStartOutAnim(false)
+  }, [controlsOut, setStartOutAnim, startOutAnim])
 
   useEffect(() => {
     animRef.current?.setSpeed(1.4)

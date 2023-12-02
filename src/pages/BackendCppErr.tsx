@@ -1,4 +1,4 @@
-import SVG from "@/components/global/SVG"
+import SVG from "@/components/global/Svg"
 import warningSvg from '@/assets/warningSign.svg'
 import { motion } from "framer-motion"
 
