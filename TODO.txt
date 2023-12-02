@@ -1,1 +1,3 @@
 useContext for sharing data from settings sub-pages to SettingsLayout, so that they can be later saved, mb use Zustand i donno
+saving to public dir
+make settings pages
