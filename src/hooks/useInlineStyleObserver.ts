@@ -12,10 +12,8 @@ export const useInlineStyleObserver = (ref: RefObject<Element>, callback: (newVa
             const target = mutation.target as Element
             const css = parseStyles(target.getAttribute('style')!)
             if (css[attribute as keyof CSSProperties]) {
-              let styleProp: CSSProperties
-              styleProp = parseStyles(target.getAttribute('style')!)
-              styleProp = styleProp
-              const strToPass = eval(`styleProp.${attribute}`) as string
+              const styleProp = parseStyles(target.getAttribute('style')!)
+              const strToPass = styleProp[attribute as keyof CSSProperties]!.toString()
               memoizedCallback(strToPass)
             }
           }
