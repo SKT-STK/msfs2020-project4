@@ -38,7 +38,7 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
       variants={animationVariants}
       initial='hidden'
     >
-      <p className='font-inconsolata px-2'>{ hoverText || text }</p>
+      <p className='font-inconsolata px-2 text-center'>{ hoverText || text }</p>
     </motion.div>
     <div className='w-full h-[10%] flex items-center justify-between border-b-slate-700 [&:not(:last-child)]:border-b-[1px]'>
       <p

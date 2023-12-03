@@ -12,6 +12,11 @@ const SettingsPhone = () => {
   const [localPort, setLocalPort] = useState<number | ''>('')
   const textRef = useRef<HTMLParagraphElement>(null)
 
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalPort(+e.target.value)
+    !e.target.value && setLocalPort('')
+  }
+
   useEffect(() => {
     if (!textRef.current) return
     if (+localPort < 20_000 || +localPort > 60_000) {
@@ -34,14 +39,14 @@ const SettingsPhone = () => {
       <SettingEntry
         textRef={textRef}
         text='Wireless Port'
-        hoverText='Networking port used to receive data from
-          smartphone&apos;s app. (&nbsp;20&apos;000&nbsp;-&nbsp;60&apos;000&nbsp;)'
+        hoverText='Networking port used to receive data from smartphone&apos;s app.
+          (&nbsp;20&apos;000&nbsp;-&nbsp;60&apos;000&nbsp;)&nbsp;-&nbsp;5&nbsp;digits'
       >
         <motion.input
           type="number"
           className='text-right w-1/4 [appearance:textfield] outline-none rounded-lg border-2 border-transparent
             [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pr-4'
-          onChange={e => setLocalPort(+e.target.value)}
+          onChange={handleOnChange}
           value={localPort}
           whileFocus={{
             borderColor: ActionColor
