@@ -19,9 +19,6 @@ const animationInVariants: Variants = {
   initial: {
     scaleY: 1
   },
-  end: {
-    scaleY: 0
-  },
   animate: {
     scaleY: 0
   }
@@ -32,20 +29,20 @@ const SettingsAnimationDivs = () => {
   const location = useLocation()
   const controlsOut = useAnimationControls()
   const controlsIn = useAnimationControls()
-  const animRef = useRef<LottieRefCurrentProps | null>(null)
+  const animRef = useRef<LottieRefCurrentProps>(null)
   const [doAnimate] = useSearchParams(location as unknown as Location)
   const { startOutAnim, setStartOutAnim } = useSettingsLayoutStore()
 
   useEffect(() => {
-    if (doAnimate && !+doAnimate || !doAnimate) {
-      controlsIn.set('end')
-    }
+    if (!((doAnimate && !+doAnimate) || !doAnimate)) return
+    controlsIn.set('animate')
   }, [controlsIn, doAnimate])
 
   useEffect(() => {
     if (!startOutAnim) return
     controlsOut.start('animate')
     setStartOutAnim(false)
+    
   }, [controlsOut, setStartOutAnim, startOutAnim])
 
   useEffect(() => {
@@ -83,9 +80,7 @@ const SettingsAnimationDivs = () => {
         autoplay={false}
         loop={false}
         onComplete={() => {
-          if (doAnimate && +doAnimate) {
-            controlsIn.start('animate')
-          }
+          doAnimate && +doAnimate && controlsIn.start('animate')
         }}
       />
     </motion.div>

@@ -30,8 +30,7 @@ const WrongSettingsPopup = () => {
     controls.start('shown')
     setTimeout(() => {
       if (!execTimeout.current) return
-      setShowPopup(false)
-      controls.start('hidden')
+      controls.start('hidden').then(() => setShowPopup(false))
     }, 5000)
   })
 

@@ -28,9 +28,7 @@ const TitleBar = () => {
         <SVG src={svgImg} color={color} />
       </motion.div>
       <h1 className='absolute top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 text-4xl'>SETTINGS</h1>
-      <div className='fixed right-0 top-0 -translate-x-[10%] translate-y-[15%]'>
-        <SaveButton />
-      </div>
+      <SaveButton />
     </div>
   )
 }

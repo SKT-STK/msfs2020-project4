@@ -1,14 +1,33 @@
 import NavBar from "@/components/app/settings/NavBar"
 import TitleBar from "@/components/app/settings/TitleBar"
-import { ReactNode } from "react"
+import { ReactNode, useCallback, useEffect, useRef } from "react"
 import SettingsAnimationDivs from "@/components/app/settings/SettingsAnimationDivs"
 import WrongSettingsPopup from "@/components/app/settings/WrongSettingsPopup"
+import { SettingsState, useSettingsStore } from "@/data/useSettingsStore"
 
 interface SettingsLayoutProps {
   children: ReactNode
 }
 
 const SettingsLayout = ({ children }: SettingsLayoutProps) => {
+  const settingsSetter = useCallback<SettingsState['setSettings']>(useSettingsStore().setSettings, [])
+  const settingsObj = useRef<SettingsState['settings']>(useSettingsStore().settings)
+
+  useEffect(() => {
+    window.ipcRenderer.invoke('read-settings')
+      .then(data => JSON.parse(data as string))
+      .then(v => {
+        let obj = {...v}
+        for (let key in obj) {
+          !(key in settingsObj.current) && delete obj[key as keyof SettingsState['settings']]
+        }
+        for (let key in settingsObj.current) {
+          !(key in obj) && (obj[key as keyof SettingsState['settings']] = null)
+        }
+        settingsSetter(obj as SettingsState['settings'])
+      })
+  }, [])
+
   return (<>
     <SettingsAnimationDivs />
     <WrongSettingsPopup />

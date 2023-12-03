@@ -59,6 +59,9 @@ ipcMain.on('udp', (_, data: object) => udpSend(JSON.stringify(data)))
 ipcMain.on('EXIT', app.quit)
 ipcMain.on('save-settings', saveSettings)
 
+ipcMain.handle('read-settings', () => fs.readFileSync(process.env.VITE_PUBLIC + '/settings.json').toString())
+
+
 udpReceive('/reverses', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/reverses', res))
 udpReceive('/plane-model', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/plane-model', res))
 udpReceive('/msfs-status', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/msfs-status', res))

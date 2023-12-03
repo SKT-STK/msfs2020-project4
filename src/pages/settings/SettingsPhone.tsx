@@ -7,7 +7,7 @@ import { useSettingsStore } from "@/data/useSettingsStore"
 const ActionColor = '#FF5F15'
 
 const SettingsPhone = () => {
-  const { phone_SetPort } = useSettingsStore()
+  const { settings: { phone_Port }, phone_SetPort } = useSettingsStore()
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [localPort, setLocalPort] = useState<number>(0)
   const textRef = useRef<HTMLParagraphElement>(null)
@@ -23,6 +23,11 @@ const SettingsPhone = () => {
       phone_SetPort(localPort)
     }
   }, [localPort, phone_SetPort])
+
+  useEffect(() => {
+    if (phone_Port === null) return
+    setLocalPort(phone_Port)
+  }, [phone_Port])
 
   return (
     <div className='flex flex-col w-full h-full'>
@@ -58,5 +63,3 @@ const SettingsPhone = () => {
   )
 }
 export default SettingsPhone
-
-// port to be used
