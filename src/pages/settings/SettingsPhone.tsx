@@ -9,18 +9,18 @@ const ActionColor = '#FF5F15'
 const SettingsPhone = () => {
   const { settings: { phone_Port }, phone_SetPort } = useSettingsStore()
   const [isFocused, setIsFocused] = useState<boolean>(false)
-  const [localPort, setLocalPort] = useState<number>(0)
+  const [localPort, setLocalPort] = useState<number | ''>('')
   const textRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
     if (!textRef.current) return
-    if (localPort < 20_000 || localPort > 60_000) {
+    if (+localPort < 20_000 || +localPort > 60_000) {
       textRef.current.style.color! = 'red'
       phone_SetPort(null)
     }
     else {
       textRef.current.style.color! = 'white'
-      phone_SetPort(localPort)
+      phone_SetPort(+localPort)
     }
   }, [localPort, phone_SetPort])
 

@@ -56,7 +56,7 @@ const SaveButton = () => {
     controls.start('down')
 
     let doSave = true
-    const spreadSettings = [...Object.values(settings)]
+    const spreadSettings = Object.values(settings)
     spreadSettings.forEach(v => {
       if (v === null) {
         setShowPopup(true)
