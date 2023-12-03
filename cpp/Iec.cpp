@@ -1,5 +1,23 @@
 #include "Iec.hpp"
 
+namespace handleUserSettings {
+	const char* settingsPath = nullptr;
+
+	void main() {
+		std::fstream file(settingsPath, std::ios::in);
+		char buff[1024] = { 0 };
+		file.read(buff, sizeof buff);
+		file.close();
+		json j = json::parse(buff);
+
+		global::userSettings.port = j["phone_Port"].get<int>();
+		global::userSettings.roll = j["yoke_Roll"].get<int>();
+		global::userSettings.pitch = j["yoke_Pitch"].get<int>();
+
+		debug(global::userSettings.port << ' ' << global::userSettings.roll << ' ' << global::userSettings.pitch);
+	}
+}
+
 str handleTcp(const str& data) {
 	json msg;
 	try {
@@ -15,6 +33,7 @@ str handleTcp(const str& data) {
 	if (path == "/yoke") global::yoke = static_cast<int>(val) != 0;
 	else if (path == "/thrust") global::thrust = static_cast<int>(val) != 0;
 	else if (path == "/max-n1") global::maxN1 = val - 1.f;
+	else if (path == "/user-settings") handleUserSettings::main();
 
 	return "";
 }
@@ -64,7 +83,9 @@ namespace handleUdp {
 	}
 }
 
-void init(int ports[2], Server* (*ret)[2]) {
+void init(int ports[2], Server* (*ret)[2], const char* settingsPath) {
+	handleUserSettings::settingsPath = settingsPath;
+
 	auto tSock = new Server(true, ports[0]);
 	tSock->SetCallback(handleTcp);
 
@@ -79,7 +100,7 @@ void init(int ports[2], Server* (*ret)[2]) {
 }
 
 namespace iec {
-	void iec(int ports[2], Server* (*ret)[2]) {
-		init(ports, ret);
+	void iec(int ports[2], Server* (*ret)[2], const char* settingsPath) {
+		init(ports, ret, settingsPath);
 	}
 }

@@ -12,6 +12,7 @@ const ServerToggleSwitch = ({ children, udpPath, className }: ServerToggleSwitch
 
   useEffect(() => {
     window.ipcRenderer.on(udpPath, (_, data) => {
+      console.log(!!data);
       setVal(!!data)
     })
     return () => {

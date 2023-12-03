@@ -49,7 +49,7 @@ const SettingsEntryNumberInputWrapper = ({ text, hoverText, useStoreProps, minMa
     >
       <motion.input
         type="number"
-        className='text-right w-1/4 [appearance:textfield] outline-none rounded-lg border-2 border-transparent
+        className='text-right w-[20%] [appearance:textfield] outline-none rounded-lg border-2 border-transparent
           [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pr-4'
         onChange={handleOnChange}
         value={localPort}

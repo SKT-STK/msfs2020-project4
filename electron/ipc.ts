@@ -43,6 +43,7 @@ const udpReceive = (path: string, func: (_: any) => void) => {
 const saveSettings = (_: Electron.IpcMainEvent, ...args: any[]) => {
   const data = (args as object[])[0]
   fs.writeFileSync(process.env.VITE_PUBLIC + '/settings.json', JSON.stringify(data))
+  tcpSend(JSON.stringify({ path: '/user-settings', val: -1 }))
 }
 
 

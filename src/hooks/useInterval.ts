@@ -1,14 +1,19 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect } from 'react'
 
-export const useInterval = (callback: () => void, delay: number | null, executeImmediately: boolean = false) => {
-  const savedCallback = useRef<() => void>(callback)
-
-  executeImmediately && savedCallback.current()
+export const useInterval = (
+  callback: () => void,
+  delay: number | null,
+  executeImmediately: boolean = false
+) => {
+  const savedCallback = useCallback<() => void>(callback, [])
 
   useEffect(() => {
-    if (delay !== null) {
-      const id = setInterval(savedCallback.current, delay)
-      return () => clearInterval(id)
-    }
-  }, [delay])
+    executeImmediately && savedCallback()
+  }, [])
+
+  useEffect(() => {
+    if (delay === null) return
+    const id = setInterval(callback, delay)
+    return () => clearInterval(id)
+  }, [delay, callback])
 }

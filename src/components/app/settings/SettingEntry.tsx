@@ -5,7 +5,7 @@ import { useMousePos } from "@/hooks/useMousePos"
 interface SettingEntryProps {
   text: string
   textRef?: RefObject<HTMLParagraphElement>
-  hoverText: [string | undefined, number, number]
+  hoverText: [string | undefined, number | undefined, number | undefined]
   children: ReactNode
 }
 
@@ -30,13 +30,16 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
     }, 200)
   }
 
-  const generateHoverText = () => {
-    if (hoverText[0]) {
+  const generateHoverText: () => ReactNode = () => {
+    if (hoverText[0] && hoverText[1] && hoverText[2]) {
       return (<>
         { hoverText[0] }
         <br />
         { `(\u00A0${hoverText[1]}\u00A0-\u00A0${hoverText[2]}\u00A0)` }
       </>)
+    }
+    else if (hoverText[0] && !(hoverText[1] && hoverText[2])) {
+      return hoverText[0]
     }
     return text
   }

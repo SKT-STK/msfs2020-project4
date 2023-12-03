@@ -19,17 +19,21 @@ const ToggleSwitch = ({ children, serverCallback, clientCallback, className }: T
   const id = generateRandomString(10)
   
   useInterval(() => {
-    if (serverCallback) setChecked(serverCallback(setNew))
+    if (!serverCallback) return
+    const newVal = serverCallback(setNew)
+    setChecked(newVal)
+    setColor(newVal ? children[3] : '#FFF')
     setSetNew(false)
   }, serverCallback !== undefined ? 50 : null)
 
   const handleOnChange = () => {
     if (!serverCallback && clientCallback) {
-      setChecked(c => !c)
-      clientCallback(checked)
+      const futureChecked = !checked
+      setChecked(futureChecked)
+      clientCallback(futureChecked)
+      setColor(futureChecked ? children[3] : '#FFF')
     }
     else setSetNew(true)
-    setColor(!checked ? children[3] : '#FFF')
   }
 
   return (<div className={className} style={{ width: '384px' }}>
