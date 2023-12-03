@@ -5,7 +5,7 @@ import { useMousePos } from "@/hooks/useMousePos"
 interface SettingEntryProps {
   text: string
   textRef?: RefObject<HTMLParagraphElement>
-  hoverText?: string
+  hoverText: [string | undefined, number, number]
   children: ReactNode
 }
 
@@ -30,6 +30,17 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
     }, 200)
   }
 
+  const generateHoverText = () => {
+    if (hoverText[0]) {
+      return (<>
+        { hoverText[0] }
+        <br />
+        { `(\u00A0${hoverText[1]}\u00A0-\u00A0${hoverText[2]}\u00A0)` }
+      </>)
+    }
+    return text
+  }
+
   return (<>
     <motion.div
       ref={hoverRef}
@@ -38,7 +49,7 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
       variants={animationVariants}
       initial='hidden'
     >
-      <p className='font-inconsolata px-2 text-center'>{ hoverText || text }</p>
+      <p className='font-inconsolata px-2 text-center'>{ generateHoverText() }</p>
     </motion.div>
     <div className='w-full h-[10%] flex items-center justify-between border-b-slate-700 [&:not(:last-child)]:border-b-[1px]'>
       <p
