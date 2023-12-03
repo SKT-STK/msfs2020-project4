@@ -9,6 +9,7 @@ import SettingsLayout from "@/layouts/SettingsLayout"
 import SettingsYoke from "@/pages/settings/SettingsYoke"
 import SettingsThrottles from "@/pages/settings/SettingsThrottles"
 import SettingsReverses from "@/pages/settings/SettingsReverses"
+import SettingsError from "@/pages/SettingsError"
 
 export default function App() {
 	const location = useLocation()
@@ -40,6 +41,11 @@ export default function App() {
 					<SettingsLayout>
 						<SettingsReverses />
 					</SettingsLayout>
+				} />
+				<Route path='/settings-error' element={
+					<TransitionLayout>
+						<SettingsError />
+					</TransitionLayout>
 				} />
 				<Route path='/msfs-closed' element={
 					<TransitionLayout>
