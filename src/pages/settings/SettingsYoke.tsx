@@ -1,10 +1,10 @@
+import SettingEntry from "@/components/app/settings/SettingEntry"
 
-// TODO: complete it!
 const SettingsYoke = () => {
   return (
-    <div>SettingsYoke</div>
+    <SettingEntry text='Maximum Roll Deflection'>
+
+    </SettingEntry>
   )
 }
 export default SettingsYoke
-
-// *
