@@ -18,10 +18,10 @@ const SettingsLayout = ({ children }: SettingsLayoutProps) => {
       .then(data => JSON.parse(data as string))
       .then(v => {
         let obj = {...v}
-        for (let key in obj) {
+        for (const key in obj) {
           !(key in settingsObj.current) && delete obj[key as keyof SettingsState['settings']]
         }
-        for (let key in settingsObj.current) {
+        for (const key in settingsObj.current) {
           !(key in obj) && (obj[key as keyof SettingsState['settings']] = null)
         }
         settingsSetter(obj as SettingsState['settings'])
