@@ -3,6 +3,24 @@
 namespace handleUserSettings {
 	const char* settingsPath = nullptr;
 
+	std::vector<float> proccessString() {
+		typedef unsigned long long size_t;
+
+		str path = settingsPath;
+		path += "\\..\\hashedEasings.json";
+		std::fstream f(path, std::ios::in);
+		size_t size = 6144;
+		auto buff = new char[size];
+		memset(buff, 0, size);
+		f.read(buff, size);
+		f.close();
+
+		json j = json::parse(buff);
+
+		delete[] buff;
+		return j.get<std::vector<float>>();
+	}
+
 	void main() {
 		std::fstream file(settingsPath, std::ios::in);
 		char buff[1024] = { 0 };
@@ -13,8 +31,9 @@ namespace handleUserSettings {
 		global::userSettings.port = j["phone_Port"].get<int>();
 		global::userSettings.roll = j["yoke_Roll"].get<int>();
 		global::userSettings.pitch = j["yoke_Pitch"].get<int>();
+		global::userSettings.easings = proccessString();
 
-		debug(global::userSettings.port << ' ' << global::userSettings.roll << ' ' << global::userSettings.pitch);
+		for (const auto& i : global::userSettings.easings) debug(i << '\n');
 	}
 }
 

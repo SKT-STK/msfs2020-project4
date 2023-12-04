@@ -1,11 +1,13 @@
 #pragma once
 
+#include <vector>
 #include <mutex>
 
 typedef struct {
 	int port;
 	int roll;
 	int pitch;
+	std::vector<float> easings;
 } UserSettings;
 
 typedef struct {
@@ -22,5 +24,5 @@ namespace global {
 	inline bool reverses = false;
 	inline float maxN1 = 0.f;
 	inline RollPitch phoneRot = { 0.0, 0.0 };
-	inline UserSettings userSettings = { 0, 0, 0 };
+	inline UserSettings userSettings = { 0, 0, 0, {} };
 }
