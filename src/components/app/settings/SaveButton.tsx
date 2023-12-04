@@ -4,6 +4,7 @@ import { Variants, motion, useAnimationControls } from 'framer-motion'
 import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 import { useRef } from 'react'
 import animationData from '@/assets/saved.json'
+import { useLocation } from 'react-router-dom'
 
 const ActionColor = '#FF5F15'
 const DefaultColor = '#1A1A1A'
@@ -44,6 +45,7 @@ const SaveButton = () => {
   const doAnimate = useRef<boolean>(false)
   const animateUp = useRef<boolean>(true)
   const animRef = useRef<LottieRefCurrentProps>(null)
+  const location = useLocation()
 
   const handleOnAnimEnd = () => {
     if (!doAnimate.current) return
@@ -57,8 +59,11 @@ const SaveButton = () => {
 
     let doSave = true
     const spreadSettings = Object.values(settings)
-    spreadSettings.forEach(v => {
-      if (v === null) {
+    const spreadKeys = Object.keys(settings)
+    const urlParts = location.pathname.split('?')[0].split('/')
+    const keyToCheck = urlParts[urlParts.length - 1]
+    spreadSettings.forEach((v, i) => {
+      if (v === null && spreadKeys[i].startsWith(keyToCheck)) {
         setShowPopup(true)
         doSave = false
       }
