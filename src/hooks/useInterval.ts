@@ -1,14 +1,15 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export const useInterval = (
   callback: () => void,
   delay: number | null,
   executeImmediately: boolean = false
 ) => {
-  const savedCallback = useCallback<() => void>(callback, [])
+  const savedCallback = useRef<() => void>(callback)
+  const execNow = useRef<boolean>(executeImmediately)
 
   useEffect(() => {
-    executeImmediately && savedCallback()
+    execNow && savedCallback.current()
   }, [])
 
   useEffect(() => {

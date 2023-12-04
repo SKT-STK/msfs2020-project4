@@ -18,6 +18,8 @@ const SettingsEntryNumberInputWrapper = ({ text, hoverText, useStoreProps, minMa
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [localPort, setLocalPort] = useState<number | ''>('')
   const textRef = useRef<HTMLParagraphElement>(null)
+  const useStorePropsRef = useRef<SettingsEntryNumberInputWrapperProps['useStoreProps']>(useStoreProps)
+  const minMaxRef = useRef<SettingsEntryNumberInputWrapperProps['minMax']>(minMax)
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalPort(+e.target.value | 0)
@@ -26,15 +28,15 @@ const SettingsEntryNumberInputWrapper = ({ text, hoverText, useStoreProps, minMa
 
   useEffect(() => {
     if (!textRef.current) return
-    if (+localPort < minMax[0] || +localPort > minMax[1]) {
+    if (+localPort < minMaxRef.current[0] || +localPort > minMaxRef.current[1]) {
       textRef.current.style.color! = 'red'
-      useStoreProps.setProp(null)
+      useStorePropsRef.current.setProp(null)
     }
     else {
       textRef.current.style.color! = 'white'
-      useStoreProps.setProp(+localPort)
+      useStorePropsRef.current.setProp(+localPort)
     }
-  }, [localPort, useStoreProps.setProp])
+  }, [localPort])
 
   useEffect(() => {
     if (useStoreProps.prop === null) return
