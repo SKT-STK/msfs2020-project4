@@ -19,6 +19,7 @@ export const writeHashedEasings = (input: string) => {
   decode = decode.replace(/\\cdot/g, '*')
   decode = decode.replace(/\\exp/g, 'Math.exp')
   decode = decode.replace(/\\operatorname{abs}/g, 'Math.abs')
+  decode = decode.replace(/3.14/g, 'Math.PI')
   decode = decode.replace(/\^/g, '**')
   
   decode = decode.replace(/-/g, '-1*')
@@ -35,7 +36,7 @@ export const writeHashedEasings = (input: string) => {
     const code = decode.replace(/@/g, i.toString())
     const result = +eval(code)
     const newRes = +(result * 100).toFixed(2)
-    arr.push(newRes <= 0 ? 0 : newRes)
+    arr.push(newRes)
   }
   
   fs.writeFileSync(process.env.VITE_PUBLIC + '/hashedEasings.json', JSON.stringify([...arr]))
