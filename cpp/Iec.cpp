@@ -11,7 +11,7 @@ namespace handleUserSettings {
 		std::fstream f(path, std::ios::in);
 		size_t size = 6144;
 		auto buff = new char[size];
-		memset(buff, 0, size);
+		memset(buff, '\0', size);
 		f.read(buff, size);
 		f.close();
 
