@@ -19,24 +19,26 @@ while (true) {
 	if (GetAsyncKeyState(VK_NUMPAD0)) break;
 	sleepfor(10);
 
+
 	float i = to_normal(global::phoneRot.roll, global::userSettings.roll);
 	
-	float index = (float)((int)(std::abs(i) * 1000.f + 0.5f));
-	float value = global::userSettings.easings.at(static_cast<int>(index));
+	int index = (int)(std::abs(i) * 1000.f + 0.5f);
+	float value = global::userSettings.easings.at(index);
 	///*return*/debug((i < 0.f ? -value : value));
 }
 }
 //
 
 int main(int argc, char* argv[]) {
-	int ports[2] = { 55411, 2642 }; // Replace With argv[1, 2] in Production!
-	global::userSettings.settingsPath = "C:\\Users\\kwasn\\Desktop\\github\\msfs2020-project4\\public\\settings.json"; // Replace With argv[3] in Production!
+	// Replace With argv[1, 2, 3] in Production!
+	int ports[2] = { 55411, 2642 };
+	global::userSettings.settingsPath = "C:\\Users\\kwasn\\Desktop\\github\\msfs2020-project4\\public\\settings.json";
 
 	userSettings::userSettings();
 
-	std::unique_ptr<std::array<Server, 2>> sockets = iec::iec(ports);
+	auto _ = iec::iec(ports);
 
-	Server** socket = inc::_getPtr();
+	Server** socket = inc::get_ptr();
 
 	//flightSim::flightSim();
 	_Debug();

@@ -28,7 +28,7 @@ str handleUdp(const str& data) {
 
 static void init() {
 	if (sock != nullptr) delete sock;
-	sock = new Server(false, global::userSettings.port);
+	sock = new Server(false, global::userSettings.port, false, false);
 	sock->SetCallback(handleUdp);
 	sock->Start();
 }
@@ -42,7 +42,7 @@ namespace inc {
 	void inc() {
 		init();
 	}
-	Server** _getPtr() {
+	Server** get_ptr() {
 		return getPtr();
 	}
 }

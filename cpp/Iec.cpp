@@ -67,8 +67,8 @@ namespace handleUdp {
 
 static std::unique_ptr<std::array<Server, 2>> init(int ports[2]) {
 	auto ret = std::make_unique<std::array<Server, 2>>(std::array<Server, 2>({
-		Server(true, ports[0]),
-		Server(false, ports[1])
+		Server(true, ports[0], false, false),
+		Server(false, ports[1], false, false)
 	}));
 
 	//(*ret)[0] = Server(true, ports[0]);

@@ -34,7 +34,8 @@ export const writeHashedEasings = (input: string) => {
   const arr = []
   for (let i = 0; i <= 1.001; i += 0.001) {
     const code = decode.replace(/@/g, i.toString())
-    const result = +eval(code)
+    // const result = +eval(code)
+    const result = +new Function(`return ${code}`)()
     const newRes = +(result * 100).toFixed(2)
     arr.push(newRes)
   }

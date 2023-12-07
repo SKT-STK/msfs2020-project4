@@ -13,5 +13,5 @@ using json = nlohmann::json;
 
 namespace inc {
 	void inc();
-	Server** _getPtr();
+	Server** get_ptr();
 }
