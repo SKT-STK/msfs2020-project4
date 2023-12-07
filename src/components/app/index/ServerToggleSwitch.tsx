@@ -1,5 +1,6 @@
 import ToggleSwitch from "@/components/app/index/ToggleSwitch"
-import { ReactNode, useEffect, useState } from "react"
+import { useOnIpc } from "@/hooks/useOnIpc"
+import { ReactNode, useState } from "react"
 
 interface ServerToggleSwitchProps {
   children: [ReactNode, ReactNode, ReactNode, string]
@@ -10,15 +11,7 @@ interface ServerToggleSwitchProps {
 const ServerToggleSwitch = ({ children, udpPath, className }: ServerToggleSwitchProps) => {
   const [val, setVal] = useState<boolean>(false)
 
-  useEffect(() => {
-    window.ipcRenderer.on(udpPath, (_, data) => {
-      console.log(!!data);
-      setVal(!!data)
-    })
-    return () => {
-      window.ipcRenderer.removeAllListeners(udpPath)
-    }
-  }, [udpPath])
+  useOnIpc(udpPath, (_, data) => setVal(!!data))
   
   const callback = (setNew: boolean) => {
     window.ipcRenderer.send('udp', {path: udpPath, msg: {set: +setNew}})

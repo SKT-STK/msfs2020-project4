@@ -1,5 +1,7 @@
 #include "Inc.hpp"
 
+Server** sock = new Server*(nullptr);
+
 str handleUdp(const str& data) {
 	json msg;
 	try {
@@ -11,12 +13,12 @@ str handleUdp(const str& data) {
 	if (msg["path"].get<str>() != "/accel-data") return "";
 	msg = msg["msg"];
 
-	auto x = msg["accelData"][0].get<double>();
-	auto y = msg["accelData"][1].get<double>();
-	auto z = msg["accelData"][2].get<double>();
+	auto x = (float)msg["accelData"][0].get<double>();
+	auto y = (float)msg["accelData"][1].get<double>();
+	auto z = (float)msg["accelData"][2].get<double>();
 
-	double roll = std::atan2(y, z) * 57.3;
-	double pitch = std::atan2(x, std::sqrt(y*y + z*z)) * 57.3;
+	float roll = std::atan2(y, z) * 57.3f;
+	float pitch = std::atan2(x, std::sqrt(y*y + z*z)) * 57.3f;
 
 	std::lock_guard<std::mutex> lock(global::mtx);
 	global::phoneRot = { roll, pitch };
@@ -24,16 +26,23 @@ str handleUdp(const str& data) {
 	return "";
 }
 
-Server* init(int port) {
-	auto sock = new Server(false, port);
-	sock->SetCallback(handleUdp);
-	sock->Start();
+static void init() {
+	if (*sock != nullptr) delete *sock;
+	*sock = new Server(false, global::userSettings.port);
+	(*sock)->SetCallback(handleUdp);
+	(*sock)->Start();
+}
 
+Server** getPtr() {
+	init();
 	return sock;
 }
 
 namespace inc {
-	Server* inc(int port) {
-		return init(port);
+	void inc() {
+		init();
+	}
+	Server** _getPtr() {
+		return getPtr();
 	}
 }

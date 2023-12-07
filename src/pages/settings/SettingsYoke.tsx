@@ -29,7 +29,7 @@ const SettingsYoke = () => {
     />
     <SettingsEntryTextFieldWrapper
       text='Easing Function'
-      hoverText='Easing function for the aileron and elevator controls. It allows you to make the 0-100%
+      hoverText='Normalized easing function for the aileron and elevator controls. It allows you to make the 0-100%
         mapping non-linear. Math functions like exp() and abs() are allowed. If you&apos;d
         like to reference PI, use 3.14, it&apos;ll get automatically replaced in the code. It
         is possible to just Ctrl+C Ctrl+V from Desmos Visualizer.'

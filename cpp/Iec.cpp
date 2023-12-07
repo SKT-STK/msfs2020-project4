@@ -1,42 +1,5 @@
 #include "Iec.hpp"
 
-namespace handleUserSettings {
-	const char* settingsPath = nullptr;
-
-	std::vector<float> proccessString() {
-		typedef unsigned long long size_t;
-
-		str path = settingsPath;
-		path += "\\..\\hashedEasings.json";
-		std::fstream f(path, std::ios::in);
-		size_t size = 6144;
-		auto buff = new char[size];
-		memset(buff, '\0', size);
-		f.read(buff, size);
-		f.close();
-
-		json j = json::parse(buff);
-
-		delete[] buff;
-		return j.get<std::vector<float>>();
-	}
-
-	void main() {
-		std::fstream file(settingsPath, std::ios::in);
-		char buff[1024] = { 0 };
-		file.read(buff, sizeof buff);
-		file.close();
-		json j = json::parse(buff);
-
-		global::userSettings.port = j["phone_Port"].get<int>();
-		global::userSettings.roll = j["yoke_Roll"].get<int>();
-		global::userSettings.pitch = j["yoke_Pitch"].get<int>();
-		global::userSettings.easings = proccessString();
-
-		for (const auto& i : global::userSettings.easings) debug(i << '\n');
-	}
-}
-
 str handleTcp(const str& data) {
 	json msg;
 	try {
@@ -52,7 +15,7 @@ str handleTcp(const str& data) {
 	if (path == "/yoke") global::yoke = static_cast<int>(val) != 0;
 	else if (path == "/thrust") global::thrust = static_cast<int>(val) != 0;
 	else if (path == "/max-n1") global::maxN1 = val - 1.f;
-	else if (path == "/user-settings") handleUserSettings::main();
+	else if (path == "/user-settings") userSettings::userSettings();
 
 	return "";
 }
@@ -102,24 +65,27 @@ namespace handleUdp {
 	}
 }
 
-void init(int ports[2], Server* (*ret)[2], const char* settingsPath) {
-	handleUserSettings::settingsPath = settingsPath;
+static std::unique_ptr<std::array<Server, 2>> init(int ports[2]) {
+	auto ret = std::make_unique<std::array<Server, 2>>(std::array<Server, 2>({
+		Server(true, ports[0]),
+		Server(false, ports[1])
+	}));
 
-	auto tSock = new Server(true, ports[0]);
-	tSock->SetCallback(handleTcp);
+	//(*ret)[0] = Server(true, ports[0]);
+	(*ret)[0].SetCallback(handleTcp);
 
-	auto uSock = new Server(false, ports[1]);
-	uSock->SetCallback(handleUdp::main);
+	//(*ret)[1] = Server(false, ports[1]);
+	(*ret)[1].SetCallback(handleUdp::main);
 
-	tSock->Start();
-	uSock->Start();
+	(*ret)[0].Start();
+	(*ret)[1].Start();
 
-	(*ret)[0] = tSock;
-	(*ret)[1] = uSock;
+	return ret;
 }
 
+
 namespace iec {
-	void iec(int ports[2], Server* (*ret)[2], const char* settingsPath) {
-		init(ports, ret, settingsPath);
+	std::unique_ptr<std::array<Server, 2>> iec(int ports[2]) {
+		return init(ports);
 	}
 }

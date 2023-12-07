@@ -1,18 +1,22 @@
 #pragma once
 
-#include <vector>
+#include <array>
 #include <mutex>
 
+typedef std::array<float, 1001> easings_t;
+
 typedef struct {
+	const char* settingsPath;
+
 	int port;
-	int roll;
-	int pitch;
-	std::vector<float> easings;
+	float roll;
+	float pitch;
+	easings_t easings;
 } UserSettings;
 
 typedef struct {
-	double roll;
-	double pitch;
+	float roll;
+	float pitch;
 } RollPitch;
 
 namespace global {
@@ -23,6 +27,6 @@ namespace global {
 	inline bool thrust = false;
 	inline bool reverses = false;
 	inline float maxN1 = 0.f;
-	inline RollPitch phoneRot = { 0.0, 0.0 };
-	inline UserSettings userSettings = { 0, 0, 0, {} };
+	inline RollPitch phoneRot = { 0.f, 0.f };
+	inline UserSettings userSettings = { nullptr, 0, 0, 0, {} };
 }

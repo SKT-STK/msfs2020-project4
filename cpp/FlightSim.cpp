@@ -25,13 +25,12 @@ bool IsProcessRunning(const TCHAR* processName) {
 	return false;
 }
 
-void init() {
+static void init() {
 	while (true) {
 		sleepfor(10);
 
 		std::lock_guard<std::mutex> lock(global::mtx);
 		global::simOpen = IsProcessRunning("notepad.exe");
-		//debug(global::simOpen);
 	}
 }
 

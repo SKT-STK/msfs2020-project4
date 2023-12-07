@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 
 export const writeHashedEasings = (input: string) => {
   let decode = input.replace(/\\frac{/g, '{')
-  
+
   decode = decode.replace(/1\\left/g, '1*')
   decode = decode.replace(/2\\left/g, '2*')
   decode = decode.replace(/3\\left/g, '3*')
@@ -13,7 +13,7 @@ export const writeHashedEasings = (input: string) => {
   decode = decode.replace(/7\\left/g, '7*')
   decode = decode.replace(/8\\left/g, '8*')
   decode = decode.replace(/9\\left/g, '9*')
-  
+
   decode = decode.replace(/\\left/g, '')
   decode = decode.replace(/\\right/g, '')
   decode = decode.replace(/\\cdot/g, '*')
@@ -21,23 +21,23 @@ export const writeHashedEasings = (input: string) => {
   decode = decode.replace(/\\operatorname{abs}/g, 'Math.abs')
   decode = decode.replace(/3.14/g, 'Math.PI')
   decode = decode.replace(/\^/g, '**')
-  
+
   decode = decode.replace(/-/g, '-1*')
   decode = decode.replace(/}{/g, '}/{')
   decode = decode.replace(/{/g, '(')
   decode = decode.replace(/}/g, ')')
-  
+
   decode = decode.replace(/x/g, '@')
   decode = decode.replace(/.e@p/g, '.exp')
   decode = decode.replace(/@/g, '(@)')
-  
+
   const arr = []
-  for (let i = 0; i <= 1; i += 0.001) {
+  for (let i = 0; i <= 1.001; i += 0.001) {
     const code = decode.replace(/@/g, i.toString())
     const result = +eval(code)
     const newRes = +(result * 100).toFixed(2)
     arr.push(newRes)
   }
-  
+
   fs.writeFileSync(process.env.VITE_PUBLIC + '/hashedEasings.json', JSON.stringify([...arr]))
 }

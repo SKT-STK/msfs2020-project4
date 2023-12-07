@@ -3,15 +3,17 @@
 #include "Globals.hpp"
 #include "CppServer.hpp"
 #include "Macros.hpp"
+#include "Main.hpp"
+#include "UserSettings.hpp"
 
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 typedef std::string str;
 using json = nlohmann::json;
 
 namespace iec {
-	void iec(int [2], Server*(*)[2], const char*);
+	std::unique_ptr<std::array<Server, 2>> iec(int [2]);
 }

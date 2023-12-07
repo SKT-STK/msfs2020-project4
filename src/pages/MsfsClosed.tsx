@@ -28,8 +28,6 @@ const MsfsClosed = () => {
 	const controls = useAnimationControls()
 
 	useInterval(() => {
-		window.ipcRenderer.send('udp', {path: '/msfs-status', msg: {}})
-
 		let newIndex: number
 		newIndex = dots.i + 1
 		if (newIndex === 4) newIndex = 0

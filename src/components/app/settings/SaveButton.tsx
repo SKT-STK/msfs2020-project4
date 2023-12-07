@@ -58,8 +58,8 @@ const SaveButton = () => {
     controls.start('down')
 
     let doSave = true
-    const spreadSettings = Object.values(settings)
-    const spreadKeys = Object.keys(settings)
+    const spreadSettings = [...Object.values(settings)]
+    const spreadKeys = [...Object.keys(settings)]
     const urlParts = location.pathname.split('?')[0].split('/')
     const keyToCheck = urlParts[urlParts.length - 1]
     spreadSettings.forEach((v, i) => {

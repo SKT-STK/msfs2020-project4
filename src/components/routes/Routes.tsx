@@ -1,24 +1,25 @@
-import { useEffect } from "react"
+import { useInterval } from "@/hooks/useInterval"
+import { useOnIpc } from "@/hooks/useOnIpc"
 import { useNavigate, useLocation } from "react-router-dom"
 
 export default function Routes() {
   const navigate = useNavigate()
 	const location = useLocation()
 
-	useEffect(() => {
-		window.ipcRenderer.on('ERR', () => {
-			navigate('/backend-cpp-err')
-		})
-		window.ipcRenderer.on('/msfs-status', (_, data) => {
-			if (!data && location.pathname !== '/msfs-closed') navigate('/msfs-closed')
-			else if (!!data && location.pathname === '/msfs-closed') navigate('/')
-		})
+	useInterval(() => {
+		window.ipcRenderer.send('udp', { path: '/msfs-status', msg: {} })
+	}, 1000, true)
 
-		return () => {
-			window.ipcRenderer.removeAllListeners('ERR')
-			window.ipcRenderer.removeAllListeners('/msfs-status')
+	useOnIpc('ERR', () => navigate('/backend-cpp-err'))
+
+	useOnIpc('/msfs-status', (_, data) => {
+		if (!data && location.pathname !== '/msfs-closed') {
+			navigate('/msfs-closed')
 		}
-	}, [navigate, location])
+    else if (!!data && location.pathname === '/msfs-closed') {
+			navigate('/')
+		}
+  })
 
 	return <></>
 }
