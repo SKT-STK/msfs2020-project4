@@ -1,5 +1,5 @@
 import SVG from "@/components/global/Svg"
-import warningSvg from '@/assets/warningSign.svg'
+import warningSvg from '@/assets/images/warningSign.svg'
 import { motion } from "framer-motion"
 
 const BackendCppErr = () => {

@@ -2,6 +2,7 @@
 
 #include "Globals.hpp"
 #include "CppServer.hpp"
+#include "Macros.hpp"
 
 #include <iostream>
 #include <memory>

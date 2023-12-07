@@ -1,7 +1,7 @@
 import Lottie, { LottieRefCurrentProps } from "lottie-react"
-import animationData_error from '@/assets/fileError.json'
-import animationData_takeoff from '@/assets/airplaneTakeoff.json'
-import animationData_landing from '@/assets/airplaneLanding.json'
+import animationData_error from '@/assets/animations/fileError.json'
+import animationData_takeoff from '@/assets/animations/airplaneTakeoff.json'
+import animationData_landing from '@/assets/animations/airplaneLanding.json'
 import { Link } from "react-router-dom"
 import { useEffect, useRef } from "react"
 

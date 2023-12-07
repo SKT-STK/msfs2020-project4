@@ -1,6 +1,6 @@
 #include "Inc.hpp"
 
-Server** sock = new Server*(nullptr);
+Server* sock = nullptr;
 
 str handleUdp(const str& data) {
 	json msg;
@@ -27,15 +27,15 @@ str handleUdp(const str& data) {
 }
 
 static void init() {
-	if (*sock != nullptr) delete *sock;
-	*sock = new Server(false, global::userSettings.port);
-	(*sock)->SetCallback(handleUdp);
-	(*sock)->Start();
+	if (sock != nullptr) delete sock;
+	sock = new Server(false, global::userSettings.port);
+	sock->SetCallback(handleUdp);
+	sock->Start();
 }
 
 Server** getPtr() {
 	init();
-	return sock;
+	return &sock;
 }
 
 namespace inc {

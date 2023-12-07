@@ -22,7 +22,7 @@ typedef struct {
 namespace global {
 	inline std::mutex mtx;
 
-	inline bool simOpen = false;
+	inline bool simOpen = /*false*/true;
 	inline bool yoke = false;
 	inline bool thrust = false;
 	inline bool reverses = false;

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { ReactNode, useEffect, useRef, useState } from "react"
 import Lottie, { LottieRefCurrentProps } from "lottie-react"
-import animationData from '@/assets/transition.json'
+import animationData from '@/assets/animations/transition.json'
 
 interface PageTransitionLayoutProps {
   children: ReactNode

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react"
 import { Variants, motion, useAnimationControls } from 'framer-motion'
 import { useLocation, useNavigate } from "react-router-dom"
 import Lottie, { LottieRefCurrentProps } from "lottie-react"
-import animationData from '@/assets/transition.json'
+import animationData from '@/assets/animations/transition.json'
 import { useSearchParams } from "@/hooks/useSearchParams"
 import { useSettingsLayoutStore } from "@/data/useSettingsLayoutStore"
 

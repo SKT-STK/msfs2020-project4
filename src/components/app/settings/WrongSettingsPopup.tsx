@@ -1,4 +1,4 @@
-import animationData from '@/assets/warningSign.json'
+import animationData from '@/assets/animations/warningSign.json'
 import { useSettingsLayoutStore } from "@/data/useSettingsLayoutStore"
 import { Variants, motion, useAnimationControls } from "framer-motion"
 import Lottie from "lottie-react"

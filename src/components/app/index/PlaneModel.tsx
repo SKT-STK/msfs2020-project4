@@ -1,22 +1,19 @@
-import { Model } from "@/assets/Airplane"
+import { Model } from "@/assets/models/Airplane"
 import deg2rad from "@/functions/DegreesToRadians"
 import { useInterval } from "@/hooks/useInterval"
+import { useOnIpc } from "@/hooks/useOnIpc"
 import { Canvas } from "@react-three/fiber"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 const PlaneModel = () => {
   const [rot, setRot] = useState<[number, number]>([0, 0])
 
   const path = '/plane-model'
 
-  useEffect(() => {
-    window.ipcRenderer.on(path, (_, data) => {
-      setRot([data.x, data.z])
-    })
-    return () => {
-      window.ipcRenderer.removeAllListeners(path)
-    }
-  }, [])
+  useOnIpc(path, (_, args) => {
+    const data = args as { x: number, z: number }
+    setRot([data.x, data.z])
+  })
 
   useInterval(() => {
     window.ipcRenderer.send('udp', {path: path, msg: {}})

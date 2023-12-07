@@ -1,4 +1,4 @@
-import svgImg from '@/assets/leftArrow.svg'
+import svgImg from '@/assets/images/leftArrow.svg'
 import SVG from "@/components/global/Svg"
 import SaveButton from '@/components/app/settings/SaveButton'
 import { useRef, useState } from 'react'

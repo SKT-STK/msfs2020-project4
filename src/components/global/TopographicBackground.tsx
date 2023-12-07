@@ -1,4 +1,4 @@
-import vid from '@/assets/topography.mp4'
+import vid from '@/assets/videos/topography.mp4'
 import { useEffect, useRef } from "react"
 
 interface TopographicBackgroundProps {

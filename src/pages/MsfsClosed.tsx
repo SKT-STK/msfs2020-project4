@@ -1,7 +1,7 @@
 import TopographicBackground from "@/components/global/TopographicBackground"
 import { useInterval } from "@/hooks/useInterval"
 import Lottie, { LottieRefCurrentProps } from 'lottie-react'
-import animationData from '@/assets/waiting.json'
+import animationData from '@/assets/animations/waiting.json'
 import { useRef, useState } from "react"
 import { motion, useAnimationControls, Variants } from 'framer-motion'
 

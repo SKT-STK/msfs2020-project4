@@ -3,7 +3,7 @@ import { useSettingsStore } from '@/data/useSettingsStore'
 import { Variants, motion, useAnimationControls } from 'framer-motion'
 import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 import { useRef } from 'react'
-import animationData from '@/assets/saved.json'
+import animationData from '@/assets/animations/saved.json'
 import { useLocation } from 'react-router-dom'
 
 const ActionColor = '#FF5F15'
