@@ -1,4 +1,4 @@
-import IncompleteSettings from '@/components/app/index/IncompleteSettings'
+import IncompleteSettings from '@/helpers/IncompleteSettings'
 import N1Limiter from '@/components/app/index/N1Limiter'
 import PlaneModel from '@/components/app/index/PlaneModel'
 import SettingsIcon from '@/components/app/index/SettingsIcon'
