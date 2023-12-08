@@ -27,14 +27,12 @@ export const writeHashedEasings = (input: string) => {
   decode = decode.replace(/{/g, '(')
   decode = decode.replace(/}/g, ')')
 
-  decode = decode.replace(/x/g, '@')
-  decode = decode.replace(/.e@p/g, '.exp')
-  decode = decode.replace(/@/g, '(@)')
+  decode = decode.replace(/x/g, '(@)')
+  decode = decode.replace(/.e(@)p/g, '.exp')
 
   const arr = []
   for (let i = 0; i <= 1.001; i += 0.001) {
     const code = decode.replace(/@/g, i.toString())
-    // const result = +eval(code)
     const result = +new Function(`return ${code}`)()
     const newRes = +(result * 100).toFixed(2)
     arr.push(newRes)
