@@ -43,9 +43,9 @@ const udpReceive = (path: string, func: (_: unknown) => void) => {
 
 const saveSettings = (_: Electron.IpcMainEvent, ...args: unknown[]) => {
   const data = (args as object[])[0]
-  fs.writeFileSync(process.env.VITE_PUBLIC + '/settings.json', JSON.stringify(data))
+  fs.writeFileSync(process.env.__RESOURCES + '/settings.json', JSON.stringify(data))
+  writeHashedEasings((data as { yoke_Easing: string | null }).yoke_Easing)
   tcpSend(JSON.stringify({ path: '/user-settings', val: -1 }))
-  writeHashedEasings((data as { yoke_Easing: string }).yoke_Easing)
 }
 
 
@@ -62,7 +62,18 @@ ipcMain.on('udp', (_, data: object) => udpSend(JSON.stringify(data)))
 ipcMain.on('EXIT', app.quit)
 ipcMain.on('save-settings', saveSettings)
 
-ipcMain.handle('read-settings', () => fs.readFileSync(process.env.VITE_PUBLIC + '/settings.json').toString())
+ipcMain.handle('read-settings', () => {
+  try {
+    return fs.readFileSync(process.env.__RESOURCES + '/settings.json').toString()
+  }
+  catch (e) {
+    if (((e as (unknown & { message: string })).message).startsWith('ENOENT')) {
+      fs.writeFileSync(process.env.__RESOURCES + '/settings.json', '{}')
+      return '{}'
+    }
+    throw e
+  }
+})
 
 
 udpReceive('/reverses', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/reverses', res))
