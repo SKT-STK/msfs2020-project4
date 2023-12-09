@@ -22,6 +22,7 @@ release
 *.ntvs*
 *.njsproj
 *.sw?
+other
 .vs
 .vscode
 cpp/.vs

@@ -1,7 +1,8 @@
 import * as fs from 'node:fs';
 
-export const writeHashedEasings = (input: string | null) => {
-  if (input === null) return
+type ErrorSuccess = 'error' | 'success'
+
+export const writeHashedEasings: (input: string, fileName: string) => ErrorSuccess = (input, fileName) => {
   let decode = input.replace(/\\frac{/g, '{')
 
   decode = decode.replace(/1\\left/g, '1*')
@@ -36,9 +37,11 @@ export const writeHashedEasings = (input: string | null) => {
   for (let i = 0; i <= 1.001; i += 0.001) {
     const code = decode.replace(/@/g, i.toString())
     const result = +new Function(`return ${code}`)()
+    if (Number.isNaN(result)) return 'error'
     const newRes = +(result * 100).toFixed(2)
     arr.push(newRes)
   }
 
-  fs.writeFileSync(process.env.__RESOURCES + '/hashedEasings.json', JSON.stringify([...arr]))
+  fs.writeFileSync(process.env.__RESOURCES + '/' + fileName, JSON.stringify([...arr]))
+  return 'success'
 }

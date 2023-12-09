@@ -11,7 +11,7 @@ const tcp = {
   addr: '127.0.0.1'
 }
 const udp = {
-  // port: backend.port + 1,
+  // port: backend.port + 10,
   port: 2642,
   addr: '127.0.0.1'
 }
@@ -41,10 +41,23 @@ const udpReceive = (path: string, func: (_: unknown) => void) => {
   paths.set(path, func)
 }
 
+const writeEasings = (data: ({ yoke_Easing: string | null } | undefined) & ({ throttle_Easing: string | null } | undefined)) => {
+  if (data && data.yoke_Easing) {
+    if (writeHashedEasings(data.yoke_Easing, 'hashedYokeEasings.json') === 'error') {
+      writeHashedEasings('x', 'hashedYokeEasings.json')
+    }
+  }
+  if (data && data.throttle_Easing) {
+    if (writeHashedEasings(data.throttle_Easing, 'hashedThrottleEasings.json') === 'error') {
+      writeHashedEasings('x', 'hashedThrottleEasings.json')
+    }
+  }
+}
+
 const saveSettings = (_: Electron.IpcMainEvent, ...args: unknown[]) => {
   const data = (args as object[])[0]
   fs.writeFileSync(process.env.__RESOURCES + '/settings.json', JSON.stringify(data))
-  writeHashedEasings((data as { yoke_Easing: string | null }).yoke_Easing)
+  writeEasings(data as ({ yoke_Easing: string | null } | undefined) & ({ throttle_Easing: string | null } | undefined))
   tcpSend(JSON.stringify({ path: '/user-settings', val: -1 }))
 }
 
@@ -67,7 +80,7 @@ ipcMain.handle('read-settings', () => {
     return fs.readFileSync(process.env.__RESOURCES + '/settings.json').toString()
   }
   catch (e) {
-    if (((e as (unknown & { message: string })).message).startsWith('ENOENT')) {
+    if ((e as (unknown & { message: string })).message.startsWith('ENOENT')) {
       fs.writeFileSync(process.env.__RESOURCES + '/settings.json', '{}')
       return '{}'
     }
