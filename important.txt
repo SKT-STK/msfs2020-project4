@@ -1,0 +1,1 @@
+\frac{1.09015228972038801}{\exp\left(-2.5\left(\operatorname{abs}\left(x\right)-1\right)\right)}-0.09015228972038801
