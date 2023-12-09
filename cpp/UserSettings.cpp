@@ -1,11 +1,11 @@
 #include "UserSettings.hpp"
 
-easings_t proccessString() {
+easings_t proccessString(const str& name) {
 	typedef unsigned long long size_t;
 
 	str path = "";
 	path += global::userSettings.settingsPath;
-	path += "\\..\\hashedEasings.json";
+	path += "\\..\\hashed" + name + "Easings.json";
 	std::fstream file(path, std::ios::in);
 	size_t size = (size_t)(8 * 1024);
 	auto buff = new char[size];
@@ -28,9 +28,15 @@ static void init() {
 
 	try {
 		global::userSettings.port = j["phone_Port"].get<int>();
+
 		global::userSettings.roll = (float)j["yoke_Roll"].get<int>();
 		global::userSettings.pitch = (float)j["yoke_Pitch"].get<int>();
-		global::userSettings.easings = proccessString();
+		global::userSettings.easingsYoke = proccessString("Yoke");
+
+		global::userSettings.idle = j["thottles_Idle"].get<int>();
+		global::userSettings.toga = j["thottles_ToGa"].get<int>();
+		global::userSettings.easingsThrottles = proccessString("Throttles");
+
 		inc::inc();
 	}
 	catch (json::exception) { return; }

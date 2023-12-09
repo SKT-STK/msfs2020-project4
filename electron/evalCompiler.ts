@@ -3,7 +3,11 @@ import * as fs from 'node:fs';
 type ErrorSuccess = 'error' | 'success'
 
 export const writeHashedEasings: (input: string, fileName: string) => ErrorSuccess = (input, fileName) => {
-  let decode = input.replace(/\\frac{/g, '{')
+  let decode = input.trim()
+  decode = decode.replace(/y=/g, '')
+  decode = decode.replace(/f(x)=/g, '')
+
+  decode = input.replace(/\\frac{/g, '{')
 
   decode = decode.replace(/1\\left/g, '1*')
   decode = decode.replace(/2\\left/g, '2*')
@@ -16,13 +20,18 @@ export const writeHashedEasings: (input: string, fileName: string) => ErrorSucce
   decode = decode.replace(/8\\left/g, '8*')
   decode = decode.replace(/9\\left/g, '9*')
 
-  decode = decode.replace(/\\left/g, '')
-  decode = decode.replace(/\\right/g, '')
   decode = decode.replace(/\\cdot/g, '*')
   decode = decode.replace(/\\exp/g, 'Math.exp')
   decode = decode.replace(/\\operatorname{abs}/g, 'Math.abs')
-  decode = decode.replace(/3.14/g, 'Math.PI')
   decode = decode.replace(/\^/g, '**')
+
+  decode = decode.replace(/PI/g, 'Math.PI')
+  decode = decode.replace(/PI\\left/g, 'Math.PI*')
+  decode = decode.replace(/E/g, 'Math.E')
+  decode = decode.replace(/E\\left/g, 'Math.E*')
+
+  decode = decode.replace(/\\left/g, '')
+  decode = decode.replace(/\\right/g, '')
 
   decode = decode.replace(/-/g, '-1*')
   decode = decode.replace(/}{/g, '}/{')
@@ -36,8 +45,14 @@ export const writeHashedEasings: (input: string, fileName: string) => ErrorSucce
   const arr = []
   for (let i = 0; i <= 1.001; i += 0.001) {
     const code = decode.replace(/@/g, i.toString())
-    const result = +new Function(`return ${code}`)()
-    if (Number.isNaN(result)) return 'error'
+    let result: number
+    try {
+      result = +new Function(`return ${code}`)()
+      if (Number.isNaN(result)) return 'error'
+    }
+    catch {
+      return 'error'
+    }
     const newRes = +(result * 100).toFixed(2)
     arr.push(newRes)
   }

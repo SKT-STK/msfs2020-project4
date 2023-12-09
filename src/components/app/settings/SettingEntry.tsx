@@ -24,7 +24,10 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
   const hoverRef = useRef<HTMLDivElement>(null)
 
   const handleMouseOver = () => {
-    hoverRef.current && (hoverRef.current.style.transform = `translate(${mousePos.x}px, ${mousePos.y}px)`)
+    hoverRef.current && (hoverRef.current.style.transform = `translate(
+      ${mousePos.x - (hoverRef.current.clientWidth / 3)}px,
+      ${mousePos.y}px
+    )`)
     setTimeout(() => {
       controls.start('shown')
     }, 200)
@@ -47,7 +50,7 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
   return (<>
     <motion.div
       ref={hoverRef}
-      className='absolute bg-[#1A1A1A] pointer-events-none top-0 left-0 border-2 border-amber-400 p-1 rounded-md max-w-[300px]'
+      className='absolute bg-[#1A1A1A] pointer-events-none top-0 left-0 border-2 border-amber-400 p-1 rounded-md max-w-[400px]'
       animate={controls}
       variants={animationVariants}
       initial='hidden'
@@ -59,7 +62,12 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
         ref={textRef}
         className='text-xl cursor-help'
         onMouseEnter={handleMouseOver}
-        onMouseLeave={() => setTimeout(() => controls.start('hidden'), 200)}
+        onMouseLeave={() => setTimeout(() => {
+          try {
+            controls.start('hidden')
+          }
+          catch { null }
+        }, 200)}
       >{ text }</p>
       { children }
     </div>

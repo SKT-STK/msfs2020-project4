@@ -9,9 +9,14 @@ typedef struct {
 	const char* settingsPath;
 
 	int port;
+
 	float roll;
 	float pitch;
-	easings_t easings;
+	easings_t easingsYoke;
+
+	int idle;
+	int toga;
+	easings_t easingsThrottles;
 } UserSettings;
 
 typedef struct {
@@ -28,5 +33,10 @@ namespace global {
 	inline bool reverses = false;
 	inline float maxN1 = 0.f;
 	inline RollPitch phoneRot = { 0.f, 0.f };
-	inline UserSettings userSettings = { nullptr, 0, 0, 0, {} };
+	inline UserSettings userSettings = {
+		nullptr,
+		0,
+		0.f, 0.f, {},
+		0, 0, {}
+	};
 }

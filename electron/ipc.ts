@@ -41,15 +41,21 @@ const udpReceive = (path: string, func: (_: unknown) => void) => {
   paths.set(path, func)
 }
 
-const writeEasings = (data: ({ yoke_Easing: string | null } | undefined) & ({ throttle_Easing: string | null } | undefined)) => {
+type EasingObjects = ({
+  yoke_Easing: string | null
+} & {
+  throttles_Easing: string | null
+}) | undefined
+
+const writeEasings = (data: EasingObjects) => {
   if (data && data.yoke_Easing) {
     if (writeHashedEasings(data.yoke_Easing, 'hashedYokeEasings.json') === 'error') {
       writeHashedEasings('x', 'hashedYokeEasings.json')
     }
   }
-  if (data && data.throttle_Easing) {
-    if (writeHashedEasings(data.throttle_Easing, 'hashedThrottleEasings.json') === 'error') {
-      writeHashedEasings('x', 'hashedThrottleEasings.json')
+  if (data && data.throttles_Easing) {
+    if (writeHashedEasings(data.throttles_Easing, 'hashedThrottlesEasings.json') === 'error') {
+      writeHashedEasings('x', 'hashedThrottlesEasings.json')
     }
   }
 }
@@ -57,7 +63,7 @@ const writeEasings = (data: ({ yoke_Easing: string | null } | undefined) & ({ th
 const saveSettings = (_: Electron.IpcMainEvent, ...args: unknown[]) => {
   const data = (args as object[])[0]
   fs.writeFileSync(process.env.__RESOURCES + '/settings.json', JSON.stringify(data))
-  writeEasings(data as ({ yoke_Easing: string | null } | undefined) & ({ throttle_Easing: string | null } | undefined))
+  writeEasings(data as EasingObjects)
   tcpSend(JSON.stringify({ path: '/user-settings', val: -1 }))
 }
 
