@@ -40,7 +40,8 @@ public:
 #ifdef _WIN32
 		WSADATA _wsaData;
 		if (WSAStartup(MAKEWORD(2, 2), &_wsaData) != 0) {
-			if (printErrInfo) std::cerr << ("Failed to initialize Winsock\n") << std::endl;
+			if (printErrInfo)
+				std::cerr << ("Failed to initialize Winsock\n") << std::endl;
 			return;
 		}
 #endif
@@ -74,7 +75,8 @@ private:
 		// Create socket
 		serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 		if (serverSocket == -1) {
-			if (printErrInfo) std::cerr << "Failed to create socket" << std::endl;
+			if (printErrInfo)
+				std::cerr << "Failed to create socket" << std::endl;
 			return;
 		}
 
@@ -85,17 +87,20 @@ private:
 		serverAddress.sin_port = htons(port);
 
 		if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
-			if (printErrInfo) std::cerr << "Failed to bind socket" << std::endl;
+			if (printErrInfo)
+				std::cerr << "Failed to bind socket" << std::endl;
 			return;
 		}
 
 		// Listen for incoming connections
 		if (listen(serverSocket, 3) < 0) {
-			if (printErrInfo) std::cerr << "Failed to listen for connections" << std::endl;
+			if (printErrInfo)
+				std::cerr << "Failed to listen for connections" << std::endl;
 			return;
 		}
 
-		if (printDebugInfo) std::cout << "TCP server started on port " << port << std::endl;
+		if (printDebugInfo)
+			std::cout << "TCP server started on port " << port << std::endl;
 
 		// Accept incoming connections and handle them asynchronously
 		std::thread acceptThread([this]() {
@@ -111,7 +116,8 @@ private:
 				// Accept a connection from a client
 				clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, (socklen_t*)&clientAddressSize);
 				if (clientSocket < 0) {
-					if (printErrInfo) std::cerr << "Failed to accept connection" << std::endl;
+					if (printErrInfo)
+						std::cerr << "Failed to accept connection" << std::endl;
 					continue;
 				}
 
@@ -133,10 +139,12 @@ private:
 
 					// Client disconnected
 					if (bytesRead == 0) {
-						if (printDebugInfo) std::cout << "Client disconnected" << std::endl;
+						if (printDebugInfo)
+							std::cout << "Client disconnected" << std::endl;
 					}
 					else {
-						if (printErrInfo) std::cerr << "Failed to receive data from client" << std::endl;
+						if (printErrInfo)
+							std::cerr << "Failed to receive data from client" << std::endl;
 					}
 
 #ifdef _WIN32
@@ -157,7 +165,8 @@ private:
 		// Create socket
 		serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
 		if (serverSocket == -1) {
-			if (printErrInfo) std::cerr << "Failed to create socket" << std::endl;
+			if (printErrInfo)
+				std::cerr << "Failed to create socket" << std::endl;
 			return;
 		}
 
@@ -168,11 +177,13 @@ private:
 		serverAddress.sin_port = htons(port);
 
 		if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) {
-			if (printErrInfo) std::cerr << "Failed to bind socket" << std::endl;
+			if (printErrInfo)
+				std::cerr << "Failed to bind socket" << std::endl;
 			return;
 		}
 
-		if (printDebugInfo) std::cout << "UDP server started on port " << port << std::endl;
+		if (printDebugInfo)
+			std::cout << "UDP server started on port " << port << std::endl;
 
 		// Receive data and handle it asynchronously
 		std::thread receiveThread([this]() {
@@ -184,7 +195,8 @@ private:
 				// Receive data from a client
 				int bytesRead = recvfrom(serverSocket, buffer, sizeof(buffer), 0, (struct sockaddr*)&clientAddress, &clientAddressSize);
 				if (bytesRead < 0) {
-					if (printErrInfo) std::cerr << "Failed to receive data" << std::endl;
+					if (printErrInfo)
+						std::cerr << "Failed to receive data" << std::endl;
 					continue;
 				}
 

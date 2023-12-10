@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <memory>
+#include <cstdlib>
 #include <nlohmann/json.hpp>
 
 typedef std::string str;

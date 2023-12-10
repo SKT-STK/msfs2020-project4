@@ -12,7 +12,7 @@ import path from 'node:path'
 // │
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
-process.env.__RESOURCES = path.join(process.env.VITE_PUBLIC, app.isPackaged ? '../../..' : '../other', 'resources/settings')
+process.env.__SETTINGS = path.join(process.env.VITE_PUBLIC, app.isPackaged ? '../../..' : '../other', 'resources/settings')
 
 
 let win: BrowserWindow | null

@@ -1,37 +1,35 @@
 #include "UserSettings.hpp"
 
 ThrottlesModes proccessModes(const str& i) {
-	if (i == "absolutecontrol") {
+	if (i == "absolutecontrol")
 		return ThrottlesModes::ABSOLUTE_CONTROL;
-	}
 
-	else if (i == "autothrottle") {
+	else if (i == "autothrottle")
 		return ThrottlesModes::AUTO_THROTTLE;
-	}
 
-	else if (i == "hybridmode") {
+	else if (i == "hybridmode")
 		return ThrottlesModes::HYBRID_MODE;
-	}
 
 	return ThrottlesModes::ABSOLUTE_CONTROL;
 }
 
 easings_t proccessString(const str& name) {
-	typedef unsigned long long size_t;
-
 	str path = "";
 	path += global::userSettings.settingsPath;
 	path += "\\..\\hashed" + name + "Easings.json";
 	std::fstream file(path, std::ios::in | std::ios::binary);
-	size_t size = (size_t)(8 * 1024);
-	auto buff = new char[size];
-	memset(buff, 0, size);
+
+	unsigned long long size = sizeof(char) * 8ULL * 1024ULL;
+	auto buff = static_cast<char*>(std::malloc(size));
+	if (buff != nullptr)
+		memset(buff, 0, size);
+
 	file.read(buff, size);
 
 	json j = json::parse(buff);
 
 	file.close();
-	delete[] buff;
+	std::free(buff);
 	return j.get<easings_t>();
 }
 

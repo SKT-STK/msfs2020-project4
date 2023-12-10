@@ -27,7 +27,8 @@ str handleUdp(const str& data) {
 }
 
 static void init() {
-	if (sock != nullptr) delete sock;
+	if (sock != nullptr)
+		delete sock;
 	sock = new Server(false, global::userSettings.port, false, false);
 	sock->SetCallback(handleUdp);
 	sock->Start();

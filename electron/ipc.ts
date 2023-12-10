@@ -63,7 +63,7 @@ const writeEasings = async (data: EasingObjects) => {
 
 const saveSettings = async (_: Electron.IpcMainEvent, ...args: unknown[]) => {
   const data = (args as object[])[0]
-  fs.writeFile(process.env.__RESOURCES + '/settings.json', JSON.stringify(data), 'binary', () => {})
+  fs.writeFile(process.env.__SETTINGS + '/settings.json', JSON.stringify(data), 'binary', () => {})
   writeEasings(data as EasingObjects)
   tcpSend(JSON.stringify({ path: '/user-settings', val: -1 }))
 }
@@ -83,13 +83,13 @@ ipcMain.on('EXIT', () => app.quit)
 ipcMain.on('save-settings', saveSettings)
 
 ipcMain.handle('read-settings', async () => (
-  fsp.readFile(process.env.__RESOURCES + '/settings.json', 'binary')
+  fsp.readFile(process.env.__SETTINGS + '/settings.json', 'binary')
     .catch(err => (
       (err as unknown & { message: string }).message.startsWith('ENOENT')
-        ? fsp.mkdir(process.env.__RESOURCES, { recursive: false })
+        ? fsp.mkdir(process.env.__SETTINGS, { recursive: false })
           .catch(() => {})
           .finally(() => {
-            fs.writeFile(process.env.__RESOURCES + '/settings.json', '{}', 'binary', () => {})
+            fs.writeFile(process.env.__SETTINGS + '/settings.json', '{}', 'binary', () => {})
             return '{}'
           })
         : (() => { throw err })()

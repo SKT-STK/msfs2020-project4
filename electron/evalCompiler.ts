@@ -58,6 +58,6 @@ export const writeHashedEasings: (input: string, fileName: string) => Promise<Er
     arr.push(newRes)
   }
 
-  fs.writeFile(process.env.__RESOURCES + '/' + fileName, JSON.stringify([...arr]), 'binary', () => {})
+  fs.writeFile(process.env.__SETTINGS + '/' + fileName, JSON.stringify([...arr]), 'binary', () => {})
   return 'success'
 }
