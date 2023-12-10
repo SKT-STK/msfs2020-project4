@@ -2,6 +2,7 @@ import { ipcMain, BrowserWindow, app } from 'electron'
 import net from 'net'
 import dgram from 'dgram'
 import * as fs from 'node:fs'
+import * as fsp from 'node:fs/promises'
 import { writeHashedEasings } from './evalCompiler'
 // import * as backend from './backend'
 
@@ -47,22 +48,22 @@ type EasingObjects = ({
   throttles_Easing: string | null
 }) | undefined
 
-const writeEasings = (data: EasingObjects) => {
+const writeEasings = async (data: EasingObjects) => {
   if (data && data.yoke_Easing) {
-    if (writeHashedEasings(data.yoke_Easing, 'hashedYokeEasings.json') === 'error') {
-      writeHashedEasings('x', 'hashedYokeEasings.json')
-    }
+    writeHashedEasings(data.yoke_Easing, 'hashedYokeEasings.json').then(code => {
+      code === 'error' && writeHashedEasings('x', 'hashedYokeEasings.json')
+    })
   }
   if (data && data.throttles_Easing) {
-    if (writeHashedEasings(data.throttles_Easing, 'hashedThrottlesEasings.json') === 'error') {
-      writeHashedEasings('x', 'hashedThrottlesEasings.json')
-    }
+    writeHashedEasings(data.throttles_Easing, 'hashedThrottlesEasings.json').then(code => {
+      code === 'error' && writeHashedEasings('x', 'hashedThrottlesEasings.json')
+    })
   }
 }
 
-const saveSettings = (_: Electron.IpcMainEvent, ...args: unknown[]) => {
+const saveSettings = async (_: Electron.IpcMainEvent, ...args: unknown[]) => {
   const data = (args as object[])[0]
-  fs.writeFileSync(process.env.__RESOURCES + '/settings.json', JSON.stringify(data))
+  fs.writeFile(process.env.__RESOURCES + '/settings.json', JSON.stringify(data), 'binary', () => {})
   writeEasings(data as EasingObjects)
   tcpSend(JSON.stringify({ path: '/user-settings', val: -1 }))
 }
@@ -78,21 +79,23 @@ udpClient.on('message', data => {
 
 ipcMain.on('tcp', (_, data: object) => tcpSend(JSON.stringify(data)))
 ipcMain.on('udp', (_, data: object) => udpSend(JSON.stringify(data)))
-ipcMain.on('EXIT', app.quit)
+ipcMain.on('EXIT', () => app.quit)
 ipcMain.on('save-settings', saveSettings)
 
-ipcMain.handle('read-settings', () => {
-  try {
-    return fs.readFileSync(process.env.__RESOURCES + '/settings.json').toString()
-  }
-  catch (e) {
-    if ((e as (unknown & { message: string })).message.startsWith('ENOENT')) {
-      fs.writeFileSync(process.env.__RESOURCES + '/settings.json', '{}')
-      return '{}'
-    }
-    throw e
-  }
-})
+ipcMain.handle('read-settings', async () => (
+  fsp.readFile(process.env.__RESOURCES + '/settings.json', 'binary')
+    .catch(err => (
+      (err as unknown & { message: string }).message.startsWith('ENOENT')
+        ? fsp.mkdir(process.env.__RESOURCES, { recursive: false })
+          .catch(() => {})
+          .finally(() => {
+            fs.writeFile(process.env.__RESOURCES + '/settings.json', '{}', 'binary', () => {})
+            return '{}'
+          })
+        : (() => { throw err })()
+    ))
+    .then(data => data)
+))
 
 
 udpReceive('/reverses', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/reverses', res))

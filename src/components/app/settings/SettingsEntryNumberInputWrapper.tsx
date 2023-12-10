@@ -28,7 +28,7 @@ const SettingsEntryNumberInputWrapper = ({ text, hoverText, useStoreProps, minMa
 
   useEffect(() => {
     if (!textRef.current) return
-    if (+localPort < minMaxRef.current[0] || +localPort > minMaxRef.current[1]) {
+    if (+localPort < minMaxRef.current[0] || +localPort > minMaxRef.current[1] || localPort === '') {
       textRef.current.style.color! = 'red'
       useStorePropsRef.current.setProp(null)
     }

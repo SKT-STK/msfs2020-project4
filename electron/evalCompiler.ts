@@ -2,12 +2,12 @@ import * as fs from 'node:fs';
 
 type ErrorSuccess = 'error' | 'success'
 
-export const writeHashedEasings: (input: string, fileName: string) => ErrorSuccess = (input, fileName) => {
-  let decode = input.trim()
+export const writeHashedEasings: (input: string, fileName: string) => Promise<ErrorSuccess> = async (input, fileName) => {
+  let decode = input.replace(/ /, '')
   decode = decode.replace(/y=/g, '')
-  decode = decode.replace(/f(x)=/g, '')
+  decode = decode.replace(/f\(x\)=/g, '')
 
-  decode = input.replace(/\\frac{/g, '{')
+  decode = input.replace(/\\frac\{/g, '{')
 
   decode = decode.replace(/1\\left/g, '1*')
   decode = decode.replace(/2\\left/g, '2*')
@@ -21,8 +21,7 @@ export const writeHashedEasings: (input: string, fileName: string) => ErrorSucce
   decode = decode.replace(/9\\left/g, '9*')
 
   decode = decode.replace(/\\cdot/g, '*')
-  decode = decode.replace(/\\exp/g, 'Math.exp')
-  decode = decode.replace(/\\operatorname{abs}/g, 'Math.abs')
+  decode = decode.replace(/\\operatorname\{(.*?)\}/g, 'Math.$1')
   decode = decode.replace(/\^/g, '**')
 
   decode = decode.replace(/PI/g, 'Math.PI')
@@ -34,13 +33,15 @@ export const writeHashedEasings: (input: string, fileName: string) => ErrorSucce
   decode = decode.replace(/\\right/g, '')
 
   decode = decode.replace(/-/g, '-1*')
-  decode = decode.replace(/}{/g, '}/{')
-  decode = decode.replace(/{/g, '(')
-  decode = decode.replace(/}/g, ')')
+  decode = decode.replace(/\}\{/g, '}/{')
+  decode = decode.replace(/\{/g, '(')
+  decode = decode.replace(/\}/g, ')')
 
   decode = decode.replace(/x/g, '@')
-  decode = decode.replace(/.e@p/g, '.exp')
+  decode = decode.replace(/e@p/g, 'exp')
   decode = decode.replace(/@/g, '(@)')
+
+  decode = decode.replace(/\\/g, 'Math.')
 
   const arr = []
   for (let i = 0; i <= 1.001; i += 0.001) {
@@ -57,6 +58,6 @@ export const writeHashedEasings: (input: string, fileName: string) => ErrorSucce
     arr.push(newRes)
   }
 
-  fs.writeFileSync(process.env.__RESOURCES + '/' + fileName, JSON.stringify([...arr]))
+  fs.writeFile(process.env.__RESOURCES + '/' + fileName, JSON.stringify([...arr]), 'binary', () => {})
   return 'success'
 }

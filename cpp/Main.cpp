@@ -20,11 +20,13 @@ while (true) {
 	sleepfor(10);
 
 
-	float i = to_normal(global::phoneRot.roll, global::userSettings.roll);
-	
-	int index = (int)(std::abs(i) * 1000.f + 0.5f);
-	float value = global::userSettings.easingsYoke.at(index);
-	///*return*/debug((i < 0.f ? -value : value));
+	//float i = to_normal(global::phoneRot.roll, global::userSettings.roll);
+
+	//int index = (int)(std::abs(i) * 1000.f + 0.5f);
+	//float value = global::userSettings.easingsYoke.at(index);
+	/////*return*/debug((i < 0.f ? -value : value));
+
+	debug(global::userSettings.throttlesMode);
 }
 }
 //
@@ -32,11 +34,11 @@ while (true) {
 int main(int argc, char* argv[]) {
 	// Replace With argv[1, 2, 3] in Production!
 	int ports[2] = { 55411, 2642 };
-	global::userSettings.settingsPath = "C:\\Users\\kwasn\\Desktop\\github\\msfs2020-project4\\other\\resources\\settings.json";
+	global::userSettings.settingsPath = "C:\\Users\\kwasn\\Desktop\\github\\msfs2020-project4\\other\\resources\\settings\\settings.json";
 
 	userSettings::userSettings();
 
-	auto _ = iec::iec(ports);
+	auto _sockets = iec::iec(ports);
 
 	Server** socket = inc::get_ptr();
 

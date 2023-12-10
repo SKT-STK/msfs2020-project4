@@ -5,6 +5,12 @@
 
 typedef std::array<float, 1001> easings_t;
 
+typedef enum {
+	ABSOLUTE_CONTROL,
+	AUTO_THROTTLE,
+	HYBRID_MODE,
+} ThrottlesModes;
+
 typedef struct {
 	const char* settingsPath;
 
@@ -17,6 +23,7 @@ typedef struct {
 	int idle;
 	int toga;
 	easings_t easingsThrottles;
+	ThrottlesModes throttlesMode;
 } UserSettings;
 
 typedef struct {
@@ -37,6 +44,6 @@ namespace global {
 		nullptr,
 		0,
 		0.f, 0.f, {},
-		0, 0, {}
+		0, 0, {}, ThrottlesModes::ABSOLUTE_CONTROL,
 	};
 }
