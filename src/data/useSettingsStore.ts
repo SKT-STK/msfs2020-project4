@@ -11,6 +11,8 @@ interface settings {
   throttles_ToGa: number | null
   throttles_Easing: string | null
   throttles_Mode: string | null
+
+  reverses_Deactivate: number | null
 }
 
 export interface SettingsState {
@@ -27,6 +29,8 @@ export interface SettingsState {
   throttles_SetEasing: (val: string | null) => void
   throttles_SetMode: (val: string | null) => void
 
+  reverses_SetDeactivate: (val: number | null) => void
+
   setSettings: (settings: settings) => void
 }
 
@@ -42,6 +46,8 @@ export const useSettingsStore = create<SettingsState>()(set => ({
     throttles_ToGa: null,
     throttles_Easing: null,
     throttles_Mode: null,
+
+    reverses_Deactivate: null,
   },
 
   phone_SetPort: (val: number | null) => set(state => ({ settings: { ...state.settings, phone_Port: val } })),
@@ -54,6 +60,8 @@ export const useSettingsStore = create<SettingsState>()(set => ({
   throttles_SetToGa: (val: number | null) => set(state => ({ settings: { ...state.settings, throttles_ToGa: val } })),
   throttles_SetEasing: (val: string | null) => set(state => ({ settings: { ...state.settings, throttles_Easing: val } })),
   throttles_SetMode: (val: string | null) => set(state => ({ settings: { ...state.settings, throttles_Mode: val } })),
+
+  reverses_SetDeactivate: (val: number | null) => set(state => ({ settings: {...state.settings, reverses_Deactivate: val } })),
 
   setSettings: (settings: settings) => set({ settings }),
 }))

@@ -52,6 +52,8 @@ static void init() {
 		global::userSettings.easingsThrottles = proccessString("Throttles");
 		global::userSettings.throttlesMode = proccessModes(j["throttles_Mode"].get<str>());
 
+		global::userSettings.deactivate = j["reverses_Deactivate"].get<int>();
+
 		inc::inc();
 	}
 	catch (json::exception) { return; }

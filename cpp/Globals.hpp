@@ -24,6 +24,8 @@ typedef struct {
 	int toga;
 	easings_t easingsThrottles;
 	ThrottlesModes throttlesMode;
+
+	int deactivate;
 } UserSettings;
 
 typedef struct {
@@ -45,5 +47,6 @@ namespace global {
 		0,
 		0.f, 0.f, {},
 		0, 0, {}, ThrottlesModes::ABSOLUTE_CONTROL,
+		0,
 	};
 }

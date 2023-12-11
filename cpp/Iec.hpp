@@ -15,5 +15,5 @@ typedef std::string str;
 using json = nlohmann::json;
 
 namespace iec {
-	std::unique_ptr<std::array<Server, 2>> iec(int [2]);
+	std::array<std::unique_ptr<Server>, 2> iec(int [2]);
 }

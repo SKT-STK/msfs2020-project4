@@ -1,12 +1,20 @@
+import SettingsEntryNumberInputWrapper from "@/components/app/settings/SettingsEntryNumberInputWrapper"
+import { useSettingsStore } from "@/data/useSettingsStore"
 
-// TODO: complete it!
 const SettingsReverses = () => {
+  const {
+    settings: {
+      reverses_Deactivate,
+    },
+    reverses_SetDeactivate,
+  } = useSettingsStore()
+
   return (
-    <div>
-      SettingsReverses
-    </div>
+    <SettingsEntryNumberInputWrapper 
+      text='Reverses Deactivation Speed'
+      minMax={[20, 80]}
+      useStoreProps={{ prop: reverses_Deactivate, setProp: reverses_SetDeactivate }}
+    />
   )
 }
 export default SettingsReverses
-
-// * speed of deactivation

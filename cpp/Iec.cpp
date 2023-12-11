@@ -65,27 +65,24 @@ namespace handleUdp {
 	}
 }
 
-static std::unique_ptr<std::array<Server, 2>> init(int ports[2]) {
-	auto ret = std::make_unique<std::array<Server, 2>>(std::array<Server, 2>({
-		Server(true, ports[0], false, false),
-		Server(false, ports[1], false, false)
-	}));
+static std::array<std::unique_ptr<Server>, 2> init(int ports[2]) {
+	std::array<std::unique_ptr<Server>, 2> ret;
 
-	//(*ret)[0] = Server(true, ports[0]);
-	(*ret)[0].SetCallback(handleTcp);
+	ret[0] = std::make_unique<Server>(true, ports[0], false, false);
+	ret[0]->SetCallback(handleTcp);
 
-	//(*ret)[1] = Server(false, ports[1]);
-	(*ret)[1].SetCallback(handleUdp::main);
+	ret[1] = std::make_unique<Server>(false, ports[1], false, false);
+	ret[1]->SetCallback(handleUdp::main);
 
-	(*ret)[0].Start();
-	(*ret)[1].Start();
+	ret[0]->Start();
+	ret[1]->Start();
 
 	return ret;
 }
 
 
 namespace iec {
-	std::unique_ptr<std::array<Server, 2>> iec(int ports[2]) {
+	std::array<std::unique_ptr<Server>, 2> iec(int ports[2]) {
 		return init(ports);
 	}
 }

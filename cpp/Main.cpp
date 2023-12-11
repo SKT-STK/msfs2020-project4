@@ -23,10 +23,10 @@ while (true) {
 	//float i = to_normal(global::phoneRot.roll, global::userSettings.roll);
 
 	//int index = (int)(std::abs(i) * 1000.f + 0.5f);
-	//float value = global::userSettings.easingsYoke.at(index);
+	//float value = global::userSettings.easingsYoke[index];
 	/////*return*/debug((i < 0.f ? -value : value));
 
-	debug(global::userSettings.throttlesMode);
+	debug(global::userSettings.deactivate);
 }
 }
 //
