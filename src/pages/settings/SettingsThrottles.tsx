@@ -42,8 +42,9 @@ const SettingsThrottles = () => {
       text='Throttles Operation Mode'
       hoverText='Absolute&nbsp;Control&nbsp;-&nbsp;Thrust Levers in sim will always match yours.
         Auto&nbsp;Throttle&nbsp;-&nbsp;Thrust Levers follow A/T&apos;s orders unless it&apos;s unarmed.
-        Hybrid&nbsp;Mode&nbsp;-&nbsp;If airborne, Thrust Levers in sim will follow A/T&apos;s orders unless you
-          explicitly move yours. On the ground you have full control.'
+        Hybrid&nbsp;Mode&nbsp;-&nbsp;If airborne, Thrust Levers in sim will follow A/T&apos;s 
+          orders unless it&apos;s unarmed or you explicitly
+          move yours. On the ground you have full control.'
       useStoreProps={{ prop: throttles_Mode, setProp: throttles_SetMode }}
     >
       <p>Absolute Control</p>
