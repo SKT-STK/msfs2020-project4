@@ -86,7 +86,7 @@ ipcMain.handle('read-settings', async () => (
   fsp.readFile(process.env.__SETTINGS + '/settings.json', 'binary')
     .catch(err => (
       (err as unknown & { message: string }).message.startsWith('ENOENT')
-        ? fsp.mkdir(process.env.__SETTINGS, { recursive: false })
+        ? fsp.mkdir(process.env.__SETTINGS, { recursive: true })
           .catch(() => {})
           .finally(() => {
             fs.writeFile(process.env.__SETTINGS + '/settings.json', '{}', 'binary', () => {})
