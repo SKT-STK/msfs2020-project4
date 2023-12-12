@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, ComponentProps } from "react"
 
-interface SVGProps {
+interface SVGProps extends ComponentProps<"img"> {
   src: string
   color?: string
-	className?: string
 }
 
-const Svg = ({ src, color, className }: SVGProps) => {
+const Svg = ({ src, color, ...props }: SVGProps) => {
   const [modifiedSvg, setModifiedSvg] = useState<string>('');
 
   useEffect(() => {
@@ -31,6 +30,6 @@ const Svg = ({ src, color, className }: SVGProps) => {
 
   const dataUrl = `data:image/svg+xml;base64,${btoa(modifiedSvg)}`
 
-  return <img className={className} src={dataUrl} />
+  return <img src={dataUrl} { ...props } />
 }
 export default Svg
