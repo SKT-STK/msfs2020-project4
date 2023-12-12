@@ -1,6 +1,6 @@
-import { useEffect, useState, ComponentProps } from "react"
+import { useEffect, useState, ComponentPropsWithoutRef } from "react"
 
-interface SVGProps extends ComponentProps<"img"> {
+interface SVGProps extends Omit<ComponentPropsWithoutRef<'img'>, 'src'> {
   src: string
   color?: string
 }
