@@ -23,12 +23,6 @@ release
 *.njsproj
 *.sw?
 other
-.vs
-.vscode
-cpp/.vs
-cpp/.vscode
-cpp/x64_Release/Intermediates
-cpp/x64_Debug/Intermediates
 
 #lockfile
 package-lock.json

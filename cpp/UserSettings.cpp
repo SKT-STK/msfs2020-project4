@@ -54,7 +54,7 @@ static void init() {
 
 		global::userSettings.deactivate = j["reverses_Deactivate"].get<int>();
 
-		inc::inc();
+		networking::refreshInc_();
 	}
 	catch (json::exception) { return; }
 }

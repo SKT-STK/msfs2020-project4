@@ -1,6 +1,6 @@
 #include "FlightSim.hpp"
 
-bool IsProcessRunning(const TCHAR* processName) {
+bool IsProcessRunning(const char* processName) {
 	HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if (hSnapShot == INVALID_HANDLE_VALUE)
 		return false;
@@ -14,7 +14,7 @@ bool IsProcessRunning(const TCHAR* processName) {
 	}
 
 	do {
-		if (_tcsicmp(pe32.szExeFile, processName) == 0) {
+		if (_tcsicmp(pe32.szExeFile, (TCHAR*)processName) == 0) {
 			CloseHandle(hSnapShot);
 			return true;
 		}

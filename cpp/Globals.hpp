@@ -50,3 +50,17 @@ namespace global {
 		0,
 	};
 }
+
+template<typename T, typename U>
+static constexpr inline T to_normal(T inpt, U range) noexcept {
+#define T_ static_cast<T>
+#define U_ static_cast<U>
+	if (range <= U_(0)) return T_(0);
+
+	T ret = T_((((inpt + T_(range)) * T_(2)) / (range * U_(2))) - T_(1));
+
+	if (ret < T_(-1)) ret = T_(-1);
+	if (ret > T_(1)) ret = T_(1);
+
+	return ret;
+}
