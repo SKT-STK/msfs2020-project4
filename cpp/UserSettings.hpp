@@ -7,10 +7,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <memory>
 #include <nlohmann/json.hpp>
-
-typedef std::string str;
-using json = nlohmann::json;
 
 namespace userSettings {
 	void userSettings();

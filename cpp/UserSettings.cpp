@@ -1,5 +1,8 @@
 #include "UserSettings.hpp"
 
+typedef std::string str;
+using json = nlohmann::json;
+
 ThrottlesModes proccessModes(const str& i) {
 	if (i == "absolutecontrol")
 		return ThrottlesModes::ABSOLUTE_CONTROL;
@@ -17,27 +20,28 @@ easings_t proccessString(const str& name) {
 	str path = "";
 	path += global::userSettings.settingsPath;
 	path += "\\..\\hashed" + name + "Easings.json";
-	std::fstream file(path, std::ios::in | std::ios::binary);
+	std::ifstream file(path, std::ios::binary);
 
-	unsigned long long size = sizeof(char) * 8ULL * 1024ULL;
-	auto buff = static_cast<char*>(std::malloc(size));
-	if (buff != nullptr)
-		memset(buff, 0, size);
+	size_t size = sizeof(char) * 1024 * 8;
+	char* buff = (char*)std::malloc(size);
+	memset(buff, 0, size);
 
-	file.read(buff, size);
-
+	file.read(buff, size / sizeof(char));
 	json j = json::parse(buff);
 
-	file.close();
 	std::free(buff);
+	file.close();
 	return j.get<easings_t>();
 }
 
 static void init() {
-	std::fstream file(global::userSettings.settingsPath, std::ios::in | std::ios::binary);
-	char buff[1024] = { 0 };
-	file.read(buff, sizeof buff);
-	file.close();
+	std::ifstream file(global::userSettings.settingsPath, std::ios::binary);
+
+	size_t size = sizeof(char) * 1024;
+	char* buff = (char*)std::malloc(size);
+	memset(buff, 0, size);
+	file.read(buff, size / sizeof(char));
+
 	json j = json::parse(buff);
 
 	try {
@@ -56,7 +60,10 @@ static void init() {
 
 		networking::refreshInc_();
 	}
-	catch (json::exception) { return; }
+	catch (json::exception) {}
+	
+	std::free(buff);
+	file.close();
 }
 
 namespace userSettings {

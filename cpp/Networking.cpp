@@ -1,5 +1,8 @@
 #include "Networking.hpp"
 
+typedef std::string str;
+using json = nlohmann::json;
+
 namespace inc {
   Server* sock = nullptr;
 

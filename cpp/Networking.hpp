@@ -10,9 +10,6 @@
 #include <nlohmann/json.hpp>
 #include <array>
 
-typedef std::string str;
-using json = nlohmann::json;
-
 typedef struct {
   std::array<std::unique_ptr<Server>, 2> servers;
   Server** server;
