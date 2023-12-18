@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/cpp",
+                "${workspaceFolder}/src-backend",
                 "C:\\Users\\kwasn\\Desktop\\json-develop\\json-develop\\single_include"
             ],
             "defines": [

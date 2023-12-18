@@ -7,13 +7,13 @@
       "args": [
         "-fdiagnostics-color=always",
         "-g",
-        "${workspaceFolder}/cpp/*.cpp",
+        "${workspaceFolder}/src-backend/*.cc",
         "-o",
-        "${fileDirname}\\Win32\\backend_.exe",
-        "-I",
-        "${workspaceFolder}/cpp",
-        "-I",
-        "C:\\Users\\kwasn\\Desktop\\json-develop\\json-develop\\single_include",
+        "${workspaceFolder}/dist-backend/Win32/backend_.exe",
+
+        "-I", "${workspaceFolder}/src-backend",
+        "-I", "C:/Users/kwasn/Desktop/json-develop/json-develop/single_include",
+
         "-lws2_32",
       ],
       "options": {
