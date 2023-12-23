@@ -1,7 +1,7 @@
 {
   "includes": [
     "${workspaceFolder}/src-backend",
-    "C:/Users/kwasn/Desktop/json-develop/json-develop/single_include"
+    "D:/c++-libs/json-develop/single_include"
   ],
   "sysLibs": [
     "ws2_32"
