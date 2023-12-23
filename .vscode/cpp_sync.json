@@ -2,12 +2,13 @@
   "includes": [
     "${workspaceFolder}\\src-backend",
     "D:\\c++-libs\\json-develop\\single_include",
-    "D:\\msfs2020sdk\\\"SimConnect SDK\"\\include"
+    "D:\\msfs2020sdk\\SimConnect_SDK\\include"
   ],
-  "sysLibs": [
-    "ws2_32"
+  "libs": [
+    "ws2_32",
+    "SimConnect"
   ],
-  "customLibs": [
-    "D:\\msfs2020sdk\\SimConnect SDK\\lib\\SimConnect.lib"
+  "libsPaths": [
+    "D:\\msfs2020sdk\\SimConnect_SDK\\lib"
   ]
 }
