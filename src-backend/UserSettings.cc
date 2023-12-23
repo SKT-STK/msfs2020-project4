@@ -42,9 +42,9 @@ static void init() {
 	memset(buff, 0, size);
 	file.read(buff, size / sizeof(char));
 
-	json j = json::parse(buff);
-
 	try {
+		json j = json::parse(buff);
+		
 		global::userSettings.port = j["phone_Port"].get<int>();
 
 		global::userSettings.roll = (float)j["yoke_Roll"].get<int>();
