@@ -24,8 +24,10 @@ namespace inc {
     float roll = std::atan2(y, z) * 57.3f;
     float pitch = std::atan2(x, std::sqrt(y*y + z*z)) * 57.3f;
 
-    std::lock_guard<std::mutex> lock(global::mtx);
-    global::phoneRot = { roll, pitch };
+    std::lock_guard<std::mutex> lock(global::mtx);  
+
+    global::phoneRot.roll = static_cast<int>(roll * 10.f) / 10.f;
+    global::phoneRot.pitch = static_cast<int>(pitch * 10.f) / 10.f;
 
     return "";
 }
@@ -37,9 +39,11 @@ namespace inc {
   void refresh() {
     if (sock != nullptr)
       delete sock;
-    sock = new Server(false, global::userSettings.port, false, false);
+    sock = new Server(UDP, global::userSettings.port, false, false);
     sock->SetCallback(handleUdp);
     sock->Start();
+
+    debug("xd");
   }
 }
 
@@ -81,7 +85,7 @@ namespace iec {
     json planeModel() {
       json j;
       j["msg"]["path"] = "/plane-model";
-      j["msg"]["msg"]["x"] = std::to_string(global::phoneRot.pitch / -2.5);
+      j["msg"]["msg"]["x"] = std::to_string(global::phoneRot.pitch);
       j["msg"]["msg"]["z"] = std::to_string(global::phoneRot.roll);
       return j;
     }
@@ -112,10 +116,10 @@ namespace iec {
   std::array<std::unique_ptr<Server>, 2> main(int ports[2]) {
     std::array<std::unique_ptr<Server>, 2> ret;
 
-    ret[0] = std::make_unique<Server>(true, ports[0], false, false);
+    ret[0] = std::make_unique<Server>(TCP, ports[0], false, false);
     ret[0]->SetCallback(handleTcp);
 
-    ret[1] = std::make_unique<Server>(false, ports[1], false, false);
+    ret[1] = std::make_unique<Server>(UDP, ports[1], false, false);
     ret[1]->SetCallback(handleUdp::main);
 
     ret[0]->Start();

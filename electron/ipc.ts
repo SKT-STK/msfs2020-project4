@@ -1,9 +1,11 @@
-import { ipcMain, BrowserWindow, app } from 'electron'
+import { ipcMain, app, BrowserWindow } from 'electron'
 import net from 'net'
 import dgram from 'dgram'
 import * as fs from 'node:fs'
 import * as fsp from 'node:fs/promises'
 import { writeHashedEasings } from './evalCompiler'
+import { createYokeWin, closeYokeWin, destroyYokeWin } from './yokeCalibWin'
+import { getMainWin } from './shared'
 // import * as backend from './backend'
 
 const tcp = {
@@ -98,6 +100,16 @@ ipcMain.handle('read-settings', async () => (
 ))
 
 
-udpReceive('/reverses', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/reverses', res))
+udpReceive('/reverses', res => getMainWin()?.webContents.send('/reverses', res))
 udpReceive('/plane-model', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/plane-model', res))
-udpReceive('/msfs-status', res => BrowserWindow.getAllWindows()[0]?.webContents.send('/msfs-status', res))
+udpReceive('/msfs-status', res => getMainWin()?.webContents.send('/msfs-status', res))
+
+
+ipcMain.on('display-yoke-window', createYokeWin)
+ipcMain.on('close-yoke-window', closeYokeWin)
+ipcMain.on('destroy-yoke-window', destroyYokeWin)
+
+
+ipcMain.on('set-main-window-browser-url', (_, url: string) => {
+  BrowserWindow.getAllWindows()[0]?.webContents.send('get-main-window-browser-url', url)
+})

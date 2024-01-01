@@ -44,6 +44,13 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
     else if (hoverText[0] && !(hoverText[1] && hoverText[2])) {
       return hoverText[0]
     }
+    else if (!hoverText[0] && hoverText[1] && hoverText[2]) {
+      return (<>
+        { text }
+        <br />
+        { `(\u00A0${hoverText[1]}\u00A0-\u00A0${hoverText[2]}\u00A0)` }
+      </>)
+    }
     return text
   }
 

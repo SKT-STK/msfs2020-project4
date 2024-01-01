@@ -3,19 +3,6 @@
 typedef std::string str;
 using json = nlohmann::json;
 
-ThrottlesModes proccessModes(const str& i) {
-	if (i == "absolutecontrol")
-		return ThrottlesModes::ABSOLUTE_CONTROL;
-
-	else if (i == "autothrottle")
-		return ThrottlesModes::AUTO_THROTTLE;
-
-	else if (i == "hybridmode")
-		return ThrottlesModes::HYBRID_MODE;
-
-	return ThrottlesModes::ABSOLUTE_CONTROL;
-}
-
 easings_t proccessString(const str& name) {
 	str path = "";
 	path += global::userSettings.settingsPath;
@@ -45,7 +32,11 @@ static void init() {
 	try {
 		json j = json::parse(buff);
 		
-		global::userSettings.port = j["phone_Port"].get<int>();
+    int newPort = j["phone_Port"].get<int>();
+    if (global::userSettings.port != newPort) {
+		  global::userSettings.port = newPort;
+		  networking::refreshInc_();
+    }
 
 		global::userSettings.roll = (float)j["yoke_Roll"].get<int>();
 		global::userSettings.pitch = (float)j["yoke_Pitch"].get<int>();
@@ -54,11 +45,8 @@ static void init() {
 		global::userSettings.idle = j["throttles_Idle"].get<int>();
 		global::userSettings.toga = j["throttles_ToGa"].get<int>();
 		global::userSettings.easingsThrottles = proccessString("Throttles");
-		global::userSettings.throttlesMode = proccessModes(j["throttles_Mode"].get<str>());
 
 		global::userSettings.deactivate = j["reverses_Deactivate"].get<int>();
-
-		networking::refreshInc_();
 	}
 	catch (json::exception) {}
 	

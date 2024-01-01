@@ -2,7 +2,9 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer))
-contextBridge.exposeInMainWorld('electron', withPrototype({ getEnv: () => process.env }))
+contextBridge.exposeInMainWorld('electron', withPrototype({
+  getEnv: () => process.env,
+}))
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 // eslint-disable-next-line

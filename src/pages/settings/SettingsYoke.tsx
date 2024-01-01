@@ -1,5 +1,6 @@
 import SettingsEntryNumberInputWrapper from "@/components/app/settings/SettingsEntryNumberInputWrapper"
 import SettingsEntryTextFieldWrapper from "@/components/app/settings/SettingsEntryTextFieldWrapper"
+import CalibrateButton from "@/components/app/settings/yoke/CalibrateButton"
 import { useSettingsStore } from "@/data/useSettingsStore"
 
 const SettingsYoke = () => {
@@ -21,6 +22,7 @@ const SettingsYoke = () => {
       useStoreProps={{ prop: yoke_Roll, setProp: yoke_SetRoll }}
       minMax={[10, 90]}
     />
+    <CalibrateButton />
     <SettingsEntryNumberInputWrapper
       text='Maximum Pitch Deflection'
       hoverText='Yoke&apos;s up-down movement in degrees mapped to a 0-100% deflection in the simulation.'

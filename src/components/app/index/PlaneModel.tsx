@@ -12,12 +12,12 @@ const PlaneModel = () => {
 
   useOnIpc(path, (_, args) => {
     const data = args as { x: number, z: number }
-    setRot([data.x, data.z])
+    setRot([data.x / -2.5, data.z])
   })
 
   useInterval(() => {
     window.ipcRenderer.send('udp', {path: path, msg: {}})
-  }, 50)
+  }, 100)
 
   return (
     <div className='flex justify-center items-center flex-1 border-b-4 border-[#FFF]'>

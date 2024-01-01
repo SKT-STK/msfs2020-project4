@@ -18,12 +18,17 @@
 typedef int socklen_t;
 #endif
 
+typedef enum {
+  UDP,
+  TCP,
+} socket_t;
+
 class Server {
 public:
-	typedef std::function<std::string(const std::string&)> Callback;
+	typedef std::function<std::string(std::string)> Callback;
 
-	inline Server(bool useTCP, int port, bool printDebugInfo = false, bool printErrInfo = true)
-		: useTCP_(useTCP),
+	inline Server(socket_t socket, int port, bool printDebugInfo = false, bool printErrInfo = true)
+		: useTCP_(socket),
 		port_(port),
 		serverSocket_(INVALID_SOCKET),
 		clientRunning_(true),

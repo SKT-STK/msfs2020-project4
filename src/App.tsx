@@ -10,6 +10,7 @@ import SettingsYoke from "@/pages/settings/SettingsYoke"
 import SettingsThrottles from "@/pages/settings/SettingsThrottles"
 import SettingsReverses from "@/pages/settings/SettingsReverses"
 import SettingsError from "@/pages/SettingsError"
+import YokeCalibWin from "@/windows/yokeCalibWin/YokeCalibWin"
 
 export default function App() {
 	const location = useLocation()
@@ -57,6 +58,9 @@ export default function App() {
 						<BackendCppErr />
 					</TransitionLayout>
 				} />
+        <Route path='/yoke-calib-win' element={
+					<YokeCalibWin />
+        } />
 			</Routes>
 		</AnimatePresence>
 	)
