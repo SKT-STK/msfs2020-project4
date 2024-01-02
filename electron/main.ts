@@ -1,6 +1,6 @@
 import { app, BrowserWindow, /* protocol */ } from 'electron'
 import path from 'node:path'
-import { setMainWin, getMainWin } from './shared'
+import { setMainWin, getMainWin } from './globals'
 
 // The built directory structure
 //

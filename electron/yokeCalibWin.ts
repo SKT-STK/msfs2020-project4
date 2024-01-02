@@ -1,13 +1,11 @@
-import { BrowserWindow } from "electron"
+import { BrowserWindow, IpcMainEvent } from "electron"
 import path from 'path'
-import { getMainWin } from './shared'
+import { getMainWin, getYokeCalibWin, setYokeCalibWin } from './globals'
 
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
-let win: BrowserWindow | null = null
-
 export const createYokeWin = () => {
-  win = new BrowserWindow({
+  setYokeCalibWin(new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
     title: 'Yoke Calibration',
     width: 680,
@@ -17,32 +15,32 @@ export const createYokeWin = () => {
       preload: path.join(__dirname, 'preload.js'),
       webSecurity: false,
     },
-  })
+  }))
 
-  win.menuBarVisible = false
-  win.resizable = false
-  win.maximizable = false
+  getYokeCalibWin()!.menuBarVisible = false
+  getYokeCalibWin()!.resizable = false
+  getYokeCalibWin()!.maximizable = false
 
   if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL)
+    getYokeCalibWin()!.loadURL(VITE_DEV_SERVER_URL)
   } else {
     // win.loadFile('dist/index.html')
-    win.loadFile(path.join(process.env.DIST, 'index.html'))
+    getYokeCalibWin()!.loadFile(path.join(process.env.DIST, 'index.html'))
   }
 
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('load-yoke-calib-page')
-    win?.show()
+  getYokeCalibWin()!.webContents.on('did-finish-load', () => {
+    getYokeCalibWin()?.webContents.send('load-yoke-calib-page')
+    getYokeCalibWin()?.show()
   })
 }
 
-export const closeYokeWin = (_: Electron.IpcMainEvent, rot: unknown) => {
+export const closeYokeWin = (_: IpcMainEvent, rot: unknown) => {
   getMainWin()?.webContents.send('did-close-yoke-calib-win', rot)
-  win?.close()
-  win = null
+  getYokeCalibWin()?.close()
+  setYokeCalibWin(null)
 }
 
 export const destroyYokeWin = () => {
-  win?.close()
-  win = null
+  getYokeCalibWin()?.close()
+  setYokeCalibWin(null)
 }
