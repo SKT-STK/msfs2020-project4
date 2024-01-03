@@ -6,7 +6,7 @@ import deg2rad from "@/functions/DegreesToRadians";
 import { useInterval } from "@/hooks/useInterval";
 import { useOnIpc } from "@/hooks/useOnIpc";
 import { Canvas } from "@react-three/fiber";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Variants, useAnimationControls } from "framer-motion";
 
 const color = '#FF5'
@@ -29,7 +29,7 @@ const animationVariants: Variants = {
 }
 
 export default function YokeCalibWin() {
-  const [rot, setRot] = useState<[number, number]>([0, 0])
+  const [rot, setRot] = useState<[number, number]>([-1, -1])
   const persistentRotX = useRef<number>(rot[0])
   const persistentRotY = useRef<number>(rot[1])
   const controls1 = useAnimationControls()
@@ -46,6 +46,10 @@ export default function YokeCalibWin() {
   useInterval(() => {
     window.ipcRenderer.send('udp', {path: path, msg: {}})
   }, 20)
+
+  useEffect(() => {
+    window.ipcRenderer.send('load-yoke-calib-page')
+  }, [])
 
   return (<>
     <Canvas className='absolute min-h-screen w-full [&>div]:min-h-screen'>

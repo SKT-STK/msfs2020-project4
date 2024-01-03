@@ -4,7 +4,7 @@ import dgram from 'dgram'
 import * as fs from 'node:fs'
 import * as fsp from 'node:fs/promises'
 import { writeHashedEasings } from './evalCompiler'
-import { createYokeWin, closeYokeWin, destroyYokeWin } from './yokeCalibWin'
+import { createYokeWin, closeYokeWin, destroyYokeWin, displayYokeWin } from './yokeCalibWin'
 import { getMainWin, getYokeCalibWin } from './globals'
 // import * as backend from './backend'
 
@@ -101,11 +101,12 @@ ipcMain.handle('read-settings', async () => (
 
 
 udpReceive('/reverses', res => getMainWin()?.webContents.send('/reverses', res))
-udpReceive('/plane-model', res => getYokeCalibWin()?.webContents.send('/plane-model', res))
+udpReceive('/plane-model', res => (getYokeCalibWin() !== null ? getYokeCalibWin() : getMainWin())?.webContents.send('/plane-model', res))
 udpReceive('/msfs-status', res => getMainWin()?.webContents.send('/msfs-status', res))
 
 
-ipcMain.on('display-yoke-window', createYokeWin)
+ipcMain.on('create-yoke-calib-page', createYokeWin)
+ipcMain.on('load-yoke-calib-page', displayYokeWin)
 ipcMain.on('close-yoke-window', closeYokeWin)
 ipcMain.on('destroy-yoke-window', destroyYokeWin)
 

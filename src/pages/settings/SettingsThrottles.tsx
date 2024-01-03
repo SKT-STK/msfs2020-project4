@@ -1,5 +1,5 @@
-import SettingsEntryNumberInputWrapper from "@/components/app/settings/SettingsEntryNumberInputWrapper"
 import SettingsEntryTextFieldWrapper from "@/components/app/settings/SettingsEntryTextFieldWrapper"
+import CalibrateButtonSettingsEntryNumberInputWrapperWrapper from "@/components/app/settings/throttles/CalibrateButtonSettingsEntryNumberInputWrapperWrapper"
 import { useSettingsStore } from "@/data/useSettingsStore"
 
 const SettingsThrottles = () => {
@@ -15,13 +15,13 @@ const SettingsThrottles = () => {
   } = useSettingsStore()
 
   return (<>
-    <SettingsEntryNumberInputWrapper
+    <CalibrateButtonSettingsEntryNumberInputWrapperWrapper
       text='Throttles IDLE Position'
       hoverText='Joysticks&apos;s position in Xbox&apos;s units representing IDLE thrust.'
       useStoreProps={{ prop: throttles_Idle, setProp: throttles_SetIdle }}
       minMax={[-32768, 32767]}
     />
-    <SettingsEntryNumberInputWrapper
+    <CalibrateButtonSettingsEntryNumberInputWrapperWrapper
       text='Throttles TO/GA Position'
       hoverText='Joysticks&apos;s position in Xbox&apos;s units representing TO/GA thrust.'
       useStoreProps={{ prop: throttles_ToGa, setProp: throttles_SetToGa }}

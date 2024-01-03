@@ -64,7 +64,7 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
     >
       <p className='font-inconsolata px-2 text-center'>{ generateHoverText() }</p>
     </motion.div>
-    <div className='w-full h-[10%] flex items-center justify-between border-b-slate-700 [&:not(:last-child)]:border-b-[1px]'>
+    <div className='w-full h-[10%] flex items-center justify-between border-b-slate-700 [&:not(:last-child)]:border-b-[1px] relative'>
       <p
         ref={textRef}
         className='text-xl cursor-help'

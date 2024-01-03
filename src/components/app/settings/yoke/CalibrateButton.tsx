@@ -31,13 +31,13 @@ const CalibrateButton = () => {
     controls.start('down')
       .then(() => controls.start('up'))
 
-    window.ipcRenderer.send('display-yoke-window')
+    window.ipcRenderer.send('create-yoke-calib-page')
   }
 
   useOnIpc('did-close-yoke-calib-win', (_, args) => {
     const rot = args as [number, number]
-    yoke_SetRoll(rot[0])
-    yoke_SetPitch(rot[1])
+    rot[0] != -1 && yoke_SetRoll(rot[0])
+    rot[1] != -1 && yoke_SetPitch(rot[1])
   })
 
   return (

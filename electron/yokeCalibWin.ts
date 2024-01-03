@@ -2,8 +2,6 @@ import { BrowserWindow, IpcMainEvent } from "electron"
 import path from 'path'
 import { getMainWin, getYokeCalibWin, setYokeCalibWin } from './globals'
 
-const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
-
 export const createYokeWin = () => {
   setYokeCalibWin(new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
@@ -21,17 +19,24 @@ export const createYokeWin = () => {
   getYokeCalibWin()!.resizable = false
   getYokeCalibWin()!.maximizable = false
 
-  if (VITE_DEV_SERVER_URL) {
-    getYokeCalibWin()!.loadURL(VITE_DEV_SERVER_URL)
+  if (process.env.VITE_DEV_SERVER_URL) {
+    getYokeCalibWin()!.loadURL(process.env.VITE_DEV_SERVER_URL)
   } else {
     // win.loadFile('dist/index.html')
     getYokeCalibWin()!.loadFile(path.join(process.env.DIST, 'index.html'))
   }
 
   getYokeCalibWin()!.webContents.on('did-finish-load', () => {
-    getYokeCalibWin()?.webContents.send('load-yoke-calib-page')
-    getYokeCalibWin()?.show()
+    getYokeCalibWin()!.webContents.send('create-yoke-calib-page')
   })
+
+  getYokeCalibWin()!.on('close', () => {
+    setYokeCalibWin(null)
+  })
+}
+
+export const displayYokeWin = () => {
+  getYokeCalibWin()?.show()
 }
 
 export const closeYokeWin = (_: IpcMainEvent, rot: unknown) => {

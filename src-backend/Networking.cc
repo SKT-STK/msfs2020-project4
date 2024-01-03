@@ -42,8 +42,6 @@ namespace inc {
     sock = new Server(UDP, global::userSettings.port, false, false);
     sock->SetCallback(handleUdp);
     sock->Start();
-
-    debug("xd");
   }
 }
 

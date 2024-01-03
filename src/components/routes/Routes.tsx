@@ -11,10 +11,10 @@ export default function Routes() {
 	useInterval(() => {
 		window.ipcRenderer.send('udp', { path: '/msfs-status', msg: {} })
 
-    if ((location.pathname !== '/yoke-calib-win') && (location.pathname !== '/throttles-calib-win')) {
+    if (location.pathname !== '/yoke-calib-win') {
       window.ipcRenderer.send('set-main-window-browser-url', location.pathname)
     }
-    else if (location.pathname === '/yoke-calib-win') {
+    else {
       if (mainWindowUrl.current !== '/settings/yoke') {
         window.ipcRenderer.send('destroy-yoke-window')
       }
@@ -22,10 +22,15 @@ export default function Routes() {
 	}, 1000, true)
 
 	useOnIpc('ERR', () => navigate('/backend-cpp-err'))
+
   useOnIpc('get-main-window-browser-url', (_, data) => {
     mainWindowUrl.current = data as string
   })
-  useOnIpc('load-yoke-calib-page', () => navigate('/yoke-calib-win'))
+  
+  useOnIpc('create-yoke-calib-page', () => {
+    navigate('/yoke-calib-win')
+  })
+
 	useOnIpc('/msfs-status', (_, data) => {
 		if (!data && location.pathname !== '/msfs-closed') {
 			navigate('/msfs-closed')

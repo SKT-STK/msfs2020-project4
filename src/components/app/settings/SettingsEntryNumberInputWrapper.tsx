@@ -10,11 +10,12 @@ interface SettingsEntryNumberInputWrapperProps {
     prop: (number | null), setProp: ((prop: number | null) => void)
   }
   minMax: [number, number]
+  children?: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 }
 
 const ActionColor = '#FF5F15'
 
-const SettingsEntryNumberInputWrapper = ({ text, hoverText, useStoreProps, minMax }: SettingsEntryNumberInputWrapperProps) => {
+const SettingsEntryNumberInputWrapper = ({ text, hoverText, useStoreProps, minMax, children }: SettingsEntryNumberInputWrapperProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [localPort, setLocalPort] = useState<number | ''>('')
   const textRef = useRef<HTMLParagraphElement>(null)
@@ -49,6 +50,7 @@ const SettingsEntryNumberInputWrapper = ({ text, hoverText, useStoreProps, minMa
       text={text}
       hoverText={[hoverText, ...minMax]}
     >
+      <>{ children }</>
       <motion.input
         type="number"
         className='text-right w-[20%] [appearance:textfield] outline-none rounded-lg border-2 border-transparent

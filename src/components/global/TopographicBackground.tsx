@@ -8,7 +8,7 @@ interface TopographicBackgroundProps {
 }
 
 const TopographicBackground = ({ steps, startHue, endHue }: TopographicBackgroundProps) => {
-  const bgRef = useRef<HTMLVideoElement | null>(null)
+  const bgRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     if (bgRef.current?.playbackRate) bgRef.current.playbackRate = 0.7
@@ -36,7 +36,8 @@ const TopographicBackground = ({ steps, startHue, endHue }: TopographicBackgroun
 
   return (<section>
     <video autoPlay loop muted ref={bgRef}
-      className='absolute z-[-100] top-0 left-0 min-h-screen scale-[1.27] blur-[1.5px]'>
+      className='absolute z-[-100] top-0 left-0 min-h-screen scale-[1.27] blur-[1.5px]'
+    >
       <source src={vid} type="video/mp4" />
     </video>
     { generateGradient(steps, startHue, endHue) }
