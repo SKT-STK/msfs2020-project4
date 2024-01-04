@@ -35,7 +35,8 @@ namespace global {
 	inline bool reverses = false;
 	inline float maxN1 = 0.f;
 	inline RollPitch phoneRot = { 0.f, 0.f };
-  // inline RollPitch rollPitch = { 0.f, 0.f };
+  inline int throttlesPos = 0;
+  inline short controllerIndex = /* -1 */2;
 	inline UserSettings userSettings = {
 		nullptr,
 		0,

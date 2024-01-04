@@ -20,12 +20,14 @@ const SettingsThrottles = () => {
       hoverText='Joysticks&apos;s position in Xbox&apos;s units representing IDLE thrust.'
       useStoreProps={{ prop: throttles_Idle, setProp: throttles_SetIdle }}
       minMax={[-32768, 32767]}
+      buttonActiveText='Set IDLE'
     />
     <CalibrateButtonSettingsEntryNumberInputWrapperWrapper
       text='Throttles TO/GA Position'
       hoverText='Joysticks&apos;s position in Xbox&apos;s units representing TO/GA thrust.'
       useStoreProps={{ prop: throttles_ToGa, setProp: throttles_SetToGa }}
       minMax={[-32768, 32767]}
+      buttonActiveText='Set TO/GA'
     />
     <SettingsEntryTextFieldWrapper
       text='Easing Function'

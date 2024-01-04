@@ -50,7 +50,7 @@ const CalibrateButton = () => {
         text-2xl transition-colors duration-300 hover:border-[#FF5F15]'
       onClick={handleOnClick}
     >
-      CALIBRATE
+      CONFIGURE
     </motion.button>
   )
 }

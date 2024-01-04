@@ -10,7 +10,7 @@ interface SettingsEntryNumberInputWrapperProps {
     prop: (number | null), setProp: ((prop: number | null) => void)
   }
   minMax: [number, number]
-  children?: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+  children?: JSX.IntrinsicElements['button']
 }
 
 const ActionColor = '#FF5F15'

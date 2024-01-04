@@ -6,7 +6,8 @@
   ],
   "libs": [
     "ws2_32",
-    "SimConnect"
+    "SimConnect",
+    "XInput"
   ],
   "libsPaths": [
     "D:\\msfs2020sdk\\SimConnect_SDK\\lib"
