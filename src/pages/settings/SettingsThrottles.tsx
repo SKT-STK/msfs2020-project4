@@ -7,10 +7,12 @@ const SettingsThrottles = () => {
     settings: {
       throttles_Idle,
       throttles_ToGa,
+      throttles_Index,
       throttles_Easing,
     },
     throttles_SetIdle,
     throttles_SetToGa,
+    throttles_SetIndex,
     throttles_SetEasing,
   } = useSettingsStore()
 
@@ -21,6 +23,7 @@ const SettingsThrottles = () => {
       useStoreProps={{ prop: throttles_Idle, setProp: throttles_SetIdle }}
       minMax={[-32768, 32767]}
       buttonActiveText='Set IDLE'
+      udpPath='/controller-ry'
     />
     <CalibrateButtonSettingsEntryNumberInputWrapperWrapper
       text='Throttles TO/GA Position'
@@ -28,6 +31,7 @@ const SettingsThrottles = () => {
       useStoreProps={{ prop: throttles_ToGa, setProp: throttles_SetToGa }}
       minMax={[-32768, 32767]}
       buttonActiveText='Set TO/GA'
+      udpPath='/controller-ry'
     />
     <SettingsEntryTextFieldWrapper
       text='Easing Function'
@@ -36,6 +40,13 @@ const SettingsThrottles = () => {
         like to reference &pi;, use &apos;PI&apos;, the same goes for Euler&apos;s number, use &apos;E&apos;. It
         is possible to just Ctrl+C Ctrl+V from Desmos Visualizer. In a case of invalid equation, linear function will be used.'
       useStoreProps={{ prop: throttles_Easing, setProp: throttles_SetEasing }}
+    />
+    <CalibrateButtonSettingsEntryNumberInputWrapperWrapper
+      text='Controller Index'
+      useStoreProps={{ prop: throttles_Index, setProp: throttles_SetIndex }}
+      minMax={[0, 3]}
+      buttonActiveText='Hold &apos;A&apos;...'
+      udpPath='/controller-a'
     />
   </>)
 }

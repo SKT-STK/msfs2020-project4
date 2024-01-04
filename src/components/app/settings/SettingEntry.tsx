@@ -57,7 +57,7 @@ const SettingEntry = ({ text, textRef, hoverText, children }: SettingEntryProps)
   return (<>
     <motion.div
       ref={hoverRef}
-      className='absolute bg-[#1A1A1A] pointer-events-none top-0 left-0 border-2 border-amber-400 p-1 rounded-md max-w-[400px]'
+      className='absolute bg-[#1A1A1A] pointer-events-none top-0 left-0 border-2 border-amber-400 p-1 rounded-md max-w-[400px] z-[100]'
       animate={controls}
       variants={animationVariants}
       initial='hidden'

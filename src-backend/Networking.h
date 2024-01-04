@@ -4,6 +4,7 @@
 #include "CppServer.h"
 #include "Macros.h"
 #include "UserSettings.h"
+#include "Controller.h"
 
 #include <iostream>
 #include <memory>
@@ -17,5 +18,5 @@ typedef struct {
 
 namespace networking {
   ret_Servers networking(int[2]);
-  void refreshInc_();
+  void refreshInc();
 }

@@ -35,7 +35,7 @@ static void init() {
     int newPort = j["phone_Port"].get<int>();
     if (global::userSettings.port != newPort) {
 		  global::userSettings.port = newPort;
-		  networking::refreshInc_();
+		  networking::refreshInc();
     }
 
 		global::userSettings.roll = (float)j["yoke_Roll"].get<int>();
@@ -44,6 +44,7 @@ static void init() {
 
 		global::userSettings.idle = j["throttles_Idle"].get<int>();
 		global::userSettings.toga = j["throttles_ToGa"].get<int>();
+    global::userSettings.index = (short)j["throttles_Index"].get<int>();
 		global::userSettings.easingsThrottles = proccessString("Throttles");
 
 		global::userSettings.deactivate = j["reverses_Deactivate"].get<int>();

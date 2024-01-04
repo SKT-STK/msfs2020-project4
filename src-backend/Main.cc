@@ -6,6 +6,7 @@ int main(int argc, char* argv[]) {
 	global::userSettings.settingsPath = "D:\\c++-projects\\MSFS2020\\Project4\\other\\resources\\conf\\settings.json";
 
 	userSettings::userSettings();
+  controller::controller();
 
 	ret_Servers sockets = networking::networking(ports);
 

@@ -6,6 +6,7 @@
 #include "Networking.h"
 #include "FlightSim.h"
 #include "UserSettings.h"
+#include "Controller.h"
 
 #include <iostream>
 #include <memory>

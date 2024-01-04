@@ -1,5 +1,5 @@
 import IncompleteSettings from '@/helpers/IncompleteSettings'
-import N1Limiter from '@/components/app/index/N1Limiter'
+import N1Display from '@/components/app/index/N1Display'
 import PlaneModel from '@/components/app/index/PlaneModel'
 import SettingsIcon from '@/components/app/index/SettingsIcon'
 import ToggleSwitches from '@/components/app/index/ToggleSwitches'
@@ -14,7 +14,7 @@ const Index = () => {
 			<ToggleSwitches />
 			<div className='flex justify-center items-center h-screen w-full flex-col flex-[3] backdrop-blur-md backdrop-brightness-200'>
 				<PlaneModel />
-				<N1Limiter color='#FFFF55' />
+				<N1Display />
 			</div>
 		</main>
   </>)

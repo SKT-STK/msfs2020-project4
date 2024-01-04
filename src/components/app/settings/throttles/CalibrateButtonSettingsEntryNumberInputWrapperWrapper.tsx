@@ -1,6 +1,8 @@
 import SettingsEntryNumberInputWrapper from "@/components/app/settings/SettingsEntryNumberInputWrapper"
+import { useInterval } from "@/hooks/useInterval"
+import { useOnIpc } from "@/hooks/useOnIpc"
 import { Variants, motion, useAnimationControls } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface CalibrateButtonSettingsEntryNumberInputWrapperWrapperProps {
   text: string
@@ -11,22 +13,18 @@ interface CalibrateButtonSettingsEntryNumberInputWrapperWrapperProps {
   }
   minMax: [number, number]
   buttonActiveText: string
+  udpPath: string
 }
-
-const ActionColor = '#FF5F15'
-const DefaultColor = '#1A1A1A'
 
 const animationVariants: Variants = {
   down: {
     right: '-280%',
-    // translateX: '300%'
   },
   up: {
     right: '20%',
   },
   left: {
     right: '820%',
-    // translateX: '-780%'
   }
 }
 
@@ -36,18 +34,38 @@ const CalibrateButtonSettingsEntryNumberInputWrapperWrapper = (
     hoverText,
     useStoreProps,
     minMax,
-    buttonActiveText
+    buttonActiveText,
+    udpPath
   }: CalibrateButtonSettingsEntryNumberInputWrapperWrapperProps
 ) => {
   const [clicked, setClicked] = useState<boolean>(false)
+  const [delay, setDelay] = useState<number | null>(null)
   const controls = useAnimationControls()
+  const ry = useRef<number>(-1)
 
   const handleOnClick = (btn: 'main' | 'accept') => {
     controls.start('down')
       .then(() => setClicked(!clicked))
       .then(() => controls.set('left'))
       .then(() => controls.start('up'))
+
+    if (btn === 'main') {
+      setDelay(50)
+    }
+    else if (btn === 'accept') {
+      useStoreProps.setProp(ry.current)
+      setDelay(null)
+    }
   }
+
+  useOnIpc(udpPath, (_, args) => {
+    const data = args as number
+    ry.current = data
+  })
+
+  useInterval(() => {
+    window.ipcRenderer.send('udp', {path: udpPath, msg: {}})
+  }, delay)
 
   useEffect(() => {
     controls.set('up')

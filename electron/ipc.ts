@@ -103,6 +103,9 @@ ipcMain.handle('read-settings', async () => (
 udpReceive('/reverses', res => getMainWin()?.webContents.send('/reverses', res))
 udpReceive('/plane-model', res => (getYokeCalibWin() !== null ? getYokeCalibWin() : getMainWin())?.webContents.send('/plane-model', res))
 udpReceive('/msfs-status', res => getMainWin()?.webContents.send('/msfs-status', res))
+udpReceive('/controller-ry', res => getMainWin()?.webContents.send('/controller-ry', res))
+udpReceive('/controller-a', res => getMainWin()?.webContents.send('/controller-a', res))
+udpReceive('/controller-n1', res => getMainWin()?.webContents.send('/controller-n1', res))
 
 
 ipcMain.on('create-yoke-calib-page', createYokeWin)

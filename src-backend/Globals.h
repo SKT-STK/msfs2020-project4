@@ -16,6 +16,7 @@ typedef struct {
 
 	int idle;
 	int toga;
+  short index;
 	easings_t easingsThrottles;
 
 	int deactivate;
@@ -33,15 +34,14 @@ namespace global {
 	inline bool yoke = false;
 	inline bool thrust = false;
 	inline bool reverses = false;
-	inline float maxN1 = 0.f;
 	inline RollPitch phoneRot = { 0.f, 0.f };
   inline int throttlesPos = 0;
-  inline short controllerIndex = /* -1 */2;
+  inline int curN1 = 0;
 	inline UserSettings userSettings = {
 		nullptr,
 		0,
 		0.f, 0.f, { 0.f },
-		0, 0, { 0.f },
+		0, 0, -1, { 0.f },
 		0,
 	};
 }

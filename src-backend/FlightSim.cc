@@ -5,7 +5,9 @@
 typedef enum {
 	D_THROTTLES_1,
 	D_THROTTLES_2,
-	D_CONTROL_SURFACES,
+	D_CONTROL_SURFACES_ROLL,
+	D_CONTROL_SURFACES_PITCH,
+	D_CONTROL_SURFACES_RUDDER,
 	D_ON_GROUND,
 	D_GROUND_SPEED,
 } DATA_DEFS;
@@ -24,11 +26,11 @@ namespace requestedData {
 }
 
 void initDataDefs() {
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_1, "GENERAL ENG THROTTLE LEVER POSITION:1", "percent", SIMCONNECT_DATATYPE_INT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_2, "GENERAL ENG THROTTLE LEVER POSITION:2", "percent", SIMCONNECT_DATATYPE_INT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES, "ELEVATOR POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES, "AILERON POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES, "RUDDER POSITION", "degrees", SIMCONNECT_DATATYPE_FLOAT32);
+	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_1, "GENERAL ENG THROTTLE LEVER POSITION:1", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_2, "GENERAL ENG THROTTLE LEVER POSITION:2", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_PITCH, "ELEVATOR POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_ROLL, "AILERON POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_RUDDER, "RUDDER POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
 	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_ON_GROUND, "SIM ON GROUND", "bool", SIMCONNECT_DATATYPE_INT32);
 	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_GROUND_SPEED, "GROUND VELOCITY", "knots", SIMCONNECT_DATATYPE_INT32);
 }
@@ -63,7 +65,7 @@ void CALLBACK dispatchProcHandler(SIMCONNECT_RECV* pData, DWORD, void*) {
 
 void initSimConnect() {
 	while (hr != S_OK) {
-		hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", NULL, 0, 0, 0);
+		hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", nullptr, 0, nullptr, 0);
 		sleepfor(1'000);
 	}
 	global::simOpen = true;
@@ -76,7 +78,7 @@ void initSimConnect() {
 			global::simOpen = false;
 			while (hr != S_OK) {
 				SimConnect_Close(&hSimConnect);
-        hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", NULL, 0, 0, 0);
+        hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", nullptr, 0, nullptr, 0);
 				sleepfor(1'000);
 			}
 			sleepfor(100);
@@ -85,6 +87,9 @@ void initSimConnect() {
 }
 
 void setControlSurfaces() {
+  if (!global::yoke)
+    return;
+
   float roll = to_normal(global::phoneRot.roll, global::userSettings.roll);
   roll = roll < 0.f 
     ? -global::userSettings.easingsYoke.at(-static_cast<int>(roll * 1'000.f))
@@ -94,16 +99,19 @@ void setControlSurfaces() {
   pitch = pitch < 0.f
     ? -global::userSettings.easingsYoke.at(-static_cast<int>(pitch * 1'000.f))
     : global::userSettings.easingsYoke.at(static_cast<int>(pitch * 1'000.f));
+
+  float rudder = requestedData::onGround ? roll : 0.f;
+
+  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_PITCH, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &pitch);
+  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_ROLL, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &roll);
+  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_RUDDER, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &rudder);
 }
 
 void setThrustLevers() {
-  XINPUT_STATE state;
-  ZeroMemory(&state, sizeof(XINPUT_STATE));
+  if (!global::thrust)
+    return;
 
-  XInputGetState(global::controllerIndex, &state);
-
-  float ry = state.Gamepad.sThumbRY / 100.f;
-  ry *= 100.f;
+  float ry = controller::getRY();
 
   ry = to_normal((ry - (float)global::userSettings.toga), global::userSettings.toga - global::userSettings.idle - 100) + 1;
 
@@ -115,20 +123,37 @@ void setThrustLevers() {
   ry = static_cast<int>(ry * 1'000.f);
   ry = global::userSettings.easingsThrottles.at((int)ry);
 
-  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_1, SIMCONNECT_OBJECT_ID_USER, NULL, 1, sizeof(float), &ry);
-  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_2, SIMCONNECT_OBJECT_ID_USER, NULL, 1, sizeof(float), &ry);
+  std::lock_guard<std::mutex> lock(global::mtx);
+
+  if (requestedData::onGround && global::reverses) {
+    if (requestedData::groundSpeed >= global::userSettings.deactivate) {
+      if (ry == 0.f)
+        ry = 1.f;
+      ry = -ry;
+    }
+    else {
+      global::reverses = false;
+    }
+  }
+
+  global::curN1 = static_cast<int>(ry);
+
+  // printf("RY: %f\n", ry);
+
+  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_1, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);
+  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_2, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);
 }
 
 static void init() {
-	// initSimConnect();
+	initSimConnect();
 
-	// initDataDefs();
-	// initDataReqs();
+	initDataDefs();
+	initDataReqs();
 
 	while (true) {
 		sleepfor(10);
 
-		// hr &= SimConnect_CallDispatch(hSimConnect, dispatchProcHandler, nullptr);
+		hr &= SimConnect_CallDispatch(hSimConnect, dispatchProcHandler, nullptr);
 
 		setControlSurfaces();
 		setThrustLevers();

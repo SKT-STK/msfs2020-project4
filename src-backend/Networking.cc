@@ -36,7 +36,7 @@ namespace inc {
     return &sock;
   }
 
-  void refresh() {
+  void refresh_() {
     if (sock != nullptr)
       delete sock;
     sock = new Server(UDP, global::userSettings.port, false, false);
@@ -60,7 +60,6 @@ namespace iec {
     std::lock_guard<std::mutex> lock(global::mtx);
     if (path == "/yoke") global::yoke = static_cast<int>(val) != 0;
     else if (path == "/thrust") global::thrust = static_cast<int>(val) != 0;
-    else if (path == "/max-n1") global::maxN1 = val - 1.f;
     else if (path == "/user-settings") userSettings::userSettings();
 
     return "";
@@ -95,6 +94,31 @@ namespace iec {
       return j;
     }
 
+    json controllerRY() {
+      int val = controller::getRY();
+
+      json j;
+      j["msg"]["path"] = "/controller-ry";
+      j["msg"]["msg"] = val;
+      return j;
+    }
+
+    json controllerA() {
+      int idx = controller::getIndex();
+
+      json j;
+      j["msg"]["path"] = "/controller-a";
+      j["msg"]["msg"] = idx;
+      return j;
+    }
+
+    json controllerN1() {
+      json j;
+      j["msg"]["path"] = "/controller-n1";
+      j["msg"]["msg"] = global::curN1;
+      return j;
+    }
+
     str main(const str& data) {
       json msg;
       try {
@@ -105,9 +129,12 @@ namespace iec {
       }
       str path = msg["path"].get<str>();
       if (path == "/reverses") return reverses(msg["msg"]).dump();
-      if (path == "/plane-model") return planeModel().dump();
-      if (path == "/msfs-status") return msfsStatus().dump();
-      else return "";
+      else if (path == "/plane-model") return planeModel().dump();
+      else if (path == "/msfs-status") return msfsStatus().dump();
+      else if (path == "/controller-ry") return controllerRY().dump();
+      else if (path == "/controller-a") return controllerA().dump();
+      else if (path == "/controller-n1") return controllerN1().dump();
+      return "";
     }
   }
 
@@ -142,7 +169,7 @@ namespace networking {
     return init(ports);
   }
 
-  void refreshInc_() {
-    inc::refresh();
+  void refreshInc() {
+    inc::refresh_();
   }
 }
