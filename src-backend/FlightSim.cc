@@ -123,10 +123,15 @@ void setThrustLevers() {
   ry = static_cast<int>(ry * 1'000.f);
   ry = global::userSettings.easingsThrottles.at((int)ry);
 
+  if (ry < 0.f)
+    ry = 0.f;
+  else if (ry > 100.f)
+    ry = 100.f;
+
   std::lock_guard<std::mutex> lock(global::mtx);
 
   if (requestedData::onGround && global::reverses) {
-    if (requestedData::groundSpeed >= global::userSettings.deactivate) {
+    if (requestedData::groundSpeed > global::userSettings.deactivate) {
       if (ry == 0.f)
         ry = 1.f;
       ry = -ry;
@@ -137,8 +142,6 @@ void setThrustLevers() {
   }
 
   global::curN1 = static_cast<int>(ry);
-
-  // printf("RY: %f\n", ry);
 
   hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_1, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);
   hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_2, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);

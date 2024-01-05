@@ -42,5 +42,11 @@
       "AppImage"
     ],
     "artifactName": "${productName}-Linux-${version}.${ext}"
-  }
+  },
+  "extraFiles": [
+    {
+      "from": "./dist-backend/Win32/*",
+      "to": "."
+    }
+  ]
 }

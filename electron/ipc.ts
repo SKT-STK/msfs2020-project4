@@ -6,16 +6,14 @@ import * as fsp from 'node:fs/promises'
 import { writeHashedEasings } from './evalCompiler'
 import { createYokeWin, closeYokeWin, destroyYokeWin, displayYokeWin } from './yokeCalibWin'
 import { getMainWin, getYokeCalibWin } from './globals'
-// import * as backend from './backend'
+import * as backend from './backend'
 
 const tcp = {
-  // port: backend.port,
-  port: 55411,
+  port: backend.port,
   addr: '127.0.0.1'
 }
 const udp = {
-  // port: backend.port + 10,
-  port: 2642,
+  port: backend.port + 10,
   addr: '127.0.0.1'
 }
 

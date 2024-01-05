@@ -1,4 +1,4 @@
-import SVG from '@/components/global/Svg'
+import Svg from '@/components/global/Svg'
 import svgImg from '@/assets/images/settings.svg'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -32,7 +32,7 @@ const SettingsIcon = () => {
           duration: .5
         }}
       >
-        <SVG src={svgImg} color={color} />
+        <Svg src={svgImg} color={color} />
       </motion.div>
     </Link>
   )
