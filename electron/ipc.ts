@@ -79,7 +79,7 @@ udpClient.on('message', data => {
 
 ipcMain.on('tcp', (_, data: object) => tcpSend(JSON.stringify(data)))
 ipcMain.on('udp', (_, data: object) => udpSend(JSON.stringify(data)))
-ipcMain.on('EXIT', () => app.quit)
+ipcMain.on('EXIT', () => app.quit())
 ipcMain.on('save-settings', saveSettings)
 
 ipcMain.handle('read-settings', async () => (

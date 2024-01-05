@@ -45,7 +45,11 @@
   },
   "extraFiles": [
     {
-      "from": "./dist-backend/Win32/*",
+      "from": "./dist-backend/Win32/backend_.exe",
+      "to": "."
+    },
+    {
+      "from": "./dist-backend/Win32/SimConnect.dll",
       "to": "."
     }
   ]
