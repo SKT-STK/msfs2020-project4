@@ -26,18 +26,18 @@ namespace requestedData {
 }
 
 void initDataDefs() {
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_1, "GENERAL ENG THROTTLE LEVER POSITION:1", "percent", SIMCONNECT_DATATYPE_FLOAT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_2, "GENERAL ENG THROTTLE LEVER POSITION:2", "percent", SIMCONNECT_DATATYPE_FLOAT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_PITCH, "ELEVATOR POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_ROLL, "AILERON POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_RUDDER, "RUDDER POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_ON_GROUND, "SIM ON GROUND", "bool", SIMCONNECT_DATATYPE_INT32);
-	hr &= SimConnect_AddToDataDefinition(hSimConnect, D_GROUND_SPEED, "GROUND VELOCITY", "knots", SIMCONNECT_DATATYPE_INT32);
+	SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_1, "GENERAL ENG THROTTLE LEVER POSITION:1", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	SimConnect_AddToDataDefinition(hSimConnect, D_THROTTLES_2, "GENERAL ENG THROTTLE LEVER POSITION:2", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_PITCH, "ELEVATOR POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_ROLL, "AILERON POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	SimConnect_AddToDataDefinition(hSimConnect, D_CONTROL_SURFACES_RUDDER, "RUDDER POSITION", "percent", SIMCONNECT_DATATYPE_FLOAT32);
+	SimConnect_AddToDataDefinition(hSimConnect, D_ON_GROUND, "SIM ON GROUND", "bool", SIMCONNECT_DATATYPE_INT32);
+	SimConnect_AddToDataDefinition(hSimConnect, D_GROUND_SPEED, "GROUND VELOCITY", "knots", SIMCONNECT_DATATYPE_INT32);
 }
 
 void initDataReqs() {
-	hr &= SimConnect_RequestDataOnSimObject(hSimConnect, R_ON_GROUND, D_ON_GROUND, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_VISUAL_FRAME);
-	hr &= SimConnect_RequestDataOnSimObject(hSimConnect, R_GROUND_SPEED, D_GROUND_SPEED, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_VISUAL_FRAME);
+	SimConnect_RequestDataOnSimObject(hSimConnect, R_ON_GROUND, D_ON_GROUND, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_VISUAL_FRAME);
+	SimConnect_RequestDataOnSimObject(hSimConnect, R_GROUND_SPEED, D_GROUND_SPEED, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_VISUAL_FRAME);
 }
 
 void CALLBACK dispatchProcHandler(SIMCONNECT_RECV* pData, DWORD, void*) {
@@ -70,7 +70,7 @@ void initSimConnect() {
 	}
 	global::simOpen = true;
 	std::thread([](HANDLE& hSimConnect, HRESULT& hr) -> void {
-		while (true) {
+		while (!global::EXIT) {
 			if (hr == S_OK) {
 				global::simOpen = true;
 				continue;
@@ -102,9 +102,9 @@ void setControlSurfaces() {
 
   float rudder = requestedData::onGround ? roll : 0.f;
 
-  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_PITCH, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &pitch);
-  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_ROLL, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &roll);
-  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_RUDDER, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &rudder);
+  SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_PITCH, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &pitch);
+  SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_ROLL, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &roll);
+  SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_RUDDER, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &rudder);
 }
 
 void setThrustLevers() {
@@ -143,8 +143,8 @@ void setThrustLevers() {
 
   global::curN1 = static_cast<int>(ry);
 
-  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_1, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);
-  hr &= SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_2, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);
+  SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_1, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);
+  SimConnect_SetDataOnSimObject(hSimConnect, D_THROTTLES_2, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &ry);
 }
 
 static void init() {
@@ -153,14 +153,16 @@ static void init() {
 	initDataDefs();
 	initDataReqs();
 
-	while (true) {
+	while (!global::EXIT) {
 		sleepfor(10);
 
-		hr &= SimConnect_CallDispatch(hSimConnect, dispatchProcHandler, nullptr);
+		hr = SimConnect_CallDispatch(hSimConnect, dispatchProcHandler, nullptr);
 
 		setControlSurfaces();
 		setThrustLevers();
 	}
+
+  SimConnect_Close(&hSimConnect);
 }
 
 namespace flightSim {

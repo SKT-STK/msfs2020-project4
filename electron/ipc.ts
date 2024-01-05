@@ -5,7 +5,7 @@ import * as fs from 'node:fs'
 import * as fsp from 'node:fs/promises'
 import { writeHashedEasings } from './evalCompiler'
 import { createYokeWin, closeYokeWin, destroyYokeWin, displayYokeWin } from './yokeCalibWin'
-import { getMainWin, getYokeCalibWin } from './globals'
+import { getMainWin, setMainWin, getYokeCalibWin } from './globals'
 import * as backend from './backend'
 
 const tcp = {
@@ -79,7 +79,7 @@ udpClient.on('message', data => {
 
 ipcMain.on('tcp', (_, data: object) => tcpSend(JSON.stringify(data)))
 ipcMain.on('udp', (_, data: object) => udpSend(JSON.stringify(data)))
-ipcMain.on('EXIT', () => app.quit())
+ipcMain.on('EXIT', () => { app.quit(); setMainWin(null) })
 ipcMain.on('save-settings', saveSettings)
 
 ipcMain.handle('read-settings', async () => (

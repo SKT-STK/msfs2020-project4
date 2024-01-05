@@ -1,3 +1,5 @@
+import { app } from "electron"
+
 let mainWin: Electron.BrowserWindow | null = null
 
 export function getMainWin() {
@@ -18,4 +20,11 @@ export function getYokeCalibWin() {
 
 export function setYokeCalibWin(win: Electron.BrowserWindow | null) {
   yokeCalibWin = win
+}
+
+//
+
+export const quitApp = () => {
+  app.quit()
+  setMainWin(null)
 }

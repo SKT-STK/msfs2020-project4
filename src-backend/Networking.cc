@@ -61,6 +61,7 @@ namespace iec {
     if (path == "/yoke") global::yoke = static_cast<int>(val) != 0;
     else if (path == "/thrust") global::thrust = static_cast<int>(val) != 0;
     else if (path == "/user-settings") userSettings::userSettings();
+    else if (path == "/EXIT") global::EXIT = true;
 
     return "";
   }

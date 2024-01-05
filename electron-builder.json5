@@ -45,7 +45,7 @@
   },
   "extraFiles": [
     {
-      "from": "./dist-backend/Win32/backend_.exe",
+      "from": "./dist-backend/Win32/core.exe",
       "to": "."
     },
     {
