@@ -32,14 +32,10 @@ namespace inc {
     return "";
 }
 
-  Server** getPtr() {
-    return &sock;
-  }
-
   void refresh_() {
     if (sock != nullptr)
       delete sock;
-    sock = new Server(UDP, global::userSettings.port, false, false);
+    sock = new Server(UDP, global::userSettings.port);
     sock->SetCallback(handleUdp);
     sock->Start();
   }
@@ -61,7 +57,6 @@ namespace iec {
     if (path == "/yoke") global::yoke = static_cast<int>(val) != 0;
     else if (path == "/thrust") global::thrust = static_cast<int>(val) != 0;
     else if (path == "/user-settings") userSettings::userSettings();
-    else if (path == "/EXIT") global::EXIT = true;
 
     return "";
   }
@@ -142,10 +137,10 @@ namespace iec {
   std::array<std::unique_ptr<Server>, 2> main(int ports[2]) {
     std::array<std::unique_ptr<Server>, 2> ret;
 
-    ret[0] = std::make_unique<Server>(TCP, ports[0], false, false);
+    ret[0] = std::make_unique<Server>(TCP, ports[0]);
     ret[0]->SetCallback(handleTcp);
 
-    ret[1] = std::make_unique<Server>(UDP, ports[1], false, false);
+    ret[1] = std::make_unique<Server>(UDP, ports[1]);
     ret[1]->SetCallback(handleUdp::main);
 
     ret[0]->Start();
@@ -155,18 +150,13 @@ namespace iec {
   }
 }
 
-static ret_Servers init(int ports[2]) {
-  ret_Servers ret;
-
-  ret.servers = iec::main(ports);
-  ret.server = inc::getPtr();
-
-  return ret;
+static Servers_t init(int ports[2]) {
+  return iec::main(ports);
 }
 
 
 namespace networking {
-  ret_Servers networking(int ports[2]) {
+  Servers_t networking(int ports[2]) {
     return init(ports);
   }
 

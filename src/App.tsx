@@ -1,5 +1,4 @@
 import Index from "@/pages/Index"
-import BackendCppErr from "@/pages/BackendCppErr"
 import MsfsClosed from "@/pages/MsfsClosed"
 import { Route, Routes, useLocation } from "react-router-dom"
 import { AnimatePresence } from "framer-motion"
@@ -51,11 +50,6 @@ export default function App() {
 				<Route path='/msfs-closed' element={
 					<TransitionLayout>
 						<MsfsClosed />
-					</TransitionLayout>
-				} />
-				<Route path='/backend-cpp-err' element={
-					<TransitionLayout>
-						<BackendCppErr />
 					</TransitionLayout>
 				} />
         <Route path='/yoke-calib-win' element={

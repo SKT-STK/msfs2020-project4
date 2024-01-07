@@ -19,6 +19,7 @@ process.env.__SETTINGS = path.join(process.env.VITE_PUBLIC, app.isPackaged ? '..
 
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
+process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true"
 
 function createWindow() {
   const splash = new BrowserWindow({

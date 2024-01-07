@@ -63,29 +63,6 @@ void CALLBACK dispatchProcHandler(SIMCONNECT_RECV* pData, DWORD, void*) {
 	}
 }
 
-void initSimConnect() {
-	while (hr != S_OK) {
-		hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", nullptr, 0, nullptr, 0);
-		sleepfor(1'000);
-	}
-	global::simOpen = true;
-	std::thread([](HANDLE& hSimConnect, HRESULT& hr) -> void {
-		while (!global::EXIT) {
-			if (hr == S_OK) {
-				global::simOpen = true;
-				continue;
-			}
-			global::simOpen = false;
-			while (hr != S_OK) {
-				SimConnect_Close(&hSimConnect);
-        hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", nullptr, 0, nullptr, 0);
-				sleepfor(1'000);
-			}
-			sleepfor(100);
-		}
-	}, std::ref(hSimConnect), std::ref(hr)).detach();
-}
-
 void setControlSurfaces() {
   if (!global::yoke)
     return;
@@ -101,6 +78,7 @@ void setControlSurfaces() {
     : global::userSettings.easingsYoke.at(static_cast<int>(pitch * 1'000.f));
 
   float rudder = requestedData::onGround ? roll : 0.f;
+  roll = requestedData::onGround ? 0.f : roll;
 
   SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_PITCH, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &pitch);
   SimConnect_SetDataOnSimObject(hSimConnect, D_CONTROL_SURFACES_ROLL, SIMCONNECT_OBJECT_ID_USER, 0, 1, sizeof(float), &roll);
@@ -148,21 +126,36 @@ void setThrustLevers() {
 }
 
 static void init() {
-	initSimConnect();
+	while (hr != S_OK) {
+		hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", nullptr, 0, nullptr, 0);
+		sleepfor(1'000);
+	}
 
 	initDataDefs();
 	initDataReqs();
 
-	while (!global::EXIT) {
+	while (true) {
 		sleepfor(10);
 
 		hr = SimConnect_CallDispatch(hSimConnect, dispatchProcHandler, nullptr);
 
 		setControlSurfaces();
 		setThrustLevers();
+
+    if (hr == S_OK)
+      global::simOpen = true;
+    else {
+      global::simOpen = false;
+      SimConnect_Close(hSimConnect);
+      while (hr != S_OK) {
+        hr = SimConnect_Open(&hSimConnect, "mydiycontrolsv4", nullptr, 0, nullptr, 0);
+        sleepfor(1'000);
+      }
+    }
 	}
 
-  SimConnect_Close(&hSimConnect);
+  if (global::simOpen)
+    SimConnect_Close(hSimConnect);
 }
 
 namespace flightSim {

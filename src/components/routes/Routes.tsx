@@ -21,8 +21,6 @@ export default function Routes() {
     }
 	}, 1000, true)
 
-	useOnIpc('ERR', () => navigate('/backend-cpp-err'))
-
   useOnIpc('get-main-window-browser-url', (_, data) => {
     mainWindowUrl.current = data as string
   })
@@ -38,6 +36,10 @@ export default function Routes() {
     else if (!!data && location.pathname === '/msfs-closed') {
 			navigate('/')
 		}
+  })
+
+  useOnIpc('START-CORE', () => {
+    window.ipcRenderer.send('START-CORE')
   })
 
 	return <></>

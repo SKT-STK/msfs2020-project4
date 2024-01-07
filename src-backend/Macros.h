@@ -1,8 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <thread>
-
 #define debug(x) std::cout << x << '\n';
 #define error_debug(x) std::cerr << x << std::endl;
 #define sleepfor(x) std::this_thread::sleep_for(std::chrono::microseconds(static_cast<unsigned long long>(((long double)(x)) * 1'000.0)));

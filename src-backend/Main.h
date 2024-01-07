@@ -11,4 +11,5 @@
 #include <iostream>
 #include <memory>
 #include <thread>
+#include <array>
 #include <nlohmann/json.hpp>

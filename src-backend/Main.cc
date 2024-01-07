@@ -13,10 +13,11 @@ int main(int argc, char* argv[]) {
   else {
     ports[0] = std::stoi(string(argv[1]));
     ports[1] = std::stoi(string(argv[2]));
+    // Making sure that paths with spaces work.
     global::userSettings.settingsPath = [argc, argv]() -> const char* {
       string path = "";
       for (int i = 3; i < argc; ++i) {
-        path += string(argv[i]);
+        path += string(argv[i]) + ' ';
       }
       return path.c_str();
     }();
@@ -25,10 +26,14 @@ int main(int argc, char* argv[]) {
 	userSettings::userSettings();
   controller::controller();
 
-	ret_Servers sockets = networking::networking(ports);
+  /*
+    Intentional memory leak due to the fact that it'd have to be
+      deleted at the end of the program either way.
+    The memory in question is inc::Server* from Networking.cc.
+  */
+	Servers_t _sockets = networking::networking(ports);
 
 	flightSim::flightSim();
 
-	delete *sockets.server;
 	return 0;
 }
