@@ -3,6 +3,7 @@ import deg2rad from "@/functions/DegreesToRadians"
 import { useInterval } from "@/hooks/useInterval"
 import { useOnIpc } from "@/hooks/useOnIpc"
 import { Canvas } from "@react-three/fiber"
+import { ipcRenderer } from "electron"
 import { useState } from "react"
 
 const PlaneModel = () => {
@@ -16,7 +17,7 @@ const PlaneModel = () => {
   })
 
   useInterval(() => {
-    window.ipcRenderer.send('udp', {path: path, msg: {}})
+    ipcRenderer.send('udp', {path: path, msg: {}})
   }, 100)
 
   return (

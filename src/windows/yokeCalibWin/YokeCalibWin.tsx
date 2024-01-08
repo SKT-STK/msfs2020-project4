@@ -6,8 +6,9 @@ import deg2rad from "@/functions/DegreesToRadians";
 import { useInterval } from "@/hooks/useInterval";
 import { useOnIpc } from "@/hooks/useOnIpc";
 import { Canvas } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Variants, useAnimationControls } from "framer-motion";
+import { ipcRenderer } from "electron";
 
 const color = '#FF5'
 const hoverColor = '#FF5'
@@ -44,12 +45,8 @@ export default function YokeCalibWin() {
   })
 
   useInterval(() => {
-    window.ipcRenderer.send('udp', {path: path, msg: {}})
+    ipcRenderer.send('udp', {path: path, msg: {}})
   }, 20)
-
-  useEffect(() => {
-    window.ipcRenderer.send('load-yoke-calib-page')
-  }, [])
 
   return (<>
     <Canvas className='absolute min-h-screen w-full [&>div]:min-h-screen'>
@@ -99,7 +96,7 @@ export default function YokeCalibWin() {
         textShadow: '0 0 15px #CCC',
       }}
       onClick={() => {
-        window.ipcRenderer.send('close-yoke-window', [persistentRotY.current | 0, persistentRotX.current | 0])
+        ipcRenderer.send('close-yoke-window', [persistentRotY.current | 0, persistentRotX.current | 0])
         controls3.start('big').then(() => controls3.start('down').then(() => controls3.start('up')))
       }}
     >

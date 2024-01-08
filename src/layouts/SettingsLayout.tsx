@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useRef } from "react"
 import SettingsAnimationDivs from "@/components/app/settings/SettingsAnimationDivs"
 import WrongSettingsPopup from "@/components/app/settings/WrongSettingsPopup"
 import { SettingsState, useSettingsStore } from "@/data/useSettingsStore"
+import { ipcRenderer } from "electron"
 
 interface SettingsLayoutProps {
   children: ReactNode
@@ -14,7 +15,7 @@ const SettingsLayout = ({ children }: SettingsLayoutProps) => {
   const settingsObj = useRef<SettingsState['settings']>(useSettingsStore().settings)
 
   useEffect(() => {
-    window.ipcRenderer.invoke('read-settings')
+    ipcRenderer.invoke('read-settings')
       .then(data => JSON.parse(data as string))
       .then(v => {
         const obj = {...v}

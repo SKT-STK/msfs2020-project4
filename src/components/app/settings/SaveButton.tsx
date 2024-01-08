@@ -5,6 +5,7 @@ import Lottie, { LottieRefCurrentProps } from 'lottie-react'
 import { useRef } from 'react'
 import animationData from '@/assets/animations/saved.json'
 import { useLocation } from 'react-router-dom'
+import { ipcRenderer } from 'electron'
 
 const ActionColor = '#FF5F15'
 const DefaultColor = '#1A1A1A'
@@ -73,9 +74,9 @@ const SaveButton = () => {
     animateUp.current = false
     animRef.current?.goToAndStop(0, true)
     controls.start('moveLeft').then(() => {
-    animRef.current?.goToAndPlay(0, true)
+      animRef.current?.goToAndPlay(0, true)
     })
-    window.ipcRenderer.send('save-settings', settings)
+    ipcRenderer.send('save-settings', settings)
   }
 
   return (

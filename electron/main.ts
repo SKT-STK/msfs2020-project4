@@ -29,7 +29,7 @@ function createWindow() {
     height: 300,
     transparent: true,
     frame: false,
-    alwaysOnTop: true
+    alwaysOnTop: true,
   })
   splash.loadFile(path.join(process.env.VITE_PUBLIC, 'splash.html'))
   splash.center()
@@ -41,8 +41,10 @@ function createWindow() {
     height: 585,
     show: false,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      // preload: path.join(__dirname, 'preload.js'),
       webSecurity: false,
+      nodeIntegration: true,
+      contextIsolation: false,
     },
   }))
 

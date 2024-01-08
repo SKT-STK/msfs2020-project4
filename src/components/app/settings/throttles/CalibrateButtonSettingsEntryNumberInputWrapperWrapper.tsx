@@ -1,6 +1,7 @@
 import SettingsEntryNumberInputWrapper from "@/components/app/settings/SettingsEntryNumberInputWrapper"
 import { useInterval } from "@/hooks/useInterval"
 import { useOnIpc } from "@/hooks/useOnIpc"
+import { ipcRenderer } from "electron"
 import { Variants, motion, useAnimationControls } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 
@@ -64,7 +65,7 @@ const CalibrateButtonSettingsEntryNumberInputWrapperWrapper = (
   })
 
   useInterval(() => {
-    window.ipcRenderer.send('udp', {path: udpPath, msg: {}})
+    ipcRenderer.send('udp', {path: udpPath, msg: {}})
   }, delay)
 
   useEffect(() => {

@@ -10,8 +10,10 @@ export const createYokeWin = () => {
     height: 485,
     show: false,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      // preload: path.join(__dirname, 'preload.js'),
       webSecurity: false,
+      nodeIntegration: true,
+      contextIsolation: false,
     },
   }))
 
@@ -27,16 +29,13 @@ export const createYokeWin = () => {
   }
 
   getYokeCalibWin()!.webContents.on('did-finish-load', () => {
+    getYokeCalibWin()!.show()
     getYokeCalibWin()!.webContents.send('create-yoke-calib-page')
   })
 
   getYokeCalibWin()!.on('close', () => {
     setYokeCalibWin(null)
   })
-}
-
-export const displayYokeWin = () => {
-  getYokeCalibWin()?.show()
 }
 
 export const closeYokeWin = (_: IpcMainEvent, rot: unknown) => {

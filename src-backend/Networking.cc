@@ -30,7 +30,7 @@ namespace inc {
     global::phoneRot.pitch = static_cast<int>(pitch * 10.f) / 10.f;
 
     return "";
-}
+  }
 
   void refresh_() {
     if (sock != nullptr)

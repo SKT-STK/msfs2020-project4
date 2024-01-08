@@ -1,5 +1,6 @@
 import { useInterval } from "@/hooks/useInterval"
 import { useOnIpc } from "@/hooks/useOnIpc"
+import { ipcRenderer } from "electron"
 import { useRef } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 
@@ -9,14 +10,14 @@ export default function Routes() {
 	const location = useLocation()
 
 	useInterval(() => {
-		window.ipcRenderer.send('udp', { path: '/msfs-status', msg: {} })
+		ipcRenderer.send('udp', { path: '/msfs-status', msg: {} })
 
     if (location.pathname !== '/yoke-calib-win') {
-      window.ipcRenderer.send('set-main-window-browser-url', location.pathname)
+      ipcRenderer.send('set-main-window-browser-url', location.pathname)
     }
     else {
       if (mainWindowUrl.current !== '/settings/yoke') {
-        window.ipcRenderer.send('destroy-yoke-window')
+        ipcRenderer.send('destroy-yoke-window')
       }
     }
 	}, 1000, true)
@@ -36,10 +37,6 @@ export default function Routes() {
     else if (!!data && location.pathname === '/msfs-closed') {
 			navigate('/')
 		}
-  })
-
-  useOnIpc('START-CORE', () => {
-    window.ipcRenderer.send('START-CORE')
   })
 
 	return <></>

@@ -1,11 +1,13 @@
-import { ipcMain, app } from 'electron'
+import { ipcMain } from 'electron'
 import net from 'net'
 import dgram from 'dgram'
+// import path from 'path'
 import * as fs from 'node:fs'
 import * as fsp from 'node:fs/promises'
 import { writeHashedEasings } from './evalCompiler'
-import { createYokeWin, closeYokeWin, destroyYokeWin, displayYokeWin } from './yokeCalibWin'
-import { getMainWin, setMainWin, getYokeCalibWin } from './globals'
+import { createYokeWin, closeYokeWin, destroyYokeWin } from './yokeCalibWin'
+import { getMainWin, getYokeCalibWin } from './globals'
+// import { port1, port2 } from './backend'
 import * as backend from './backend'
 
 const tcp = {
@@ -79,7 +81,6 @@ udpClient.on('message', data => {
 
 ipcMain.on('tcp', (_, data: object) => tcpSend(JSON.stringify(data)))
 ipcMain.on('udp', (_, data: object) => udpSend(JSON.stringify(data)))
-ipcMain.on('EXIT', () => { app.quit(); setMainWin(null) })
 ipcMain.on('save-settings', saveSettings)
 
 ipcMain.handle('read-settings', async () => (
@@ -107,7 +108,6 @@ udpReceive('/controller-n1', res => getMainWin()?.webContents.send('/controller-
 
 
 ipcMain.on('create-yoke-calib-page', createYokeWin)
-ipcMain.on('load-yoke-calib-page', displayYokeWin)
 ipcMain.on('close-yoke-window', closeYokeWin)
 ipcMain.on('destroy-yoke-window', destroyYokeWin)
 
@@ -115,3 +115,7 @@ ipcMain.on('destroy-yoke-window', destroyYokeWin)
 ipcMain.on('set-main-window-browser-url', (_, url: string) => {
   getYokeCalibWin()?.webContents.send('get-main-window-browser-url', url)
 })
+
+// ipcMain.on('START-CORE', () => {
+//   tcpSend(JSON.stringify({ path: 'START-CORE', val: [path.join(process.env.__SETTINGS, 'settings.json'), process.pid.toString()] }))
+// })

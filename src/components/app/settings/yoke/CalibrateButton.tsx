@@ -1,5 +1,6 @@
 import { useSettingsStore } from '@/data/useSettingsStore'
 import { useOnIpc } from '@/hooks/useOnIpc'
+import { ipcRenderer } from 'electron'
 import { Variants, motion, useAnimationControls } from 'framer-motion'
 
 const ActionColor = '#FF5F15'
@@ -31,7 +32,7 @@ const CalibrateButton = () => {
     controls.start('down')
       .then(() => controls.start('up'))
 
-    window.ipcRenderer.send('create-yoke-calib-page')
+    ipcRenderer.send('create-yoke-calib-page')
   }
 
   useOnIpc('did-close-yoke-calib-win', (_, args) => {

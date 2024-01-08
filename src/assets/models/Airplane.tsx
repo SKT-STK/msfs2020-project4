@@ -44,7 +44,7 @@ type GLTFResult = GLTF & {
 };
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF(window.electron.getEnv().VITE_PUBLIC + '/aircraft.gltf') as GLTFResult;
+  const { nodes, materials } = useGLTF(process.env.VITE_PUBLIC + '/aircraft.gltf') as GLTFResult;
 
   return (
     <group {...props} dispose={null}>
@@ -168,4 +168,4 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     </group>
   );
 }
-useGLTF.preload(window.electron.getEnv().VITE_PUBLIC + '/aircraft.gltf')
+useGLTF.preload(process.env.VITE_PUBLIC + '/aircraft.gltf')

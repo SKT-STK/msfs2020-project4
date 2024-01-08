@@ -1,27 +1,51 @@
 #include "Main.h"
 
-using std::string;
+using std::string, std::array;
+using json = nlohmann::json;
 
 int main(int argc, char* argv[]) {
-  int ports[2];
+  // int ports[] = { 55411, 55411 + 10 };
 
-	if (argc < 4) {
-    ports[0] = 55411;
-    ports[1] = 55411 + 10;
-	  global::userSettings.settingsPath = "D:\\c++-projects\\MSFS2020\\Project4\\other\\resources\\conf\\settings.json";
-  }
-  else {
-    ports[0] = std::stoi(string(argv[1]));
-    ports[1] = std::stoi(string(argv[2]));
-    // Making sure that paths with spaces work.
-    global::userSettings.settingsPath = [argc, argv]() -> const char* {
-      string path = "";
-      for (int i = 3; i < argc; ++i) {
-        path += string(argv[i]) + ' ';
-      }
-      return path.c_str();
-    }();
-  }
+  // string path;
+  // DWORD pid;
+  // bool w8 = true;
+  // auto s = new Server(TCP, ports[0]);
+  // s->SetCallback([&w8, &pid, &path](const string& data) -> string {
+  //   json msg;
+  //   try {
+  //     msg = json::parse(data);
+  //   }
+  //   catch (json::exception) {
+  //     return "";
+  //   }
+  //   auto _path = msg["path"].get<string>();
+  //   auto val = msg["val"].get<array<string, 2>>();
+
+  //   std::lock_guard<std::mutex> lock(global::mtx);
+  //   if (_path == "START-CORE") {
+  //     path = val[0];
+  //     pid = std::stoul(val[1]);
+  //   }
+
+  //   w8 = false;
+  //   return "";
+  // });
+  // s->Start();
+
+  // while (w8)
+  //   sleepfor(100);
+  // delete s;
+
+  // global::userSettings.settingsPath = path.c_str();
+
+  // std::thread([pid]() -> void {
+  //   HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, pid);
+  //   WaitForSingleObject(hProcess, INFINITE);
+  //   CloseHandle(hProcess);
+  // }).detach();
+
+  int ports[] = { std::stoi(argv[1]), std::stoi(argv[2]) };
+  global::userSettings.settingsPath = argv[3];
 
 	userSettings::userSettings();
   controller::controller();

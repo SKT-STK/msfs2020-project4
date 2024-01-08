@@ -5,6 +5,7 @@ import '@/styles/index.scss'
 import '@/styles/tailwind.scss'
 import { HashRouter as Router } from "react-router-dom"
 import Routes from '@/components/routes/Routes.tsx'
+import { ipcRenderer } from 'electron'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -15,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 )
 
-// Use contextBridge
-window.ipcRenderer.on('main-process-message', (_event, message) => {
+ipcRenderer.on('main-process-message', (_event, message) => {
   console.log(message)
+  ipcRenderer.send('START-CORE')
 })

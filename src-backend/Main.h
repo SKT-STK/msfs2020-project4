@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <memory>
+#include <Windows.h>
 #include <thread>
 #include <array>
 #include <nlohmann/json.hpp>

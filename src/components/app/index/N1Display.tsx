@@ -1,12 +1,13 @@
 import { useInterval } from "@/hooks/useInterval"
 import { useOnIpc } from "@/hooks/useOnIpc"
+import { ipcRenderer } from "electron"
 import { useState } from "react"
 
 const N1Display = () => {
   const [n1, setN1] = useState<number>(0)
 
   useInterval(() => {
-    window.ipcRenderer.send('udp', {path: '/controller-n1', msg: {}})
+    ipcRenderer.send('udp', {path: '/controller-n1', msg: {}})
   }, 100)
   
   useOnIpc('/controller-n1', (_, args) => {

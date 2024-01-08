@@ -1,5 +1,6 @@
 import ToggleSwitch from "@/components/app/index/ToggleSwitch"
 import { useOnIpc } from "@/hooks/useOnIpc"
+import { ipcRenderer } from "electron"
 import { ReactNode, useState } from "react"
 
 interface ServerToggleSwitchProps {
@@ -14,7 +15,7 @@ const ServerToggleSwitch = ({ children, udpPath, className }: ServerToggleSwitch
   useOnIpc(udpPath, (_, data) => setVal(!!data))
   
   const callback = (setNew: boolean) => {
-    window.ipcRenderer.send('udp', {path: udpPath, msg: {set: +setNew}})
+    ipcRenderer.send('udp', {path: udpPath, msg: {set: +setNew}})
     return val
   }
 
